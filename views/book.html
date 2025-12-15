@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book This Bartender</title>
+</head>
+<body>
+
+  <h2>Book This Bartender</h2>
+
+  <form action="/book" method="POST">
+
+    <!-- ✅ This hidden input is REQUIRED by your server.js -->
+    <input type="hidden" id="bartenderIdInput" name="bartenderId">
+    <input type="hidden" id="customerEmailInput" name="customerEmail">
+
+    <input 
+      type="text" 
+      name="customerName" 
+      placeholder="Your Name" 
+      required
+    ><br><br>
+
+
+
+    <input 
+      type="text" 
+      name="customerPhone" 
+      placeholder="Your Phone" 
+      required
+    ><br><br>
+
+    <input 
+      type="text" 
+      name="eventType" 
+      placeholder="Event Type" 
+      required
+    ><br><br>
+
+    <input 
+      type="date" 
+      name="eventDate" 
+      required
+    ><br><br>
+
+    <input 
+      type="time" 
+      name="eventTime" 
+      required
+    ><br><br>
+
+    <input 
+      type="text" 
+      name="location" 
+      placeholder="Event Location" 
+      required
+    ><br><br>
+
+    <button type="submit">Send Booking Request</button>
+
+  </form>
+
+  <!-- ✅✅✅ THIS SCRIPT IS THE FINAL FIX -->
+  <!-- It grabs the bartender ID from /book/:id and injects it into the form -->
+ <script>
+  // ✅ Get bartender ID from URL
+  const pathParts = window.location.pathname.split("/");
+  const bartenderId = pathParts[pathParts.length - 1];
+  document.getElementById("bartenderIdInput").value = bartenderId;
+
+  // ✅ Get customer email from login (localStorage)
+  const customerEmail = localStorage.getItem("customerEmail");
+  document.getElementById("customerEmailInput").value = customerEmail;
+</script>
+
+</body>
+</html>

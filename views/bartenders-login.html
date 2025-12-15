@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bartender Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* NAVBAR */
+        /* ======================
+   LOGIN PAGE HEADER
+====================== */
+.login-header {
+  background: #000;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.login-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #f4c542; /* GOLD */
+}
+
+.best-logo {
+  width: 44px;          /* ⬅ SAME AS HOME */
+  height: 44px;
+  flex-shrink: 0;
+  color: #f4c542;
+}
+
+.logo-text {
+  font-size: 2rem;      /* ⬅ SAME AS HOME */
+  font-weight: 700;
+  letter-spacing: -0.5px; /* ⬅ KEY DIFFERENCE */
+  line-height: 1;
+  transform: translateY(2px);
+}
+
+
+.login-nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 22px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.login-nav-links a:hover {
+  color: #f4c542;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .best-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .logo-text {
+    font-size: 1.6rem;
+    letter-spacing: -0.4px;
+    transform: translateY(1px);
+  }
+}
+
+
+        /* LOGIN CONTAINER */
+        .login-container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 60px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            color: #005eff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #message {
+            text-align: center;
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* GOLD LINK */
+.gold-link {
+  color: #f4c542;              /* GOLD */
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.gold-link:hover {
+  color: #ffdf8a;              /* LIGHT GOLD */
+  text-shadow: 0 0 6px rgba(244, 197, 66, 0.6);
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <header class="login-header">
+  <nav class="login-nav">
+
+    <!-- LOGO -->
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 64 64"
+          class="best-logo"
+          aria-hidden="true"
+        >
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0"
+            stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+
+        <span class="logo-text">B.E.S.T</span>
+      </a>
+    </div>
+
+    <!-- RIGHT LINKS -->
+
+  </nav>
+</header>
+
+
+    <!-- LOGIN BOX -->
+    <section class="login-container">
+        <h2>Bartender Login</h2>
+
+        <form id="loginForm">
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p id="message"></p>
+
+        <p>Don’t have an account?
+            <a href="/bartender-registration" class="gold-link">Create one</a>
+
+        </p>
+    </section>
+
+    <script>
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const email = document.querySelector("input[name='email']").value;
+      const password = document.querySelector("input[name='password']").value;
+
+      try {
+        const res = await fetch("/bartenders-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("message").innerText = data.message || "";
+
+        if (data.bartenderId) {
+          localStorage.setItem("bartenderId", data.bartenderId);
+          window.location.href = "/bartender-bookings?bartenderId=" + data.bartenderId;
+        }
+
+      } catch (err) {
+        document.getElementById("message").innerText =
+          "Server error. Please make sure your server is running.";
+      }
+    });
+    </script>
+
+</body>
+</html>

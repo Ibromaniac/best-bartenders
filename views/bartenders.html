@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find a Bartender</title>
+</head>
+<body>
+
+<h1>Available Bartenders</h1>
+
+<div id="bartenderList"></div>
+
+<script>
+fetch("/api/bartenders")
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("bartenderList");
+
+    if (data.length === 0) {
+      container.innerHTML = "<p>No bartenders found.</p>";
+      return;
+    }
+
+    data.forEach(b => {
+      container.innerHTML += `
+        <div style="border:1px solid #000;padding:15px;margin:15px;">
+          <h3>${b.firstname} ${b.lastname}</h3>
+          <p>City: ${b.city || "Not set"}</p>
+          <p>Skills: ${b.skills || "Not set"}</p>
+          <p>Rate: $${b.rate || "Not set"}</p>
+
+          <a href="/book/${b._id}">
+            <button>Book Bartender</button>
+          </a>
+        </div>
+      `;
+    });
+  })
+  .catch(err => {
+    document.getElementById("bartenderList").innerHTML = "Error loading bartenders";
+    console.error(err);
+  });
+</script>
+
+</body>
+</html>

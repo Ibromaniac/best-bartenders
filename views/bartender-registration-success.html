@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification in Progress - B.E.S.T Bartenders</title>
+    <link rel="icon" type="image/x-icon" href="barimage.ico">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        /* ======================
+           NAVIGATION HEADER
+        ======================= */
+        header {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .logo img { height: 40px; }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover { color: #d4af37; }
+
+        /* ======================
+           PARTICLE BACKGROUND
+        ======================= */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: rgba(212,175,55,0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%,100% { opacity: 0; transform: translateY(0); }
+            10%,90% { opacity: 1; }
+            100% { transform: translateY(-100vh); }
+        }
+
+        /* ======================
+           MAIN CONTAINER
+        ======================= */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 1rem;
+        }
+
+        .verification-container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            z-index: 1;
+            animation: fadeInUp 0.8s;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ======================
+           PROFILE PHOTO IN CIRCLE
+        ======================= */
+        .welcome-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #d4af37, #f0c957);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+            box-shadow: 0 10px 30px rgba(212,175,55,0.4);
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.07); }
+        }
+
+        /* ======================
+           TEXT + SECTIONS
+        ======================= */
+        h2 { font-size: 1.8rem; font-weight: bold; }
+        .name { color: #d4af37; }
+
+        .id-box {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #d4af37;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+        }
+
+        /* ======================
+           LOADING BAR
+        ======================= */
+        .loading-section { margin: 2rem 0; }
+
+        .progress-bar-container {
+            width: 100%; height: 16px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .progress-bar {
+            height: 100%; width: 0%;
+            background: linear-gradient(
+                90deg,
+                #b8860b,
+                #d4af37,
+                #ffd700,
+                #d4af37,
+                #b8860b
+            );
+            background-size: 300%;
+            animation:
+                progressAnimation 4s forwards,
+                shimmer 2.5s infinite;
+        }
+
+        @keyframes progressAnimation { 100% { width: 85%; } }
+        @keyframes shimmer { 0% { background-position: 300% 0; } 100% { background-position: -300% 0; } }
+
+        .status-text { margin-top: 1rem; font-style: italic; color: #777; }
+
+        /* ======================
+           BUTTON
+        ======================= */
+        button {
+            width: 100%;
+            background: #000;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #d4af37;
+            color: #000;
+            box-shadow: 0 5px 15px rgba(212,175,55,0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <a href="/" class="logo" style="text-decoration:none; color:#f4c542;">
+            <img src="/images/bar.png" alt="logo">
+            B.E.S.T Bartenders
+        </a>
+        </div>
+
+        <ul id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Main Container -->
+<div class="main-content">
+    <div class="verification-container">
+
+        <!-- PROFILE PHOTO INSIDE YELLOW CIRCLE -->
+        <div class="welcome-icon">
+            <img id="profilePhoto" class="profile-photo" src="" alt="Profile Photo">
+        </div>
+
+        <h2>Welcome, <span class="name" id="username"></span>!</h2>
+
+        <div class="status-badge">🔄 Verification in Progress</div>
+
+        <div class="id-box">
+            <div class="id-label">Your Bartender ID:</div>
+            <span id="bartenderID"></span>
+        </div>
+
+        <div class="info-box">
+            <p>Your documents are being verified.<br><br>
+               This process will finish within <b>24 hours</b>.</p>
+        </div>
+
+        <div class="loading-section">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="status-text" id="statusText">Authenticating credentials...</div>
+        </div>
+
+        <button onclick="window.location.href='/bartenders-login'">
+            Return to Login
+        </button>
+
+    </div>
+</div>
+
+<script>
+    // GET URL DATA
+    const params = new URLSearchParams(window.location.search);
+
+    document.getElementById("username").innerText = params.get("name") || "Bartender";
+    document.getElementById("bartenderID").innerText = params.get("id") || "Pending";
+
+    const photo = params.get("photo");
+    if (photo) {
+        document.getElementById("profilePhoto").src = "/uploads/" + photo;
+    }
+
+    // Floating particles
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscription - Bartender Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .subscription-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            border-radius: 20px;
+            border: 2px solid #d4af37;
+        }
+
+        .header-section h1 {
+            font-size: 48px;
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .header-section p {
+            font-size: 20px;
+            color: #ffffff;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .benefits-section {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            border: 1px solid #d4af37;
+        }
+
+        .benefits-section h2 {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: #000000;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .benefit-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h3 {
+            color: #d4af37;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-card p {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .pricing-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: #d4af37;
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.4);
+        }
+
+        .pricing-card.premium {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a637 100%);
+            border-color: #d4af37;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.premium:hover {
+            transform: scale(1.08);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #000000;
+            color: #d4af37;
+            padding: 8px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .plan-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .premium .plan-name {
+            color: #000000;
+        }
+
+        .plan-price {
+            font-size: 56px;
+            font-weight: bold;
+            color: #d4af37;
+            margin: 20px 0;
+        }
+
+        .premium .plan-price {
+            color: #000000;
+        }
+
+        .plan-price span {
+            font-size: 20px;
+            color: #999;
+        }
+
+        .premium .plan-price span {
+            color: #333;
+        }
+
+        .plan-duration {
+            color: #999;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .premium .plan-duration {
+            color: #333;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+            color: #ffffff;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .premium .plan-features li {
+            border-bottom-color: rgba(0, 0, 0, 0.2);
+            color: #000000;
+        }
+
+        .plan-features li:before {
+            content: "✓";
+            color: #d4af37;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .premium .plan-features li:before {
+            color: #000000;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a637 100%);
+            color: #000000;
+            border: none;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, #f0c84a 0%, #d4af37 100%);
+        }
+
+        .premium .subscribe-btn {
+            background: #000000;
+            color: #d4af37;
+        }
+
+        .premium .subscribe-btn:hover {
+            background: #1a1a1a;
+        }
+
+        .guarantee-section {
+            background: #1a1a1a;
+            border: 2px solid #d4af37;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .guarantee-section h3 {
+            color: #d4af37;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .guarantee-section p {
+            color: #ffffff;
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .highlight {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 32px;
+            }
+
+            .header-section p {
+                font-size: 16px;
+            }
+
+            .pricing-card.premium {
+                transform: scale(1);
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="subscription-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1>🍸 Premium Bartender Access</h1>
+            <p>Connect with professional bartenders, book their services, chat in real-time, and elevate your event experience</p>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <h2>What You Get With Premium Access</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h3>Access All Bartenders</h3>
+                    <p>Browse unlimited bartender profiles with detailed experience and specialties</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">💬</div>
+                    <h3>Real-Time Chat</h3>
+                    <p>Message bartenders directly to discuss your event needs and requirements</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">⭐</div>
+                    <h3>View Ratings & Reviews</h3>
+                    <p>Read authentic reviews and ratings from previous clients</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">📅</div>
+                    <h3>Easy Booking System</h3>
+                    <p>Book bartenders instantly with our seamless reservation system</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Section -->
+        <div class="pricing-section">
+            <!-- Basic Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name">Basic Access</h3>
+                <div class="plan-price">
+                    $15<span>/month</span>
+                </div>
+                <p class="plan-duration">Perfect for occasional events</p>
+                <ul class="plan-features">
+                    <li>View All Bartender Profiles</li>
+                    <li>See Ratings & Reviews</li>
+                    <li>Basic Chat Support</li>
+                    <li>Book Up to 2 Events/Month</li>
+                    <li>Email Notifications</li>
+                    <li>Standard Support</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+
+            <!-- Premium Plan (Featured) -->
+            <div class="pricing-card premium">
+                <span class="popular-badge">Most Popular</span>
+                <h3 class="plan-name">Premium Gold</h3>
+                <div class="plan-price">
+                    $35<span>/month</span>
+                </div>
+                <p class="plan-duration">Best for regular event hosts</p>
+                <ul class="plan-features">
+                    <li>Unlimited Bartender Access</li>
+                    <li>Full Profile & Portfolio View</li>
+                    <li>Priority Real-Time Chat</li>
+                    <li>Unlimited Event Bookings</li>
+                    <li>Advanced Search Filters</li>
+                    <li>Save Favorite Bartenders</li>
+                    <li>Price Comparison Tool</li>
+                    <li>24/7 Priority Support</li>
+                    <li>Exclusive Discounts</li>
+                    <li>Early Access to New Bartenders</li>
+                </ul>
+                <button class="subscribe-btn">Get Premium Now</button>
+            </div>
+
+            <!-- Professional Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name">Business Pro</h3>
+                <div class="plan-price">
+                    $75<span>/month</span>
+                </div>
+                <p class="plan-duration">For businesses & venues</p>
+                <ul class="plan-features">
+                    <li>Everything in Premium Gold</li>
+                    <li>Multiple User Accounts</li>
+                    <li>Bulk Booking Discounts</li>
+                    <li>Contract Management</li>
+                    <li>Dedicated Account Manager</li>
+                    <li>Custom Reporting</li>
+                    <li>Invoice Management</li>
+                    <li>API Access</li>
+                    <li>Team Collaboration Tools</li>
+                </ul>
+                <button class="subscribe-btn">Go Professional</button>
+            </div>
+        </div>
+
+        <!-- Guarantee Section -->
+        <div class="guarantee-section">
+            <h3>🔒 100% Satisfaction Guarantee</h3>
+            <p>
+                Try our premium subscription risk-free! If you're not completely satisfied within the first 
+                <span class="highlight">30 days</span>, we'll refund your money—no questions asked. 
+                Cancel anytime with <span class="highlight">zero commitment</span>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

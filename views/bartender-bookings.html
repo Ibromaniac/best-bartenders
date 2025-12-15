@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Bookings</title>
+</head>
+<body>
+
+<h2>My Booking Requests</h2>
+
+<div id="bookingsContainer"></div>
+
+<script>
+const bartenderId = localStorage.getItem("bartenderId");
+
+if (!bartenderId) {
+  alert("You must log in first.");
+  window.location.href = "/bartenders-login";
+}
+
+// ✅ FIXED BACKTICKS HERE
+fetch(`/api/bartender-bookings/${bartenderId}`)
+  .then(res => res.json())
+  .then(bookings => {
+    const container = document.getElementById("bookingsContainer");
+
+    if (!bookings || bookings.length === 0) {
+      container.innerHTML = "<p>No bookings yet.</p>";
+      return;
+    }
+
+    bookings.forEach(booking => {
+      const div = document.createElement("div");
+      div.style.border = "1px solid #000";
+      div.style.padding = "10px";
+      div.style.margin = "10px";
+
+      div.innerHTML = `
+        <strong>${booking.customerName}</strong><br>
+        Event: ${booking.eventType}<br>
+        Date: ${booking.eventDate}<br>
+        Time: ${booking.eventTime}<br>
+        Location: ${booking.location}<br>
+        Status: ${booking.status}<br><br>
+
+        <!-- ✅ FIXED ACCEPT / REJECT WITH bartenderId -->
+        <a href="/accept/${booking._id}?bartenderId=${bartenderId}">
+          <button>✅ Accept</button>
+        </a>
+
+        <a href="/reject/${booking._id}?bartenderId=${bartenderId}">
+          <button>❌ Reject</button>
+        </a>
+      `;
+
+      container.appendChild(div);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("bookingsContainer").innerHTML =
+      "<p>Error loading bookings.</p>";
+  });
+</script>
+
+</body>
+</html>

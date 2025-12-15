@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bartender Registration</title>
+    <link rel="icon" type="image/x-icon" href="barimage.ico">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fafafa;
+            color: #000;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            background: #000;
+            color: #f4c542;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 35px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #f4c542;
+        }
+
+        .logo img {
+            width: 28px;
+            margin-right: 10px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #f4c542;
+        }
+
+        /* PAGE WRAPPER */
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px 20px;
+        }
+
+        /* SIDE IMAGE DECORATION */
+        .side-decor {
+            width: 180px;
+            opacity: 0.12;
+            margin-top: 40px;
+        }
+
+        .left-decor { margin-right: 20px; }
+        .right-decor { margin-left: 20px; }
+
+        /* FORM CONTAINER */
+        .registration-container {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 460px;
+            border: 1px solid rgba(212,175,55,0.4);
+            box-shadow: 0 0 18px rgba(212,175,55,0.25);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #000;
+            color: #f4c542;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #f4c542;
+            color: #000;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #005eff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media(max-width: 820px){
+            .side-decor { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="/" class="logo">
+            <img src="/images/bar.png" alt="logo">
+            B.E.S.T Bartenders
+        </a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#contact">Contact</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="page-wrapper">
+
+        <!-- LEFT DECOR IMAGE -->
+        <img src="/images/cocktail-left.png" class="side-decor left-decor">
+
+        <!-- REGISTRATION FORM -->
+        <section class="registration-container">
+            <h2>Bartender Registration</h2>
+
+            <!-- IMPORTANT: enctype="multipart/form-data" -->
+            <form action="/bartender-registration" method="POST" enctype="multipart/form-data">
+
+                <label>First Name</label>
+                <input type="text" name="firstname" required>
+
+                <label>Last Name</label>
+                <input type="text" name="lastname" required>
+
+                <label>Email</label>
+                <input type="email" name="email" required>
+
+                <label>Phone Number</label>
+                <input type="tel" name="phone" required>
+
+                <label>Password</label>
+                <input type="password" name="password" required>
+
+                <label>Years of Experience</label>
+                <input type="number" name="experience" required>
+
+                <label>Skills</label>
+                <input type="text" name="skills" required>
+
+                <label>Hourly Rate ($)</label>
+                <input type="number" name="rate" required>
+
+                <label>Street Address</label>
+                <input type="text" name="street" required>
+
+                <label>Apartment / Unit (Optional)</label>
+                <input type="text" name="apt">
+
+                <label>City</label>
+                <input type="text" name="city" required>
+
+                <label>State</label>
+                <select name="state" required>
+                    <option value="">Select state</option>
+                    <option value="CA">California</option>
+                    <option value="NY">New York</option>
+                    <option value="TX">Texas</option>
+                    <option value="FL">Florida</option>
+                    <option value="NV">Nevada</option>
+                    <option value="WA">Washington</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="IL">Illinois</option>
+                    <option value="GA">Georgia</option>
+                </select>
+
+                <label>ZIP Code</label>
+                <input type="text" name="zip" required>
+
+                <!-- NEW FIELDS -->
+                <label>Bartending License Number</label>
+                <input type="text" name="licenseNumber" required>
+
+                <label>Upload Profile Photo</label>
+                <input type="file" name="profile_photo" accept="image/*" required>
+
+                <label>Upload Bartending License</label>
+                <input type="file" name="bartending_license" accept=".jpg,.png,.pdf" required>
+
+                <label>Upload Government ID</label>
+                <input type="file" name="government_id" accept=".jpg,.png,.pdf" required>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <p>
+                Already have an account?<br>
+                <a href="/bartenders-login">Login here</a>
+            </p>
+        </section>
+
+        <!-- RIGHT DECOR -->
+        <img src="/images/cocktail-right.png" class="side-decor right-decor">
+
+    </div>
+
+</body>
+</html>

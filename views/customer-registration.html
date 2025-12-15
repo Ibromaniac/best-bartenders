@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <link rel="icon" type="image/x-icon" href="barimage.ico">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            background: #000;
+            color: #f4c542; 
+            display: flex;
+            justify-content: space-between;  
+            align-items: center;
+            padding: 18px 35px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+        .logo img {
+            width: 28px;
+            margin-right: 10px;
+            position:relative;
+            top:-2px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #f4c542;
+        }
+
+        /* ⭐ FIXED REGISTRATION CONTAINER */
+        .registration-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+
+            width: 90%;
+            max-width: 400px;   /* Perfect desktop size */
+            min-width: 280px;   /* Prevents shrinking */
+
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 60px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 18px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        /* BUTTON */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #f4c542;
+            color: #000;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        a {
+            color: #005eff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #003db3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <div class="navbar">
+        <a href="/" class="logo" style="text-decoration:none; color:#f4c542;">
+            <img src="/images/bar.png" alt="logo">
+            B.E.S.T Bartenders
+        </a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#contact">Contact</a>
+        </div>
+    </div>
+
+    <!-- ⭐ FIXED REGISTRATION FORM -->
+    <section class="registration-container">
+        <h2>Customer Registration</h2>
+
+        <form action="/customer-registration" method="POST">
+
+            <label>First name</label>
+            <input type="text" name="firstname" placeholder="Enter your first name" required>
+
+            <label>Last name</label>
+            <input type="text" name="lastname" placeholder="Enter your last name" required>
+
+            <label>Address</label>
+            <input type="text" name="address" placeholder="Enter your address" required>
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="Enter your phone number" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create a password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p>
+            Already have an account?<br>
+            <a href="/customer-login">Login here</a>
+        </p>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Bartending Services - Professional Bartenders for Your Events</title>
+    <link rel="icon" type="image/x-icon" href="barimage.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <style>
+    
+	html {
+  scroll-padding-top: 30px;
+  scroll-behavior: smooth; /* 👈 ADD THIS LINE */
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* ======================
+           NAVIGATION FIXED 
+        ======================= */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 14px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+     
+
+        /* Remove blue click highlight */
+        a, button {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        a:focus, button:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ===== LOGO (DESKTOP BASE) ===== */
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: #d4af37;
+}
+
+.best-logo {
+  width: 36px;
+  height: 36px;
+  color: #d4af37;
+  display: block;
+  filter: none; /* OFF by default */
+}
+
+.logo-link span {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.4px;
+  margin-top: 0px;
+  transform: translateY(7px);
+}
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d4af37;
+
+        }
+
+        .best-logo {
+  color: #d4af37; /* luxury gold */
+  display: block;
+}
+
+.logo-link svg {
+  margin-right: -1px;
+}
+
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 0;
+            font-weight: 500;
+            display: inline-block;
+            transition: color 0.3s;
+            letter-spacing: -0.3px;
+        }
+
+        nav ul li a:hover {
+            color: #d4af37;
+        }
+        /* LOGIN BUTTON FIX */
+        .nav-btn {
+            background: #d4af37;
+            color: #000 !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            transition: background .3s;
+        }
+
+        .nav-btn:hover {
+            background: #f0c957;
+            color: #000 !important;
+        }
+
+        /* Hide desktop nav when hamburger menu is open */
+            nav.hide-desktop {
+        opacity: 0;
+        pointer-events: none;
+        }
+
+        /* ======================
+           HERO SECTION FIXED 
+        ======================= */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            margin-top: 60px;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            padding: 0 1rem;
+            max-width: 900px;
+            animation: fadeInUp 1.2s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-content h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            color: #ffffff;
+            text-shadow: 0 0 18px rgba(0, 0, 0, 0.6),
+            0 0 10px rgba(212,175,55,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.55rem;
+            margin-bottom: 2.2rem;
+            font-weight: 400;
+            opacity: 0.95;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* BUTTON UPGRADE */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.8rem;
+            background: linear-gradient(135deg, #d4af37, #f1d67a);
+            color: #1a1a1a;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: 0.25s ease;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.25);
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(212,175,55,0.4);
+            background: linear-gradient(135deg, #f0c957, #ffe9a3);
+        }
+        /* HERO FADE-IN ANIMATION */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+}
+
+        /* ======================
+           SERVICES 
+        ======================= */
+        .services {
+            padding: 5rem 2rem;
+            background: #f4f4f4;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1a1a1a;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+    background: #ffffff;
+    padding: 2.2rem;
+    border-radius: 16px;
+    text-align: center;
+
+            /* PREMIUM EFFECTS */
+            border: 1px solid rgba(212,175,55,0.12);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.35s cubic-bezier(.22,1,.36,1);
+            transform: translateY(0);
+        }
+
+        .service-icon {
+    font-size: 3.2rem;
+    margin-bottom: 1.2rem;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+    transition: 0.35s ease;
+}
+
+.service-icon svg {
+  width: 42px;
+  height: 42px;
+}
+
+.service-card:hover .service-icon {
+    transform: translateY(-3px) scale(1.05);
+    filter: drop-shadow(0 6px 12px rgba(212,175,55,0.4));
+}
+
+.service-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    border-color: rgba(212,175,55,0.28);
+    box-shadow: 0 12px 35px rgba(212,175,55,0.25);
+}
+
+section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+
+        /* ======================
+           ABOUT 
+        ======================= */
+        /* ======================
+   PREMIUM ABOUT SECTION
+====================== */
+.about {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUpSlow 1.2s ease forwards;
+}
+
+/* Smooth fade animation */
+@keyframes fadeUpSlow {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.about h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.about p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+.about ul {
+    margin-top: 1.8rem;
+    line-height: 2;
+    font-size: 1.1rem;
+}
+
+.about-image {
+    background: linear-gradient(135deg, #d4af37, #fbe9a5);
+    height: 420px;
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #fff;
+
+    box-shadow: 0 10px 30px rgba(212,175,55,0.35);
+    transition: transform 0.4s ease, box-shadow 0.35s ease;
+}
+
+/* Hover effect */
+.about-image:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 18px 50px rgba(212,175,55,0.45);
+}
+
+        /* ======================
+           CONTACT 
+        ======================= */
+     /* ======================
+   PREMIUM CONTACT SECTION
+====================== */
+.contact {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+    color: #fff;
+    text-align: center;
+    position: relative;
+}
+
+.contact h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -1px;
+    color: #d4af37;
+    text-shadow: 0 0 12px rgba(212,175,55,0.3);
+}
+
+.contact p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+}
+
+.contact-info {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.05);
+
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUpContact 1.2s ease forwards;
+}
+
+@keyframes fadeUpContact {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contact-item {
+    min-width: 200px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #ddd;
+}
+
+.contact-item strong {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+/* Contact button enhancement */
+.contact .btn {
+    margin-top: 3rem;
+    padding: 1rem 3rem;
+    font-size: 1.15rem;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+        /* ======================
+           FOOTER 
+        ======================= */
+.footer-divider {
+    height: 1px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,0),
+        rgba(212,175,55,0.6),
+        rgba(0,0,0,0)
+    );
+}
+
+.premium-footer {
+    background: #050505;
+    padding: 28px 16px 32px;
+    text-align: center;
+    color: #f5f5f5;
+    font-size: 0.95rem;
+}
+
+.premium-footer p {
+    margin: 4px 0;
+    opacity: 0.9;
+}
+
+
+        /* ======================
+           MOBILE RESPONSIVE 
+        ======================= */
+        @media (max-width: 768px) {
+            /* NAVIGATION */
+            nav {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .logo img {
+                height: 30px;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 40px;
+                padding-bottom: 40px;
+                gap: 0;
+                transition: left 0.3s ease;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            nav ul li a {
+                display: block;
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            /* HERO SECTION */
+            .hero {
+                height: 100vh;
+                margin-top: 60px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+                display: block;
+                margin: 10px auto;
+                max-width: 768px;
+            }
+
+            /* SERVICES */
+            .services {
+                padding: 3rem 1rem;
+            }
+
+            .services h2 {
+                font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            .service-icon {
+                font-size: 2.5rem;
+            }
+
+
+            /* ABOUT */
+            .about {
+                padding: 3rem 1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            
+            .about h2 {
+                font-size: 1.8rem;
+            }
+
+            .about-image {
+                height: 250px;
+                font-size: 1.2rem;
+            }
+
+            /* CONTACT */
+            .contact {
+                padding: 3rem 1rem;
+            }
+
+            .contact h2 {
+                font-size: 1.8rem;
+            }
+
+            .contact-info {
+                gap: 2rem;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-item {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            /* FOOTER */
+            footer {
+                padding: 1.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+ .footer-note {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.footer-note svg {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateY(4px);
+}
+
+
+.footer-icon {
+  display: flex;
+  align-items: center;
+}
+
+
+
+        /* TABLET RESPONSIVE */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            nav {
+                padding: 0 1.5rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1.3rem;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-content {
+                gap: 2rem;
+            }
+        }
+
+            .service-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.glow-glass {
+  color: #d4af37; /* luxury gold */
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.35));
+  animation: glowPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(245, 215, 110, 0.55));
+  }
+  100% {
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.25));
+  }
+}
+
+.glow-glass {
+  color: #d4af37;
+  animation: none;
+  transition: filter 0.4s ease;
+}
+
+.service-card:hover .glow-glass {
+  filter: drop-shadow(0 0 10px rgba(245, 215, 110, 0.7));
+}
+
+        /* SMALL MOBILE */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 2px;                 /* 👈 tighter spacing */
+  text-decoration: none;
+  color: #d4af37;
+
+}
+
+.logo-link:hover .best-logo {
+  filter: drop-shadow(0 0 6px rgba(212,175,55,0.45));
+}
+
+.logo-link span {
+  font-size: 1.5rem;     /* 👈 increase text size */
+  font-weight: 700;
+  line-height: 1;        /* keeps it vertically tight */
+  letter-spacing: -0.6px;
+  margin-top: 0px;
+}
+
+  .logo-link {
+    gap: 4px;
+  }
+
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .hero-content {
+    transform: translateY(-60px); /* move up */
+}
+
+
+            .services h2,
+            .about h2,
+            .contact h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+        /* GOLD-GLOW HAMBURGER */
+/* PREMIUM HAMBURGER ACTIVE STATE */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+.hamburger.active span {
+  box-shadow: 0 0 12px rgba(212,175,55,0.85);
+}
+
+        .hamburger {
+    position: fixed;
+    top: 20px;
+    right: 22px;
+    width: 34px;
+    height: 28px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 2000;
+}
+.hamburger span {
+  height: 4px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: none;           /* 👈 OFF by default */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 1200;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* SLIDE-IN MENU */
+/* PREMIUM SLIDE-IN MENU */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -55%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(26,26,26,0.85) 0%, rgba(45,45,45,0.85) 100%);
+    backdrop-filter: blur(20px);
+    padding: 55px 35px;
+    box-shadow: none; /* 👈 FIXED */
+    border-left: 1px solid rgba(212,175,55,0.35);
+    transition: right 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1500;
+}
+
+
+/* When open */
+.side-menu.active {
+    right: 0;
+    box-shadow: -5px 0 18px rgba(212,175,55,0.18);
+}
+
+/* PREMIUM HEADING */
+.side-menu h2 {
+    color: #d4af37;
+    font-size: 1.6rem;
+    margin-bottom: 35px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-shadow: none;
+    opacity: 0.85;
+    text-transform: uppercase;
+}
+
+.side-menu.active h2 {
+  text-shadow: 0 0 10px rgba(212,175,55,0.4);
+}
+
+
+/* PREMIUM MENU ITEMS */
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Fade-in effect for each item */
+.side-menu ul li {
+    opacity: 0;
+    transform: translateX(20px);
+    animation: fadeInMenu 0.5s forwards;
+    margin: 22px 0;
+}
+
+/* Delay animation for each list item */
+.side-menu ul li:nth-child(1) { animation-delay: 0.1s; }
+.side-menu ul li:nth-child(2) { animation-delay: 0.2s; }
+.side-menu ul li:nth-child(3) { animation-delay: 0.3s; }
+.side-menu ul li:nth-child(4) { animation-delay: 0.4s; }
+.side-menu ul li:nth-child(5) { animation-delay: 0.5s; }
+.side-menu ul li:nth-child(6) { animation-delay: 0.6s; }
+
+/* Animation keyframes */
+@keyframes fadeInMenu {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* PREMIUM LINKS */
+.side-menu ul li a {
+    text-decoration: none;
+    color: #eee;
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s ease;
+}
+
+/* GOLD ARROWS */
+.menu-arrow {
+    color: #d4af37;
+    font-size: 1.35rem;
+}
+/* GLOBAL SMOOTHING UPGRADE */
+body {
+    letter-spacing: -0.2px; /* Modern typography tightening */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+/* APP-LIKE TAP FEEDBACK */
+.btn:active,
+.nav-btn:active,
+.service-card:active {
+    transform: scale(0.97);
+    transition: transform 0.08s ease;
+}
+/* SCROLL REVEAL BASE */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* WHEN VISIBLE */
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.contact-item {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;     /* 👈 STACKED */
+    align-items: center;        /* 👈 PERFECT vertical alignment */
+    gap: 6px;
+    color: #ddd;
+}
+
+
+.contact-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #d4af37;
+  line-height: 1;
+}
+
+.contact-value {
+  font-size: 1.05rem;
+  color: #ddd;
+  opacity: 0.9;
+  line-height: 1.4;
+  text-align: center;   
+}
+
+    </style>
+</head>
+
+<body>
+<div id="overlay"></div>
+
+<!-- GOLD GLOW HAMBURGER -->
+<div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- RIGHT SLIDE MENU -->
+<div class="side-menu" id="sideMenu">
+    <h2>Menu</h2>
+
+    <ul>
+        <li><a href="/customer-dashboard">Dashboard <span class="menu-arrow">›</span></a></li>
+        <li><a href="#home">Home <span class="menu-arrow">›</span></a></li>
+        <li><a href="/#services">Services <span class="menu-arrow">›</span></a></li>
+        <li><a href="/#about">About <span class="menu-arrow">›</span></a></li>
+        <li><a href="/#contact">Contact <span class="menu-arrow">›</span></a></li>
+
+        <li><a href="/customer-login">Customer Login <span class="menu-arrow">›</span></a></li>
+        <li><a href="/bartenders-login">Bartender Login <span class="menu-arrow">›</span></a></li>
+    </ul>
+</div>
+
+<!-- ======================
+     CLEAN NAVIGATION
+======================= -->
+<header>
+    <nav>
+<!-- ✅ CLICKABLE LOGO FIXED -->
+        <div class="logo">
+    <div class="logo">
+  <a href="/" class="logo-link">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      class="best-logo"
+      aria-hidden="true"
+    >
+      <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+      <circle cx="46" cy="10" r="4" fill="currentColor"/>
+      <line x1="46" y1="6" x2="54" y2="0"
+        stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+      <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+    </svg>
+
+    <span class="logo-text">B.E.S.T</span>
+  </a>
+</div>
+
+
+
+        <ul id="navMenu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="/customer-login" class="nav-btn">Log In</a></li>
+        </ul>
+
+</ul>
+
+    </nav>
+</header>
+
+
+<!-- ======================
+     HERO SECTION
+======================= -->
+<section id="home" class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="/videos/stir.mp4" type="video/mp4">
+    </video>
+
+    <div class="hero-content">
+        <h1>Professional Bartending Services</h1>
+        <p>Elevate Your Event with Expert Mixologists</p>
+
+        <a href="/bartenders" class="btn">Pick your Bartender</a>
+        <a href="bartenders-login" class="btn" style="background:#fff;color:#000;">Become a Bartender</a>
+    </div>
+</section>
+
+
+<!-- ======================
+     SERVICES
+======================= -->
+<section id="services" class="services">
+    <h2>Our Services</h2>
+
+    <div class="service-grid">
+
+        <div class="service-card reveal">
+            <div class="service-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    width="42"
+    height="42"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="glow-glass"
+    aria-label="Parties & Celebrations"
+  >
+    <!-- Party popper -->
+    <path d="M20 42l12-20 12 20z" />
+
+    <!-- Confetti lines -->
+    <line x1="16" y1="20" x2="18" y2="16" />
+    <line x1="26" y1="14" x2="26" y2="10" />
+    <line x1="38" y1="14" x2="40" y2="10" />
+    <line x1="46" y1="20" x2="48" y2="16" />
+  </svg>
+</div>
+
+            <h3>Private Events</h3>
+            <p>Make your private parties unforgettable with our professional bartenders crafting custom cocktails.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    width="34"
+    height="34"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="glow-glass"
+    aria-label="Weddings & Engagements"
+  >
+    <!-- Diamond -->
+    <path d="M26 12l6-6 6 6-6 8z" />
+
+    <!-- Ring band -->
+    <circle cx="32" cy="40" r="16" />
+  </svg>
+</div>
+
+            <h3>Weddings</h3>
+            <p>Celebrate your special day with elegantly crafted signature drinks that match your wedding theme perfectly.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    width="34"
+    height="34"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="glow-glass"
+    aria-label="Corporate & Private Events"
+  >
+    <!-- Building outline -->
+    <rect x="16" y="10" width="32" height="44" rx="2" />
+
+    <!-- Windows -->
+    <line x1="24" y1="18" x2="24" y2="18" />
+    <line x1="32" y1="18" x2="32" y2="18" />
+    <line x1="40" y1="18" x2="40" y2="18" />
+
+    <line x1="24" y1="26" x2="24" y2="26" />
+    <line x1="32" y1="26" x2="32" y2="26" />
+    <line x1="40" y1="26" x2="40" y2="26" />
+
+    <line x1="24" y1="34" x2="24" y2="34" />
+    <line x1="32" y1="34" x2="32" y2="34" />
+    <line x1="40" y1="34" x2="40" y2="34" />
+
+    <!-- Door -->
+    <rect x="28" y="42" width="8" height="12" rx="1" />
+  </svg>
+</div>
+
+            <h3>Corporate Events</h3>
+            <p>Impress your clients and colleagues with top-tier bartending services at your corporate functions.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    width="40"
+    height="40"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="glow-glass"
+    aria-label="Cocktail Classes"
+  >
+    <!-- Glass rim -->
+    <path d="M14 8h36" />
+
+    <!-- Glass bowl -->
+    <path d="M14 8c0 12 9 22 18 22s18-10 18-22" />
+
+    <!-- Stem -->
+    <line x1="32" y1="30" x2="32" y2="48" />
+
+    <!-- Base -->
+    <line x1="22" y1="56" x2="42" y2="56" />
+  </svg>
+</div>
+
+            <h3>Cocktail Classes</h3>
+            <p>Learn the art of mixology from our expert bartenders in fun, interactive workshops.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    width="42"
+    height="42"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="glow-glass"
+    aria-label="Custom Menu Creation"
+  >
+    <!-- Clipboard body -->
+    <rect x="18" y="12" width="28" height="40" rx="2" />
+
+    <!-- Clip -->
+    <rect x="26" y="8" width="12" height="6" rx="1.5" />
+
+    <!-- Menu lines -->
+    <line x1="24" y1="24" x2="40" y2="24" />
+    <line x1="24" y1="32" x2="40" y2="32" />
+    <line x1="24" y1="40" x2="34" y2="40" />
+  </svg>
+</div>
+
+            <h3>Custom Menu Creation</h3>
+            <p>We design bespoke cocktail menus tailored to your event theme.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    width="42"
+    height="42"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="glow-glass"
+    aria-label="Mobile Bar Service"
+  >
+    <!-- Bar top -->
+    <line x1="12" y1="30" x2="52" y2="30" />
+
+    <!-- Bar body -->
+    <rect x="16" y="30" width="32" height="12" rx="2" />
+
+    <!-- Wheels -->
+    <circle cx="22" cy="46" r="3" />
+    <circle cx="42" cy="46" r="3" />
+
+    <!-- Glass -->
+    <path d="M28 14h8c0 5-3 9-4 9s-4-4-4-9z" />
+    <line x1="32" y1="23" x2="32" y2="28" />
+  </svg>
+</div>
+
+            <h3>Mobile Bar Service</h3>
+            <p>Our fully equipped mobile bar brings everything needed for a premium experience.</p>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- ======================
+     ABOUT
+======================= -->
+<section id="about" class="about">
+    <div class="about-content reveal">
+        <div>
+            <h2>Why Choose Us?</h2>
+            <p>With over 30 years of experience in the bartending industry, B.E.S.T Bartending Services provides professional, licensed, creative, and exceptional bartenders to every event.</p>
+            <ul style="margin-top: 1.5rem; line-height: 2;">
+                <li>✓ Licensed & Insured Bartenders</li>
+                <li>✓ Premium Quality Ingredients</li>
+                <li>✓ Custom Cocktail Menus</li>
+                <li>✓ Professional Equipment</li>
+                <li>✓ Exceptional Customer Service</li>
+            </ul>
+        </div>
+
+        <div class="about-image">
+            🍸 Professional Service
+        </div>
+    </div>
+</section>
+
+
+<!-- ======================
+     CONTACT
+======================= -->
+<section id="contact" class="contact">
+    <h2>Get In Touch</h2>
+    <p>Ready to elevate your event? Contact us today for a free consultation!</p>
+
+    <div class="contact-info reveal">
+
+        <!-- PHONE -->
+        <div class="contact-item">
+            <div class="contact-label">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                  width="18" height="18"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                  class="glow-glass">
+                  <rect x="22" y="6" width="20" height="52" rx="4" />
+                  <line x1="28" y1="10" x2="36" y2="10" />
+                  <circle cx="32" cy="50" r="1.8" />
+                </svg>
+                <span>Phone</span>
+            </div>
+            <div class="contact-value">(555) 123-4567</div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="contact-item">
+            <div class="contact-label">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                  width="18" height="18"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                  class="glow-glass">
+                  <rect x="8" y="18" width="48" height="28" rx="3" />
+                  <path d="M8 20l24 16 24-16" />
+                </svg>
+                <span>Email</span>
+            </div>
+            <div class="contact-value">info@bestbartenders.com</div>
+        </div>
+
+        <!-- LOCATION -->
+        <div class="contact-item">
+            <div class="contact-label">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                  width="18" height="18"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                  class="glow-glass">
+                  <path d="M32 6c-8 0-14 6-14 14 0 10 14 26 14 26s14-16 14-26c0-8-6-14-14-14z" />
+                  <circle cx="32" cy="20" r="4" />
+                </svg>
+                <span>Location</span>
+            </div>
+            <div class="contact-value">Fresno, CA</div>
+        </div>
+
+    </div>
+
+    <!-- TRUST LINE (NOW IN RIGHT PLACE) -->
+    <p style="margin-top:1.5rem; font-size:0.95rem; opacity:0.75;">
+        Licensed & insured • Response within 24 hours
+    </p>
+
+    <!-- CTA -->
+    <a href="mailto:info@elitebartending.com" class="btn" style="margin-top:2rem;">
+        Request a Quote
+    </a>
+</section>
+
+<!-- ======================
+     FOOTER
+======================= -->
+<!-- PREMIUM FOOTER -->
+<div class="footer-divider"></div>
+
+<div class="footer-divider"></div>
+
+<footer class="premium-footer">
+  <p>© 2025 B.E.S.T Bartenders</p>
+
+
+  <p class="footer-note">
+    <span class="footer-icon">
+      <svg xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        width="16"
+        height="16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="glow-glass"
+        aria-hidden="true">
+        <path d="M20 8h24c0 10-8 18-12 18s-12-8-12-18z"/>
+        <line x1="32" y1="26" x2="32" y2="44"/>
+        <line x1="22" y1="52" x2="42" y2="52"/>
+      </svg>
+    </span>
+    Drink Responsibly | Must be 21+ to consume alcohol
+  </p>
+</footer>
+
+<!-- ======================
+     MOBILE MENU SCRIPT
+======================= -->
+<script>
+const hamburger = document.getElementById("hamburger");
+const sideMenu = document.getElementById("sideMenu");
+
+
+// 🔥 CLOSE MENU WHEN CLICKING ANY LINK INSIDE IT
+document.querySelectorAll(".side-menu a").forEach(link => {
+    link.addEventListener("click", () => {
+        sideMenu.classList.remove("active");
+        hamburger.classList.remove("active");
+        overlay.classList.remove("active");
+
+        setTimeout(() => {
+            document.body.style.overflow = "auto";
+        }, 300); // match your menu transition
+    });
+});
+
+const overlay = document.getElementById("overlay");
+
+hamburger.addEventListener("click", () => {
+    const isOpen = sideMenu.classList.toggle("active");
+    hamburger.classList.toggle("active");
+    overlay.classList.toggle("active");
+
+    // ✅ Prevent background scroll when menu is open
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+});
+
+overlay.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    sideMenu.classList.remove("active");
+    overlay.classList.remove("active");
+
+    // ✅ Restore scroll
+    document.body.style.overflow = "auto";
+});
+
+// SCROLL REVEAL ANIMATION
+const reveals = document.querySelectorAll(".reveal");
+
+const revealOnScroll = () => {
+    const windowHeight = window.innerHeight;
+
+    reveals.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const revealPoint = 120;
+
+        if (elementTop < windowHeight - revealPoint) {
+            el.classList.add("show");
+        }
+    });
+};
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll(); // run on page load
+
+</script>
+
+
+
+</body>
+</html>

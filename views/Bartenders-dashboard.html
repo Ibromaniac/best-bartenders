@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Dashboard - B.E.S.T Bartenders</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #fff;
+      min-height: 100vh;
+      padding-top: 90px;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       UNIVERSAL HEADER
+    ========================= */
+   header {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 14px 0;
+  position: fixed;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 3.8px;
+  text-decoration: none;
+  color: #d4af37;
+}
+
+.best-logo {
+  width: 36px;
+  height: 36px;
+  display: block;
+  color: #d4af37;
+}
+
+.logo-link span {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.6px;
+  transform: translateY(5px);
+}
+
+.logo-link svg {
+  margin-right: -1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #d4af37;
+}
+
+.nav-btn {
+  background: #d4af37;
+  color: #000 !important;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+    /* =========================
+       DASHBOARD CONTENT
+    ========================= */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 3rem 6rem;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .dashboard-header h2 {
+      font-size: 2.4rem;
+      color: #d4af37;
+    }
+
+    .dashboard-header p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .profile-summary {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .profile-avatar {
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #1a1a1a;
+      font-weight: bold;
+    }
+
+    .profile-info h3 { font-size: 1.8rem; }
+    .profile-info p { color: #ccc; }
+
+    .profile-btn {
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+
+    .bookings-section { margin-bottom: 4rem; }
+    .section-title { font-size: 1.7rem; margin-bottom: 1.5rem; color: #fff; }
+
+    #myBookings {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .booking-card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .booking-card h4 { color: #d4af37; margin-bottom: 10px; }
+
+    .status {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .pending { background: orange; color: #000; }
+    .accepted { background: green; color: #fff; }
+    .rejected { background: red; color: #fff; }
+
+    .empty-state {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ccc;
+      padding: 2rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+    }
+
+    /* =========================
+       DASHBOARD CARDS
+    ========================= */
+    .dashboard-sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #d4af37;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .card p {
+      color: #ccc;
+      margin-bottom: 1.5rem;
+    }
+
+    .card button {
+      padding: 0.8rem 2rem;
+      background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .card button:disabled {
+      background: #555;
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ✅ UNIVERSAL HEADER -->
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="best-logo">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="/bartenders">Browse Bartenders</a></li>
+      <li><a href="/customer-login" class="nav-btn">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<div class="dashboard-container">
+
+  <div class="dashboard-header">
+    <h2>Welcome to Your Dashboard</h2>
+    <p>Manage your bookings with ease</p>
+  </div>
+
+  <div class="profile-summary">
+    <div class="profile-avatar">👤</div>
+    <div class="profile-info">
+      <h3>Hello, Customer!</h3>
+      <p>Thank you for choosing B.E.S.T Bartenders</p>
+      <button class="profile-btn">Edit Profile</button>
+      <button class="profile-btn">Logout</button>
+    </div>
+  </div>
+
+  <!-- BOOKINGS -->
+  <div class="bookings-section">
+    <h2 class="section-title">My Bookings</h2>
+    <div id="myBookings"></div>
+  </div>
+
+  <!-- ✅ RESTORED DASHBOARD CARDS -->
+  <div class="dashboard-sections">
+
+    <div class="card">
+      <div class="card-icon">🍸</div>
+      <h3>Browse Bartenders</h3>
+      <p>Find professional bartenders near you</p>
+      <button onclick="location.href='/bartenders'">View Bartenders</button>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Your Bookings</h3>
+      <p>See your booking history and statuses</p>
+      <button onclick="window.scrollTo({ top: document.querySelector('.bookings-section').offsetTop, behavior: 'smooth' })">
+        View Bookings
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Messages</h3>
+      <p>Chat with bartenders</p>
+      <button disabled>Coming Soon</button>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <h3>Your Profile</h3>
+      <p>Manage your customer profile</p>
+      <button disabled>Coming Soon</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const customerEmail = localStorage.getItem("customerEmail");
+  const container = document.getElementById("myBookings");
+
+  if (!customerEmail) {
+    container.innerHTML = `<div class="empty-state">Please log in again to see your bookings.</div>`;
+    return;
+  }
+
+  fetch(`/api/customer-bookings/${customerEmail}`)
+    .then(res => res.json())
+    .then(bookings => {
+      if (!bookings || bookings.length === 0) {
+        container.innerHTML = `<div class="empty-state">You have no bookings yet.</div>`;
+        return;
+      }
+
+      bookings.forEach(booking => {
+        let statusClass = "pending";
+        if (booking.status === "Accepted") statusClass = "accepted";
+        if (booking.status === "Rejected") statusClass = "rejected";
+
+        const card = document.createElement("div");
+        card.className = "booking-card";
+        card.innerHTML = `
+          <h4>${booking.eventType}</h4>
+          <p>📅 ${booking.eventDate}</p>
+          <p>⏰ ${booking.eventTime}</p>
+          <p>📍 ${booking.location}</p>
+          <span class="status ${statusClass}">${booking.status || "Pending"}</span>
+        `;
+        container.appendChild(card);
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      container.innerHTML = `<div class="empty-state">Error loading your bookings.</div>`;
+    });
+});
+</script>
+
+</body>
+</html>

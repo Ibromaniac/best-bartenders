@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Dashboard - B.E.S.T Bartenders</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    min-height: 100vh;
+    color: #fff;
+    padding-top: 90px;
+}
+
+
+/* ======================
+    ✅ SAME PREMIUM HEADER AS LOGIN
+====================== */
+header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 14px 0;
+            position: fixed;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-left: 1rem;   /* 👈 same as home page */
+  padding-right: 2rem;
+}
+
+
+
+    
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: flex-start;
+        }
+
+        nav ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav ul a:hover {
+            color: #d4af37;
+        }
+
+        .nav-btn {
+            background: #ffffff;          /* ✅ white button */
+            color: #000 !important;
+            padding: 5px 12px; 
+            border-radius: 6px;
+            font-weight: bold;    
+        }
+         
+        nav ul li {
+  transform: translateY(4px);
+}
+        .nav-btn:hover {
+    background: #f2f2f2;
+}
+         
+/* ======================
+   HEADER (MATCH HOME)
+====================== */
+/* EXACT HOME PAGE LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 3.8px;
+  text-decoration: none;
+  color: #d4af37;
+  transition: transform 0.25s ease;
+}
+
+.best-logo {
+  width: 36px;      /* ✅ HOME PAGE SIZE */
+  height: 36px;
+  display: block;
+  color: #d4af37;
+}
+
+
+.logo-link span {
+  font-size: 1.6rem;     /* ✅ HOME PAGE SIZE */
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  transform: translateY(7.2px); /* ✅ HOME PAGE ALIGNMENT */
+}
+
+.logo-link:hover .best-logo {
+  filter: drop-shadow(0 0 6px rgba(212,175,55,0.45));
+}
+
+.logo-link:hover {
+  transform: translateY(-1px);
+}
+
+.logo-link svg {
+  margin-right: -1px; /* ✅ MATCH HOME */
+}
+
+/* ======================
+    ✅ DASHBOARD CONTAINER
+====================== */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.dashboard-header h2 {
+    font-size: 1.9rem;
+    background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dashboard-header p {
+    color: #ccc;
+    margin-top: 10px;
+}
+
+/* ======================
+    ✅ PROFILE SUMMARY
+====================== */
+.profile-summary {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+    border-radius: 18px;
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    margin-bottom: 3rem;
+}
+
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(135deg, #d4af37, #f0c957);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #111;
+}
+
+.profile-info h3 {
+    font-size: 1.6rem;
+}
+
+.profile-info p {
+    color: #ccc;
+    margin-top: 6px;
+}
+
+.profile-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 1rem;
+}
+
+.profile-btn {
+    padding: 10px 18px;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #d4af37, #f0c957);
+}
+
+.profile-btn.secondary {
+    background: rgba(255,255,255,.1);
+    color: #fff;
+}
+
+/* ======================
+    ✅ BOOKINGS SECTION
+====================== */
+.bookings-section {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/* ✅ GOLD UNDERLINE RESTORED */
+.section-title::after {
+    content: "";
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(135deg, #d4af37, #f0c957);
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+}
+
+#myBookings {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.8rem;
+}
+
+.booking-card {
+    background: rgba(255,255,255,0.08);
+    padding: 1.6rem;
+    border-radius: 15px;
+}
+
+.booking-card h4 {
+    color: #d4af37;
+    margin-bottom: 10px;
+}
+
+.booking-detail {
+    color: #ccc;
+    margin-bottom: 6px;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 14px;
+    margin-top: 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.pending { background: orange; color: #000; }
+.accepted { background: green; }
+.rejected { background: crimson; }
+
+/* ======================
+    ✅ DASHBOARD CARDS
+====================== */
+.dashboard-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s ease;
+    cursor: pointer;
+}
+
+/* ✅ GLOW + LIFT + SCALE */
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(212,175,55,0.55);
+    border-color: rgba(212,175,55,0.7);
+    background: rgba(255,255,255,0.14);
+}
+
+/* ✅ GOLD LIGHT SWEEP */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -60%;
+    left: -60%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(212,175,55,0.35) 0, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card-icon {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: #d4af37;
+}
+
+.card:hover .card-icon {
+    animation: iconPop 0.4s ease;
+}
+/* ✅ REAL MOBILE TAP FEEDBACK */
+.card:active {
+  transform: scale(0.96);
+  box-shadow: 0 10px 25px rgba(212,175,55,0.45);
+}
+
+@keyframes iconPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+/* ✅ CARD WRITE-UPS RESTORED */
+.card p {
+    color: #ccc;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.card button {
+    padding: 10px 24px;
+    border-radius: 40px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #d4af37, #f0c957);
+}
+
+.card button:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+/* ======================
+    ✅ EMPTY STATE
+====================== */
+.empty-state {
+    text-align: center;
+    color: #ccc;
+    font-size: 1.1rem;
+    margin-top: 20px;
+}
+/* ✅ MOBILE APP BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(20,20,20,0.95);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  z-index: 9999;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.bottom-nav button.active,
+.bottom-nav button:hover {
+  color: #d4af37;
+  transform: scale(1.15);
+}
+/* ✅ FLOATING ACTION BUTTON */
+.fab {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, #d4af37, #f0c957);
+  color: #111;
+  box-shadow: 0 15px 35px rgba(212,175,55,0.5);
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 9999;
+}
+
+.fab:active {
+  transform: scale(0.9);
+}
+/* ✅ REAL MOBILE TAP & PRESS EFFECT */
+button, .card {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tap-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple Effect */
+.tap-effect::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: rgba(255,255,255,0.2);
+  display: block;
+  border-radius: 50%;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tap-effect.touched::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Press In Animation */
+.tap-effect:active {
+  transform: scale(0.96);
+}
+
+</style>
+</head>
+
+<body>
+<!-- ✅ MOBILE BOTTOM NAV -->
+        <div class="bottom-nav">
+            <button onclick="location.href='/'">🏠</button>
+            <button onclick="document.querySelector('.bookings-section').scrollIntoView({behavior:'smooth'})">📅</button>
+            <button disabled>💬</button>
+            <button disabled>👤</button>
+        </div>
+
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 64 64"
+             width="36"
+             height="36"
+             class="best-logo">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
+    </div>
+
+    <ul class="nav-links">
+  <li><a href="/logout" class="nav-btn">Logout</a></li>
+</ul>
+
+  </nav>
+</header>
+
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+        <h2>Welcome to Your Dashboard</h2>
+        <p>Manage your bookings, messages, and profile with ease</p>
+    </div>
+
+    <div class="profile-summary">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-info">
+            <h3 id="customerName">Hello!</h3>
+            <p>Thank you for choosing B.E.S.T Bartenders</p>
+            <div class="profile-actions">
+
+                <button class="profile-btn secondary">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bookings-section">
+        <h2 class="section-title">My Bookings</h2>
+        <div id="myBookings"></div>
+    </div>
+
+    <div class="dashboard-sections">
+
+        <div class="card tap-effect">
+
+            <div class="card-icon">🍸</div>
+            <h3>Browse Bartenders</h3>
+            <p>Find professional bartenders near you</p>
+            <button class="tap-effect" onclick="location.href='/bartenders'">View Bartenders</button>
+
+        </div>
+
+        <div class="card tap-effect">
+
+            <div class="card-icon">📅</div>
+            <h3>Your Bookings</h3>
+            <p>See your booking history and statuses</p>
+            <button onclick="window.scrollTo({ top: document.querySelector('.bookings-section').offsetTop, behavior: 'smooth' })">View Bookings</button>
+        </div>
+
+        <div class="card tap-effect">
+
+            <div class="card-icon">💬</div>
+            <h3>Messages</h3>
+            <p>Chat with bartenders</p>
+            <button disabled>Coming Soon</button>
+        </div>
+
+        <div class="card tap-effect">
+
+            <div class="card-icon">👤</div>
+            <h3>Your Profile</h3>
+            <p>Manage your customer profile</p>
+            <button disabled>Coming Soon</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // ✅ LOAD LOGGED-IN CUSTOMER NAME FROM SESSION
+  fetch("/api/current-customer")
+    .then(res => {
+      if (!res.ok) throw new Error("Not logged in");
+      return res.json();
+    })
+    .then(user => {
+      document.getElementById("customerName").textContent =
+        "Hello, " + user.firstname + "!";
+    })
+    .catch(() => {
+      document.getElementById("customerName").textContent = "Hello!";
+    });
+
+  // ✅ LOAD CUSTOMER BOOKINGS
+  const customerEmail = localStorage.getItem("customerEmail");
+  const container = document.getElementById("myBookings");
+
+  if (!customerEmail) {
+    container.innerHTML = `<div class="empty-state">Please log in again to see your bookings.</div>`;
+    return;
+  }
+
+  fetch(`/api/customer-bookings/${customerEmail}`)
+    .then(res => res.json())
+    .then(bookings => {
+      if (!bookings.length) {
+        container.innerHTML = `<div class="empty-state">You have no bookings yet.</div>`;
+        return;
+      }
+
+      bookings.forEach(booking => {
+        let statusClass =
+          booking.status === "Accepted" ? "accepted" :
+          booking.status === "Rejected" ? "rejected" : "pending";
+
+        const card = document.createElement("div");
+        card.className = "booking-card";
+
+        card.innerHTML = `
+          <h4>${booking.eventType}</h4>
+          <p class="booking-detail">📅 ${booking.eventDate}</p>
+          <p class="booking-detail">⏰ ${booking.eventTime}</p>
+          <p class="booking-detail">📍 ${booking.location}</p>
+          <span class="status ${statusClass}">
+            ${booking.status || "Pending"}
+          </span>
+        `;
+
+        container.appendChild(card);
+      });
+    });
+
+});
+// ✅ REAL MOBILE TAP RIPPLE
+document.querySelectorAll(".tap-effect").forEach(el => {
+  el.addEventListener("click", function (e) {
+    this.classList.remove("touched");
+    void this.offsetWidth;
+    this.classList.add("touched");
+  });
+});
+
+</script>
+<!-- ✅ MOBILE BOTTOM NAV -->
+<div class="bottom-nav">
+  <button onclick="location.href='/'">🏠</button>
+  <button onclick="document.querySelector('.bookings-section').scrollIntoView({behavior:'smooth'})">📅</button>
+  <button disabled>💬</button>
+  <button disabled>👤</button>
+</div>
+
+</body>
+</html>

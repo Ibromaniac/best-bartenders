@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            background: #000;
+            color: #f4c542;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 35px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #f4c542;
+        }
+
+        .logo img {
+            width: 28px;
+            margin-right: 10px;
+            position: relative;
+            top: -2px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #f4c542;
+        }
+
+        /* PAGE CENTER LAYOUT */
+        .page-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        /* NEW MODERN LOGIN BOX */
+        .login-box {
+            background: #fff;
+            padding: 35px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #000;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #222;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 18px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        /* MODERN BUTTON */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #f4c542;
+            color: #000;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #005eff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #003db3;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <div class="navbar">
+        <a href="/" class="logo">
+            <img src="/images/bar.png" alt="logo">
+            B.E.S.T Bartenders
+        </a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#contact">Contact</a>
+        </div>
+    </div>
+
+    <!-- PAGE CENTER -->
+    <div class="page-wrapper">
+
+        <div class="login-box">
+            <h2>Customer Login</h2>
+
+            <form action="/customer-login" method="POST">
+
+                <label>Email</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Enter your email" 
+                    required
+                >
+
+                <label>Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Enter your password" 
+                    required
+                >
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p>
+                Don’t have an account?<br>
+                <a href="/customer-registration">Create one</a>
+            </p>
+        </div>
+
+    </div>
+
+</body>
