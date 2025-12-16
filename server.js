@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const Booking = require("./models/booking");
+const Booking = require("./best-bartenders/models/booking");
 const mongoose = require("mongoose");
 const session = require("express-session");
 mongoose.connect(process.env.MONGODB_URI)
@@ -9,8 +9,8 @@ mongoose.connect(process.env.MONGODB_URI)
 const express = require("express");
 const path = require("path");
 
-const Customer = require("./models/customer");
-const Bartender = require("./models/bartender");
+const Customer = require("./best-bartenders/models/customer");
+const Bartender = require("./best-bartenders/models/bartender");
 
 const multer = require("multer");
 
