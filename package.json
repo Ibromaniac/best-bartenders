@@ -16,6 +16,8 @@
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "mongoose": "^9.0.0",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "npm": "^11.7.0",
+    "start": "^5.1.0"
   }
 }
