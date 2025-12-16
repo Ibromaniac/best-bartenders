@@ -205,7 +205,7 @@
             padding: 1rem 2.8rem;
             background: linear-gradient(135deg, #d4af37, #f1d67a);
             color: #1a1a1a;
-            border-radius: 8px;
+            border-radius: 999px;
             font-weight: 600;
             text-decoration: none;
             font-size: 1.1rem;
@@ -959,6 +959,76 @@ section {
   text-align: center;   
 }
 
+/* ======================
+   BARTENDERS ON TAP – WHITE PREMIUM CTA
+====================== */
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0.9rem 2.6rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+
+  background: rgba(255,255,255,0.95);
+  color: #1a1a1a;
+
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.6);
+
+  text-decoration: none;
+  letter-spacing: 0.3px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35),
+    inset 0 0 0 rgba(212,175,55,0);
+
+  transition: all 0.35s cubic-bezier(.22,1,.36,1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft light sweep */
+.btn-white::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.65),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-white:hover::before {
+  opacity: 1;
+}
+
+/* Hover = luxury gold accent */
+.btn-white:hover {
+  color: #000;
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.45),
+    0 0 18px rgba(212,175,55,0.35);
+}
+
+/* Small subtitle */
+.btn-white span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #b89b2f;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+
     </style>
 </head>
 
@@ -1043,9 +1113,10 @@ section {
         <p>Elevate Your Event with Expert Mixologists</p>
 
         <a href="/bartenders" class="btn">Pick your Bartender</a>
-        <a href="/bartenders-login" class="btn">
-  Bartenders on Tap (join the club)
+    <a href="/bartenders-login" class="btn-white">
+  Bartenders on Tap <span>Join the club</span>
 </a>
+
 
 </a>
 
