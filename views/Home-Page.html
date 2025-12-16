@@ -962,15 +962,21 @@ section {
 /* ======================
    BARTENDERS ON TAP – WHITE PREMIUM CTA
 ====================== */
+/* ======================
+   BARTENDERS ON TAP – WHITE PREMIUM CTA (FIXED)
+====================== */
 .btn-white {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
-  padding: 0.9rem 2.6rem;
+  min-height: 56px;
+  padding: 0 2.8rem;
+
   font-size: 1.05rem;
   font-weight: 600;
+  line-height: 1;
 
   background: rgba(255,255,255,0.95);
   color: #1a1a1a;
@@ -989,7 +995,6 @@ section {
   position: relative;
   overflow: hidden;
 }
-
 /* Soft light sweep */
 .btn-white::before {
   content: "";
@@ -1114,7 +1119,7 @@ section {
 
         <a href="/bartenders" class="btn">Pick your Bartender</a>
     <a href="/bartenders-login" class="btn-white">
-  Bartenders on Tap <span>Join the club</span>
+  Bartenders on Tap <span>(Join the club)</span>
 </a>
 
 
