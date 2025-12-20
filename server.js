@@ -98,7 +98,9 @@ app.get("/bartender-registration-success", (req, res) => {
 
 app.post("/customer-registration", async (req, res) => {
   const { firstname, lastname, address, email, phone, password } = req.body;
-
+if (mongoose.connection.readyState !== 1) {
+  return res.status(503).send("Database not ready. Try again.");
+}
   console.log("📩 Incoming body:", req.body);
 
   try {
@@ -126,9 +128,6 @@ app.post("/customer-registration", async (req, res) => {
   }
 });
 
-if (mongoose.connection.readyState !== 1) {
-  return res.status(503).send("Database not ready. Try again.");
-}
 
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
