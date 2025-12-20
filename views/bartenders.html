@@ -1,11 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Find a Bartender</title>
+  <meta charset="UTF-8">
+  <title>Pick Your Bartender - B.E.S.T Bartenders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SAME FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      min-height: 100vh;
+      color: #fff;
+      padding-top: 60px;
+    }
+
+    /* ======================
+       HEADER (SAME AS OTHERS)
+    ====================== */
+    header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 14px 0;
+      position: fixed;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding-left: 1rem;
+      padding-right: 2rem;
+    }
+
+    .logo {
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #d4af37;
+      text-decoration: none;
+    }
+
+    .best-logo {
+      width: 36px;
+      height: 36px;
+      color: #d4af37;
+    }
+
+    .logo-link span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      transform: translateY(7px);
+    }
+
+    /* ======================
+       PAGE HEADER
+    ====================== */
+    .page-header {
+      text-align: center;
+      margin: 3rem 1rem 2.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.6rem;
+      color: #d4af37;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ======================
+       BARTENDER GRID
+    ====================== */
+    #bartenderList {
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* ======================
+       BARTENDER CARD
+    ====================== */
+    .bartender-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 1.8rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .bartender-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 70px rgba(212,175,55,0.25);
+    }
+
+    .bartender-card h3 {
+      color: #d4af37;
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .bartender-card p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ======================
+       BOOK BUTTON
+    ====================== */
+    .book-btn {
+      margin-top: 1.2rem;
+      width: 100%;
+      padding: 12px;
+      border-radius: 14px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+      background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
+      color: #1a1a1a;
+      box-shadow: 0 10px 25px rgba(212,175,55,0.45);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .book-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(212,175,55,0.6);
+    }
+
+    /* ======================
+       EMPTY / ERROR
+    ====================== */
+    .empty-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 1.1rem;
+    }
+
+    /* ======================
+       MOBILE
+    ====================== */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Available Bartenders</h1>
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="best-logo">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<section class="page-header">
+  <h1>Pick Your Bartender</h1>
+  <p>Browse verified professionals and book with confidence</p>
+</section>
 
 <div id="bartenderList"></div>
 
@@ -15,28 +211,29 @@ fetch("/api/bartenders")
   .then(data => {
     const container = document.getElementById("bartenderList");
 
-    if (data.length === 0) {
-      container.innerHTML = "<p>No bartenders found.</p>";
+    if (!data || data.length === 0) {
+      container.innerHTML = `<p class="empty-msg">No bartenders available at the moment.</p>`;
       return;
     }
 
     data.forEach(b => {
       container.innerHTML += `
-        <div style="border:1px solid #000;padding:15px;margin:15px;">
+        <div class="bartender-card">
           <h3>${b.firstname} ${b.lastname}</h3>
-          <p>City: ${b.city || "Not set"}</p>
-          <p>Skills: ${b.skills || "Not set"}</p>
-          <p>Rate: $${b.rate || "Not set"}</p>
+          <p><strong>City:</strong> ${b.city || "Not set"}</p>
+          <p><strong>Skills:</strong> ${b.skills || "Not set"}</p>
+          <p><strong>Rate:</strong> $${b.rate || "Not set"}</p>
 
           <a href="/book/${b._id}">
-            <button>Book Bartender</button>
+            <button class="book-btn">Book Bartender</button>
           </a>
         </div>
       `;
     });
   })
   .catch(err => {
-    document.getElementById("bartenderList").innerHTML = "Error loading bartenders";
+    document.getElementById("bartenderList").innerHTML =
+      `<p class="empty-msg">Error loading bartenders.</p>`;
     console.error(err);
   });
 </script>
