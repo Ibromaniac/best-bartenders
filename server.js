@@ -1,3 +1,4 @@
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const Booking = require("./best-bartenders/models/booking");
 const mongoose = require("mongoose");

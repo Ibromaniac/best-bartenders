@@ -965,6 +965,49 @@ section {
 /* ======================
    BARTENDERS ON TAP – WHITE PREMIUM CTA (FIXED)
 ====================== */
+/* FORCE SAME SIZE HERO BUTTONS */
+/* FORCE PICK YOUR BARTENDER TO MATCH SIZE & CENTERING */
+.hero .btn {
+  width: 260px;          /* same width */
+  height: 64px;          /* same height */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.05rem;    /* match btn-white title */
+  font-weight: 600;
+  line-height: 1;
+}
+
+.hero .btn,
+.hero .btn-white {
+  width: 260px;          /* SAME WIDTH */
+  height: 64px;          /* SAME HEIGHT */
+}
+
+/* STACK TEXT VERTICALLY */
+.btn-white {
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* MAIN LINE */
+.btn-white .btn-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* SUB LINE */
+.btn-white .btn-sub {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #b89b2f;
+}
+
 .btn-white {
   display: inline-flex;
   align-items: center;

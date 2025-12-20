@@ -1,23 +1,25 @@
 {
-  "name": "bartendinp-app",
+  "name": "bartending-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Bartending web application",
+  "main": "server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "express": "^5.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
     "express-session": "^1.18.2",
     "mongoose": "^9.0.0",
-    "multer": "^2.0.2",
-    "npm": "^11.7.0",
-    "start": "^5.1.0"
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
