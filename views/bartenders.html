@@ -22,7 +22,9 @@
       padding-top: 60px;
     }
 
-    /* ===== HEADER ===== */
+    /* ======================
+       HEADER
+    ====================== */
     header {
       background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       padding: 14px 0;
@@ -71,7 +73,9 @@
       transform: translateY(7px);
     }
 
-    /* ===== PAGE HEADER ===== */
+    /* ======================
+       PAGE HEADER
+    ====================== */
     .page-header {
       text-align: center;
       margin: 3rem 1rem 2.5rem;
@@ -89,7 +93,9 @@
       color: rgba(255,255,255,0.65);
     }
 
-    /* ===== GRID ===== */
+    /* ======================
+       GRID
+    ====================== */
     #bartenderList {
       max-width: 1200px;
       margin: 0 auto 4rem;
@@ -99,7 +105,9 @@
       gap: 2rem;
     }
 
-    /* ===== CARD ===== */
+    /* ======================
+       CARD
+    ====================== */
     .bartender-card {
       background: rgba(255,255,255,0.08);
       backdrop-filter: blur(16px);
@@ -107,11 +115,27 @@
       padding: 1.8rem;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      text-align: center;
     }
 
     .bartender-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 28px 70px rgba(212,175,55,0.25);
+    }
+
+    /* ======================
+       BARTENDER IMAGE (FIXED)
+    ====================== */
+    .bartender-photo {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      display: block;
+      object-fit: cover;
+      border: 2px solid rgba(212,175,55,0.6);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.3);
     }
 
     .bartender-card h3 {
@@ -122,27 +146,13 @@
 
     .bartender-card p {
       font-size: 0.95rem;
-      .bartender-photo {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  margin: 0 auto 1rem;
-  overflow: hidden;
-  border: 2px solid rgba(212,175,55,0.6);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-}
-
-.bartender-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
       color: rgba(255,255,255,0.8);
       margin-bottom: 0.4rem;
     }
 
-    /* ===== BUTTON ===== */
+    /* ======================
+       BUTTON
+    ====================== */
     .book-btn {
       margin-top: 1.2rem;
       width: 100%;
@@ -211,23 +221,22 @@ fetch("/api/bartenders")
 
     data.forEach(b => {
       const photoUrl = b.profile_photo
-  ? `/uploads/${b.profile_photo}`
-  : `/images/default-bartender.jpg`;
+        ? `/uploads/${b.profile_photo}`
+        : `/images/default-bartender.jpg`;
 
-container.innerHTML += `
-  <div class="bartender-card">
-    <img 
-      src="${photoUrl}" 
-      alt="${b.firstname} ${b.lastname}"
-      class="bartender-photo"
-      onerror="this.src='/images/default-bartender.jpg'"
-    >
-
-    <h3>${b.firstname} ${b.lastname}</h3>
-
+      container.innerHTML += `
+        <div class="bartender-card">
+          <img
+            src="${photoUrl}"
+            alt="${b.firstname} ${b.lastname}"
+            class="bartender-photo"
+            onerror="this.src='/images/default-bartender.jpg'"
+          >
+          <h3>${b.firstname} ${b.lastname}</h3>
           <p><strong>City:</strong> ${b.city || "Not set"}</p>
           <p><strong>Skills:</strong> ${b.skills || "Not set"}</p>
           <p><strong>Rate:</strong> $${b.rate || "Not set"}</p>
+
           <a href="/book/${b._id}">
             <button class="book-btn">Book Bartender</button>
           </a>
