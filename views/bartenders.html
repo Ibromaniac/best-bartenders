@@ -220,9 +220,9 @@ fetch("/api/bartenders")
     }
 
     data.forEach(b => {
-      const photoUrl = bartender.profile_photo
-  ? bartender.profile_photo
-  : "/images/default-user.jpg";
+  const photoUrl = b.profile_photo
+    ? b.profile_photo
+    : "/images/default-user.jpg";
 
 
       container.innerHTML += `
