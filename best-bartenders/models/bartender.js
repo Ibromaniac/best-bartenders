@@ -15,7 +15,7 @@ const bartenderSchema = new mongoose.Schema({
   state: String,
   zip: String,
   licenseNumber: String,
-  profile_photo: String,
+  profile_photo: { type: String, default: "" },
   bartending_license: String,
   government_id: String,
   approved: { type: Boolean, default: false }

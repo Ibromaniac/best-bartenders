@@ -9,25 +9,36 @@ mongoose.connect(process.env.MONGODB_URI)
 
 const express = require("express");
 const path = require("path");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+
 
 const Customer = require("./best-bartenders/models/customer");
 const Bartender = require("./best-bartenders/models/bartender");
 
 const multer = require("multer");
 
+
+
 // -----------------------
-// MULTER STORAGE
+// CLOUDINARY STORAGE
 // -----------------------
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "public/uploads/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + "-" + file.originalname);
-    }
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "best-bartenders/bartenders",
+    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+  }
 });
 
 const upload = multer({ storage });
+
 
 // -----------------------
 const app = express();
@@ -96,15 +107,18 @@ app.get("/bartender-registration-success", (req, res) => {
 // CUSTOMER REGISTRATION (FIXED)
 // -----------------------
 
-app.post("/customer-registration", async (req, res) => {
+app.post("/customer-registration", upload.single("profile_photo"), async (req, res) => {
   const { firstname, lastname, address, email, phone, password } = req.body;
-if (mongoose.connection.readyState !== 1) {
-  return res.status(503).send("Database not ready. Try again.");
-}
-  console.log("📩 Incoming body:", req.body);
+
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).send("Database not ready. Try again.");
+  }
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // ✅ get uploaded filename
+    const profilePhotoFile = req.file ? req.file.filename : "";
 
     const customer = await Customer.create({
       firstname,
@@ -112,19 +126,18 @@ if (mongoose.connection.readyState !== 1) {
       address,
       email,
       phone,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     console.log("✅ Customer saved:", customer);
     res.redirect("/registration-success");
 
   } catch (err) {
-    console.error("❌ REGISTRATION ERROR (FULL):");
-    console.error(err);          // 👈 THIS LINE
-    console.error(err.message);  // 👈 THIS LINE
-    console.error(err.code);     // 👈 THIS LINE
-
-    res.status(500).send(err.message); // show real message in browser
+    if (err.code === 11000) {
+      return res.status(400).send("Email already registered");
+    }
+    console.error("❌ REGISTRATION ERROR:", err);
+    res.status(500).send(err.message);
   }
 });
 
@@ -201,19 +214,19 @@ app.post(
 
       const files = req.files || {};
 
-      let profilePhotoFile = "";
-      if (files.profile_photo && files.profile_photo[0]) {
-        profilePhotoFile = files.profile_photo[0].filename;
-      }
+      let profilePhotoUrl = "";
+if (files.profile_photo && files.profile_photo[0]) {
+  profilePhotoUrl = files.profile_photo[0].path;
+}
 
       let bartendingLicenseFile = "";
       if (files.bartending_license && files.bartending_license[0]) {
-        bartendingLicenseFile = files.bartending_license[0].filename;
+        bartendingLicenseFile = files.bartending_license[0].path;
       }
 
       let governmentIdFile = "";
       if (files.government_id && files.government_id[0]) {
-        governmentIdFile = files.government_id[0].filename;
+        governmentIdFile = files.government_id[0].path;
       }
 
       await Bartender.create({
@@ -231,7 +244,8 @@ app.post(
         state,
         zip,
         licenseNumber,
-        profile_photo: profilePhotoFile,
+        profile_photo: profilePhotoUrl,
+
         bartending_license: bartendingLicenseFile,
         government_id: governmentIdFile,
         approved: false
@@ -242,7 +256,7 @@ app.post(
         "/bartender-registration-success?name=" +
           encodeURIComponent(firstname) +
           "&photo=" +
-          encodeURIComponent(profilePhotoFile)
+          encodeURIComponent(profilePhotoUrl)
       );
     } catch (err) {
       console.log(err);
@@ -394,13 +408,15 @@ app.get("/api/current-customer", async (req, res) => {
     res.json({
       firstname: customer.firstname,
       lastname: customer.lastname,
-      email: customer.email
+      email: customer.email,
+      profile_photo: customer.profile_photo
     });
   } catch (err) {
     console.log("❌ Current customer error:", err);
     res.status(500).json({ message: "Failed to load customer" });
   }
 });
+
 
 // -----------------------
 const PORT = process.env.PORT || 3000;
