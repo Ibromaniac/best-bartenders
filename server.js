@@ -28,12 +28,33 @@ const multer = require("multer");
 // -----------------------
 // CLOUDINARY STORAGE
 // -----------------------
+// -----------------------
+// CLOUDINARY STORAGE (FIXED)
+// -----------------------
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: "best-bartenders/bartenders",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+  params: (req, file) => {
+    let folder = "best-bartenders/misc";
+    let resource_type = "auto"; // allows images + PDFs
+
+    if (file.fieldname === "profile_photo") {
+      folder = "best-bartenders/bartenders";
+    }
+
+    if (file.fieldname === "bartending_license") {
+      folder = "best-bartenders/licenses";
+    }
+
+    if (file.fieldname === "government_id") {
+      folder = "best-bartenders/ids";
+    }
+
+    return {
+      folder,
+      resource_type
+    };
   }
 });
 
