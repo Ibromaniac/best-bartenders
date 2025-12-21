@@ -128,18 +128,11 @@ app.get("/bartender-registration-success", (req, res) => {
 // CUSTOMER REGISTRATION (FIXED)
 // -----------------------
 
-app.post("/customer-registration", upload.single("profile_photo"), async (req, res) => {
+app.post("/customer-registration", async (req, res) => {
   const { firstname, lastname, address, email, phone, password } = req.body;
-
-  if (mongoose.connection.readyState !== 1) {
-    return res.status(503).send("Database not ready. Try again.");
-  }
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // ✅ get uploaded filename
-    const profilePhotoFile = req.file ? req.file.filename : "";
 
     const customer = await Customer.create({
       firstname,
@@ -147,7 +140,7 @@ app.post("/customer-registration", upload.single("profile_photo"), async (req, r
       address,
       email,
       phone,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     console.log("✅ Customer saved:", customer);
@@ -157,8 +150,8 @@ app.post("/customer-registration", upload.single("profile_photo"), async (req, r
     if (err.code === 11000) {
       return res.status(400).send("Email already registered");
     }
-    console.error("❌ REGISTRATION ERROR:", err);
-    res.status(500).send(err.message);
+    console.error("❌ CUSTOMER REG ERROR:", err);
+    res.status(500).send("Customer registration failed");
   }
 });
 
@@ -233,6 +226,7 @@ app.post(
         licenseNumber
       } = req.body;
 
+      const hashedPassword = await bcrypt.hash(password, 10);
       const files = req.files || {};
 
       let profilePhotoUrl = "";
@@ -255,7 +249,7 @@ if (files.profile_photo && files.profile_photo[0]) {
         lastname,
         email,
         phone,
-        password,
+        password: hashedPassword,
         experience,
         skills,
         rate,
