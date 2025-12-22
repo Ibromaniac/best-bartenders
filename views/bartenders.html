@@ -8,8 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    html, body {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #1a1a1a;
   overscroll-behavior: none;
 }
 
@@ -21,17 +24,29 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       min-height: 100vh;
       color: #fff;
       padding-top: 60px;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
+
+    body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  z-index: -1;
+  will-change: transform;
+}
+
 
     /* ======================
        HEADER
     ====================== */
     header {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(6px);
       padding: 14px 0;
       position: fixed;
       height: 64px;
@@ -115,8 +130,8 @@
     ====================== */
     .bartender-card {
       background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px); /* 👈 ADD */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); /* 👈 ADD */
       border-radius: 20px;
       padding: 1.8rem;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
