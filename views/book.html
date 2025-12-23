@@ -1,45 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Book Bartender | B.E.S.T Bartenders</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Book Bartender - B.E.S.T Bartenders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      height: 100%;
+      background: #1a1a1a;
+      overscroll-behavior: none;
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
       min-height: 100vh;
       color: #fff;
-      padding-top: 80px;
+      padding-top: 60px;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      z-index: -1;
+      will-change: transform;
     }
 
     /* ======================
-       HEADER (MATCHES SITE)
+       HEADER (SAME AS BARTENDERS PAGE)
     ====================== */
     header {
-      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(6px);
       padding: 14px 0;
       position: fixed;
       height: 64px;
+      display: flex;
+      align-items: center;
       width: 100%;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding-left: 1rem;
+      padding-right: 2rem;
+    }
+
+    .logo {
+      margin-right: auto;
       display: flex;
       align-items: center;
     }
@@ -47,26 +68,37 @@
     .logo-link {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       color: #d4af37;
       text-decoration: none;
+    }
+
+    .best-logo {
+      width: 36px;
+      height: 36px;
+      color: #d4af37;
+    }
+
+    .logo-link span {
+      font-size: 1.5rem;
       font-weight: 700;
-      font-size: 1.4rem;
+      letter-spacing: -0.6px;
+      transform: translateY(7px);
     }
 
     /* ======================
-       PAGE CONTAINER
+       BOOKING CONTAINER
     ====================== */
     .booking-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 2rem 1rem 4rem;
+      padding: 3rem 1rem 4rem;
     }
 
     .booking-card {
       background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(12px);
       border-radius: 20px;
       padding: 2.5rem;
       width: 100%;
@@ -127,7 +159,18 @@
 
 <header>
   <nav>
-    <a href="/" class="logo-link">B.E.S.T Bartenders</a>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="best-logo">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
+    </div>
   </nav>
 </header>
 
@@ -137,7 +180,6 @@
     <h2>Book This Bartender</h2>
 
     <form action="/book" method="POST">
-
       <!-- REQUIRED -->
       <input type="hidden" id="bartenderIdInput" name="bartenderId">
       <input type="hidden" id="customerEmailInput" name="customerEmail">
@@ -156,12 +198,10 @@
 </div>
 
 <script>
-  // ✅ Get bartender ID from URL
   const pathParts = window.location.pathname.split("/");
   const bartenderId = pathParts[pathParts.length - 1];
   document.getElementById("bartenderIdInput").value = bartenderId;
 
-  // ✅ Get customer email from login
   const customerEmail = localStorage.getItem("customerEmail");
   document.getElementById("customerEmailInput").value = customerEmail;
 </script>
