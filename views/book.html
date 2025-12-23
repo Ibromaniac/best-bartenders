@@ -1,74 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Book This Bartender</title>
+  <meta charset="UTF-8" />
+  <title>Book Bartender | B.E.S.T Bartenders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      min-height: 100vh;
+      color: #fff;
+      padding-top: 80px;
+    }
+
+    /* ======================
+       HEADER (MATCHES SITE)
+    ====================== */
+    header {
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      padding: 14px 0;
+      position: fixed;
+      height: 64px;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.4rem;
+    }
+
+    /* ======================
+       PAGE CONTAINER
+    ====================== */
+    .booking-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .booking-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    .booking-card h2 {
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 1.5rem;
+      font-size: 1.9rem;
+    }
+
+    /* ======================
+       FORM
+    ====================== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    input {
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #777;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #d4af37, #f0c957);
+      color: #1a1a1a;
+      box-shadow: 0 12px 30px rgba(212,175,55,0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 45px rgba(212,175,55,0.7);
+    }
+  </style>
 </head>
+
 <body>
 
-  <h2>Book This Bartender</h2>
+<header>
+  <nav>
+    <a href="/" class="logo-link">B.E.S.T Bartenders</a>
+  </nav>
+</header>
 
-  <form action="/book" method="POST">
+<div class="booking-wrapper">
+  <div class="booking-card">
 
-    <!-- ✅ This hidden input is REQUIRED by your server.js -->
-    <input type="hidden" id="bartenderIdInput" name="bartenderId">
-    <input type="hidden" id="customerEmailInput" name="customerEmail">
+    <h2>Book This Bartender</h2>
 
-    <input 
-      type="text" 
-      name="customerName" 
-      placeholder="Your Name" 
-      required
-    ><br><br>
+    <form action="/book" method="POST">
 
+      <!-- REQUIRED -->
+      <input type="hidden" id="bartenderIdInput" name="bartenderId">
+      <input type="hidden" id="customerEmailInput" name="customerEmail">
 
+      <input type="text" name="customerName" placeholder="Your Full Name" required>
+      <input type="text" name="customerPhone" placeholder="Phone Number" required>
+      <input type="text" name="eventType" placeholder="Event Type (Wedding, Party…)" required>
+      <input type="date" name="eventDate" required>
+      <input type="time" name="eventTime" required>
+      <input type="text" name="location" placeholder="Event Location" required>
 
-    <input 
-      type="text" 
-      name="customerPhone" 
-      placeholder="Your Phone" 
-      required
-    ><br><br>
+      <button type="submit">Send Booking Request</button>
+    </form>
 
-    <input 
-      type="text" 
-      name="eventType" 
-      placeholder="Event Type" 
-      required
-    ><br><br>
+  </div>
+</div>
 
-    <input 
-      type="date" 
-      name="eventDate" 
-      required
-    ><br><br>
-
-    <input 
-      type="time" 
-      name="eventTime" 
-      required
-    ><br><br>
-
-    <input 
-      type="text" 
-      name="location" 
-      placeholder="Event Location" 
-      required
-    ><br><br>
-
-    <button type="submit">Send Booking Request</button>
-
-  </form>
-
-  <!-- ✅✅✅ THIS SCRIPT IS THE FINAL FIX -->
-  <!-- It grabs the bartender ID from /book/:id and injects it into the form -->
- <script>
+<script>
   // ✅ Get bartender ID from URL
   const pathParts = window.location.pathname.split("/");
   const bartenderId = pathParts[pathParts.length - 1];
   document.getElementById("bartenderIdInput").value = bartenderId;
 
-  // ✅ Get customer email from login (localStorage)
+  // ✅ Get customer email from login
   const customerEmail = localStorage.getItem("customerEmail");
   document.getElementById("customerEmailInput").value = customerEmail;
 </script>
