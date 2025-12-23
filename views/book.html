@@ -8,9 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
       height: 100%;
       background: #1a1a1a;
       overscroll-behavior: none;
@@ -20,9 +24,7 @@
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       color: #fff;
-      padding-top: 60px;
-      transform: translateZ(0);
-      backface-visibility: hidden;
+      padding-top: 60px; /* 🔑 MUST MATCH */
     }
 
     body::before {
@@ -31,12 +33,11 @@
       inset: 0;
       background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       z-index: -1;
-      will-change: transform;
     }
 
     /* ======================
-       HEADER (SAME AS BARTENDERS PAGE)
-    ====================== */
+       ✅ EXACT HEADER (UNCHANGED)
+    ======================= */
     header {
       background: rgba(26, 26, 26, 0.95);
       backdrop-filter: blur(6px);
@@ -68,89 +69,112 @@
     .logo-link {
       display: flex;
       align-items: center;
-      gap: 4px;
-      color: #d4af37;
+      gap: 3.8px;
       text-decoration: none;
+      color: #d4af37;
+      transition: transform 0.25s ease;
     }
 
     .best-logo {
       width: 36px;
       height: 36px;
+      display: block;
       color: #d4af37;
     }
 
     .logo-link span {
-      font-size: 1.5rem;
+      font-size: 1.9rem;
       font-weight: 700;
+      line-height: 1;
       letter-spacing: -0.6px;
-      transform: translateY(7px);
+      transform: translateY(5px);
+    }
+
+    .logo-link:hover .best-logo {
+      filter: drop-shadow(0 0 6px rgba(212,175,55,0.45));
+    }
+
+    .logo-link:hover {
+      transform: translateY(-1px);
     }
 
     /* ======================
-       BOOKING CONTAINER
-    ====================== */
+       BOOKING CARD
+    ======================= */
     .booking-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 3rem 1rem 4rem;
+      padding: 3rem 1.5rem;
     }
 
     .booking-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 2.5rem;
       width: 100%;
-      max-width: 480px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      max-width: 460px;
+      padding: 2.8rem 2.6rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+      animation: fadeUp .7s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .booking-card h2 {
       text-align: center;
+      margin-bottom: 2rem;
       color: #d4af37;
-      margin-bottom: 1.5rem;
-      font-size: 1.9rem;
+      font-size: 2rem;
     }
 
-    /* ======================
-       FORM
-    ====================== */
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .input-group {
+      margin-bottom: 1.4rem;
     }
 
-    input {
+    .input-group input {
+      width: 100%;
       padding: 14px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: none;
-      font-size: 0.95rem;
       outline: none;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 16px;
     }
 
-    input::placeholder {
-      color: #777;
+    .input-group input:focus {
+      box-shadow: 0 0 0 2px rgba(212,175,55,0.85);
+      background: rgba(255,255,255,0.18);
     }
 
-    button {
-      margin-top: 1rem;
+    .book-btn {
+      width: 100%;
       padding: 14px;
-      border-radius: 14px;
       border: none;
-      font-weight: 700;
-      font-size: 1rem;
+      border-radius: 14px;
+      font-weight: bold;
+      font-size: 17px;
       cursor: pointer;
-      background: linear-gradient(135deg, #d4af37, #f0c957);
+      background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
       color: #1a1a1a;
-      box-shadow: 0 12px 30px rgba(212,175,55,0.5);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: .5rem;
+      box-shadow: 0 10px 25px rgba(212,175,55,.45);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    button:hover {
+    .book-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 18px 45px rgba(212,175,55,0.7);
+      box-shadow: 0 18px 40px rgba(212,175,55,.65);
     }
   </style>
 </head>
@@ -164,7 +188,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="best-logo">
           <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
           <circle cx="46" cy="10" r="4" fill="currentColor"/>
-          <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3"/>
+          <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
           <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
           <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
         </svg>
@@ -175,35 +199,44 @@
 </header>
 
 <div class="booking-wrapper">
-  <div class="booking-card">
-
+  <form class="booking-card" action="/book" method="POST">
     <h2>Book This Bartender</h2>
 
-    <form action="/book" method="POST">
-      <!-- REQUIRED -->
-      <input type="hidden" id="bartenderIdInput" name="bartenderId">
-      <input type="hidden" id="customerEmailInput" name="customerEmail">
+    <input type="hidden" id="bartenderIdInput" name="bartenderId">
+    <input type="hidden" id="customerEmailInput" name="customerEmail">
 
-      <input type="text" name="customerName" placeholder="Your Full Name" required>
-      <input type="text" name="customerPhone" placeholder="Phone Number" required>
-      <input type="text" name="eventType" placeholder="Event Type (Wedding, Party…)" required>
+    <div class="input-group">
+      <input type="text" name="customerName" placeholder="Your Name" required>
+    </div>
+
+    <div class="input-group">
+      <input type="text" name="customerPhone" placeholder="Your Phone" required>
+    </div>
+
+    <div class="input-group">
+      <input type="text" name="eventType" placeholder="Event Type" required>
+    </div>
+
+    <div class="input-group">
       <input type="date" name="eventDate" required>
+    </div>
+
+    <div class="input-group">
       <input type="time" name="eventTime" required>
+    </div>
+
+    <div class="input-group">
       <input type="text" name="location" placeholder="Event Location" required>
+    </div>
 
-      <button type="submit">Send Booking Request</button>
-    </form>
-
-  </div>
+    <button class="book-btn" type="submit">Send Booking Request</button>
+  </form>
 </div>
 
 <script>
   const pathParts = window.location.pathname.split("/");
-  const bartenderId = pathParts[pathParts.length - 1];
-  document.getElementById("bartenderIdInput").value = bartenderId;
-
-  const customerEmail = localStorage.getItem("customerEmail");
-  document.getElementById("customerEmailInput").value = customerEmail;
+  document.getElementById("bartenderIdInput").value = pathParts[pathParts.length - 1];
+  document.getElementById("customerEmailInput").value = localStorage.getItem("customerEmail");
 </script>
 
 </body>
