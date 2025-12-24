@@ -94,6 +94,10 @@ app.get("/registration-success", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "registration-success.html"));
 });
 
+app.get("/booking-success", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "booking-success.html"));
+});
+
 app.get("/customer-dashboard", (req, res) => {
   if (!req.session.customerId) {
     return res.redirect("/customer-login");
@@ -344,8 +348,9 @@ app.post("/book", async (req, res) => {
 
   await newBooking.save();
 
-  res.send("✅ Booking request sent successfully!");
-});
+  res.redirect("/booking-success");
+  });
+
 // -----------------------
 // Bartender Routing
 app.get("/my-bookings", async (req, res) => {
