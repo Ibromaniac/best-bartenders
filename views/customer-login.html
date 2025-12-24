@@ -1,371 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Customer Login - B.E.S.T Bartenders</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Customer Login - B.E.S.T Bartenders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-       body {
-    font-family: 'Inter', sans-serif;   /* ✅ MATCH HOME */
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    min-height: 100vh;
-    color: #fff;
-    padding-top: 60px;                 /* ✅ MATCH HOME */
-}
+    html, body {
+      height: 100%;
+      overflow: hidden; /* ✅ NO SCROLL */
+    }
 
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      color: #fff;
+    }
 
-        /* ======================
-            ✅ HEADER
-        ======================= */
-        header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            padding: 14px 0;
-            position: fixed;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
+    /* ======================
+       HEADER (LEFT LOGO – MATCH BARTENDER LOGIN)
+    ====================== */
+    header {
+      height: 64px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
 
-        nav {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding-left: 1rem;   /* 👈 same as home page */
-  padding-right: 2rem;
-}
+    nav {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;   /* 👈 SAME AS BARTENDER LOGIN */
+      padding-right: 2rem;
+    }
 
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: auto;  /* 👈 PUSHES LOGO LEFT */
+    }
 
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+      color: #d4af37;
+      transition: transform 0.25s ease;
+    }
 
-    
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+    .best-logo {
+      width: 36px;
+      height: 36px;
+      color: #d4af37;
+    }
 
-        nav ul a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-        }
+    .logo-link span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      transform: translateY(7px);
+      margin-left: 1px; /* 👈 move back (adjust -1px to -4px) */
+    }
 
-        nav ul a:hover {
-            color: #d4af37;
-        }
+    .logo-link:hover {
+      transform: translateY(-1px);
+    }
 
-        .nav-btn {
-            background: #d4af37;
-            color: #000 !important;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-/* ======================
-   HEADER (MATCH HOME)
-====================== */
-/* EXACT HOME PAGE LOGO */
-.logo {
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-}
+    /* ======================
+       LAYOUT
+    ====================== */
+    .login-wrapper {
+      display: flex;
+      height: calc(100vh - 64px);
+      margin-top: 64px;
+    }
 
-.logo-link {
-  display: flex;
-  align-items: center;
-  gap: 3.8px;
-  text-decoration: none;
-  color: #d4af37;
-  transition: transform 0.25s ease;
-}
+    .login-video {
+      flex: 1;
+      position: relative;
+    }
 
-.best-logo {
-  width: 36px;      /* ✅ HOME PAGE SIZE */
-  height: 36px;
-  display: block;
-  color: #d4af37;
-}
+    .login-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.85));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #d4af37;
+      padding: 3rem;
+    }
 
-.logo-link span {
-  font-size: 1.9rem;     /* ✅ HOME PAGE SIZE */
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.6px;
-  transform: translateY(5px); /* ✅ HOME PAGE ALIGNMENT */
-}
+    /* ======================
+       LOGIN SIDE (TOP ALIGNED)
+    ====================== */
+    .login-side {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 3.5rem;
+    }
 
-.logo-link:hover .best-logo {
-  filter: drop-shadow(0 0 6px rgba(212,175,55,0.45));
-}
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 2.8rem 2.6rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+    }
 
-.logo-link:hover {
-  transform: translateY(-1px);
-}
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 2.2rem;
+      color: #d4af37;
+      font-size: 2rem;
+    }
 
-.logo-link svg {
-  margin-right: -1px; /* ✅ MATCH HOME */
-}
+    /* ======================
+       INPUTS
+    ====================== */
+    .input-group {
+      position: relative;
+      margin-bottom: 1.6rem;
+    }
 
+    .input-group input {
+      width: 100%;
+      padding: 14px 14px 14px 46px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 16px;
+    }
 
-        /* ======================
-            ✅ SPLIT LAYOUT
-        ======================= */
-        .login-wrapper {
-            display: flex;
-            min-height: calc(100vh - 60px); /* MATCH HOME */
-        }
+    .input-group input:focus {
+      box-shadow: 0 0 0 2px rgba(212,175,55,.85);
+      background: rgba(255,255,255,0.18);
+    }
 
-        /* ✅ LEFT VIDEO SIDE */
-        .login-video {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
+    /* ======================
+       PASSWORD FIELD
+    ====================== */
+    .password-group {
+      position: relative;
+    }
 
-        .login-video video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    .password-group input {
+      padding-right: 56px;
+    }
 
-        .video-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                rgba(0,0,0,0.4),
-                rgba(0,0,0,0.8)
-            );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 3rem;
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #d4af37;
-        }
+    .lock-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #d4af37;
+      opacity: 0.85;
+    }
 
-        /* ✅ RIGHT LOGIN SIDE */
-        .login-side {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .toggle-password {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #d4af37;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
 
-.back-home {
-  margin-top: 1.4rem;
-  text-align: left;
-}
+    .toggle-password svg {
+      width: 20px;
+      height: 20px;
+    }
 
-.back-home a {
-  font-size: 13px;
-  color: rgba(255,255,255,0.55);
-  text-decoration: none;
-  display: inline-block;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
+    .toggle-password:hover {
+      color: #f0c957;
+    }
 
-.back-home a:hover {
-  color: #d4af37;
-  transform: translateX(-2px);
-}
-.back-home {
-  animation: fadeUp 0.7s ease 0.15s both;
-}
-.back-home a,
-.back-home a:visited,
-.back-home a:active,
-.back-home a:focus {
-  color: rgba(255,255,255,0.55);
-  outline: none;
-}
+    /* ======================
+       BUTTON
+    ====================== */
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #d4af37, #f0c957);
+      color: #1a1a1a;
+      box-shadow: 0 10px 25px rgba(212,175,55,.45);
+    }
 
-        /* ======================
-            ✅ LOGIN CARD (BIGGER)
-        ======================= */
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-            padding: 2.8rem 2.6rem;
-            border-radius: 22px;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(18px);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-            animation: fadeUp .7s ease;
-        }
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(212,175,55,.65);
+    }
 
-        @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    .extra-links {
+      margin-top: 1.6rem;
+      text-align: center;
+      font-size: 14px;
+    }
 
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 2.2rem;
-            color: #d4af37;
-            font-size: 2rem;
-        }
+    .extra-links a {
+      color: #d4af37;
+      text-decoration: none;
+    }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 1.6rem;
-        }
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
 
-        .input-group span {
-            position: absolute;
-            top: 50%;
-            left: 14px;
-            transform: translateY(-50%);
-            opacity: .7;
-        }
+    /* ======================
+       MOBILE
+    ====================== */
+    @media (max-width: 768px) {
+      .login-video {
+        display: none;
+      }
 
-        .input-group input {
-            width: 100%;
-            padding: 14px 14px 14px 46px;
-            border-radius: 12px;
-            border: none;
-            outline: none;
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-            font-size: 16px;
-            transition: box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        .input-group input:focus {
-            box-shadow: 0 0 0 2px rgba(212,175,55,0.85);
-  background: rgba(255,255,255,0.18);
-}
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            font-weight: bold;
-            font-size: 17px;
-            cursor: pointer;
-            background: linear-gradient(135deg, #d4af37 0%, #f0c957 100%);
-            color: #1a1a1a;
-            margin-top: .5rem;
-            box-shadow: 0 10px 25px rgba(212,175,55,.45);
-            transition: 0.25s;
-            transition: transform 0.18s ease, box-shadow 0.18s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .login-btn.loading {
-  pointer-events: none;
-  color: transparent;
-}
-
-.login-btn.loading::after {
-  content: "";
-  width: 22px;
-  height: 22px;
-  border: 3px solid rgba(0,0,0,0.25);
-  border-top-color: #1a1a1a;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-
-}
-
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 18px 40px rgba(212,175,55,.65);
-        }
-
-.login-btn:active {
-  transform: scale(0.97);
-  box-shadow: 0 6px 18px rgba(212,175,55,0.45);
-}
-
-        .extra-links {
-            margin-top: 1.6rem;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .extra-links a {
-            color: #d4af37;
-            text-decoration: none;
-        }
-
-        .extra-links a:hover {
-            text-decoration: underline;
-        }
-
-        /* ======================
-            ✅ MOBILE RESPONSIVE
-        ======================= */
-        @media (max-width: 900px) {
-            .login-wrapper {
-                flex-direction: column;
-            }
-
-            .login-video {
-                height: 300px;
-            }
-        }
-
-
-  .logo-link span {
-    font-size: 1.5rem;
-    transform: translateY(7px);
-  }
-
-        /* ======================
-   HIDE VIDEO SECTION ON MOBILE
-====================== */
-@media (max-width: 768px) {
-  .login-video {
-    display: none;
-  }
-
-  .login-wrapper {
-    min-height: auto;
-  }
-
-  .login-side {
-    width: 100%;
-    padding: 2rem 1.5rem;
-  }
-
-  .login-container {
-    max-width: 100%;
-  }
-}
-
-    </style>
+      .login-side {
+        padding-top: 2.5rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -374,7 +270,7 @@
   <nav>
     <div class="logo">
       <a href="/" class="logo-link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="36" height="36" class="best-logo">
+        <svg class="best-logo" viewBox="0 0 64 64">
           <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
           <circle cx="46" cy="10" r="4" fill="currentColor"/>
           <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
@@ -384,74 +280,87 @@
         <span>B.E.S.T</span>
       </a>
     </div>
-
   </nav>
 </header>
 
-
 <div class="login-wrapper">
 
-    <!-- ✅ LEFT VIDEO SIDE -->
-    <div class="login-video">
-        <!-- 🔽 CHANGE VIDEO FILE HERE -->
-        <video autoplay muted loop>
-            <source src="/videos/home-video.mp4" type="video/mp4">
-        </video>
+  <div class="login-video">
+    <video autoplay muted loop>
+      <source src="/videos/home-video.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay">
+      Hire Elite Bartenders.<br>Serve in Style.
+    </div>
+  </div>
 
-        <div class="video-overlay">
-            Hire Elite Bartenders.<br>Serve in Style.
+  <div class="login-side">
+    <section class="login-container">
+      <h2>Customer Login</h2>
+
+      <form>
+        <div class="input-group">
+          <span class="lock-icon">
+  <svg viewBox="0 0 24 24" width="18" height="18">
+    <path d="M3 5h18v14H3z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          rx="2"
+          ry="2"/>
+    <path d="M3 7l9 6 9-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"/>
+  </svg>
+</span>
+
+          <input type="email" placeholder="Email address" required>
         </div>
-    </div>
 
-    <!-- ✅ RIGHT LOGIN SIDE -->
-    <div class="login-side">
-        <section class="login-container">
-            <h2>Customer Login</h2>
+        <div class="input-group password-group">
+          <span class="lock-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M6 10V8a6 6 0 1 1 12 0v2" fill="none" stroke="currentColor" stroke-width="2"/>
+              <rect x="4" y="10" width="16" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </span>
 
-            <form id="customerLoginForm" action="/customer-login" method="POST">
+          <input type="password" id="password" placeholder="Password" required>
 
-                <div class="input-group">
-                    <span>📧</span>
-                    <input type="email" name="email" placeholder="Email address" required>
-                </div>
+          <button type="button" class="toggle-password" onclick="togglePassword()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/>
+              <circle cx="12" cy="12" r="3"/>
+              <line id="eyeSlash" x1="4" y1="20" x2="20" y2="4" opacity="0"/>
+            </svg>
+          </button>
+        </div>
 
-                <div class="input-group">
-                    <span>🔒</span>
-                    <input type="password" name="password" placeholder="Password" required>
-                </div>
+        <button class="login-btn" type="submit">Secure Login</button>
 
-                <button class="login-btn" type="submit">Secure Login</button>
-
-                <div class="extra-links">
-                    <p><a href="#">Forgot password?</a></p>
-                    <p>Don’t have an account? <a href="/customer-registration">Create one</a></p>
-                </div>
-
-            </form>
-
-            <div class="back-home">
-  <a href="/">← Back to Home</a>
-</div>
-
-        </section>
-    </div>
-
+        <div class="extra-links">
+          <p><a href="#">Forgot password?</a></p>
+          <p>Don’t have an account? <a href="/customer-registration">Create one</a></p>
+        </div>
+      </form>
+    </section>
+  </div>
 </div>
 
 <script>
-const loginForm = document.getElementById("customerLoginForm");
-const loginBtn = document.querySelector(".login-btn");
+function togglePassword() {
+  const input = document.getElementById("password");
+  const slash = document.getElementById("eyeSlash");
 
-loginForm.addEventListener("submit", () => {
-  // Save email (your existing logic)
-  const emailInput = document.querySelector("input[name='email']");
-  if (emailInput && emailInput.value) {
-    localStorage.setItem("customerEmail", emailInput.value);
+  if (input.type === "password") {
+    input.type = "text";
+    slash.setAttribute("opacity", "1");
+  } else {
+    input.type = "password";
+    slash.setAttribute("opacity", "0");
   }
-
-  // Activate loading spinner
-  loginBtn.classList.add("loading");
-});
+}
 </script>
 
 </body>

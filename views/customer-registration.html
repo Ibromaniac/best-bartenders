@@ -160,22 +160,30 @@
     }
 
     /* ===== PASSWORD TOGGLE ===== */
-    .toggle-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #d4af37;
-      opacity: 0.65;
-      padding: 4px;
-    }
+   .toggle-password {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d4af37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
 
-    .toggle-password:hover {
-      opacity: 1;
-    }
+.toggle-password svg {
+  width: 20px;
+  height: 20px;
+}
+
+.toggle-password:hover {
+  color: #f0c957;
+}
+
 
     /* ===== BUTTON ===== */
     .login-btn {
@@ -283,13 +291,13 @@
           <input type="password" name="password" id="password" placeholder="Create password" required>
 
           <button type="button" class="toggle-password" onclick="togglePassword()">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M1.5 12s4.5-7.5 10.5-7.5S22.5 12 22.5 12 18 19.5 12 19.5 1.5 12 1.5 12Z"
-                    fill="none" stroke="currentColor" stroke-width="2"/>
-              <circle cx="12" cy="12" r="3"
-                      fill="none" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </button>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/>
+    <circle cx="12" cy="12" r="3"/>
+    <line id="eyeSlash" x1="4" y1="20" x2="20" y2="4" opacity="0"/>
+  </svg>
+</button>
+
         </div>
 
         <button class="login-btn" type="submit">Create Account</button>
@@ -306,8 +314,17 @@
 <script>
 function togglePassword() {
   const input = document.getElementById("password");
-  input.type = input.type === "password" ? "text" : "password";
+  const slash = document.getElementById("eyeSlash");
+
+  if (input.type === "password") {
+    input.type = "text";
+    slash.setAttribute("opacity", "1");
+  } else {
+    input.type = "password";
+    slash.setAttribute("opacity", "0");
+  }
 }
+
 </script>
 
 </body>
