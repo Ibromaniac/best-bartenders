@@ -13,56 +13,60 @@
             font-family: 'Arial', sans-serif;
             background: #ffffff;
             min-height: 100vh;
-            padding-top: 80px;
+            padding-top: 64px;
         }
 
         /* ======================
            NAVIGATION HEADER
         ======================= */
         header {
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-            color: #fff;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
+    height: 64px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 2rem;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #d4af37;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
 
-        .logo img { height: 40px; }
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;
+    color: #d4af37;
+}
 
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+.best-logo {
+    width: 36px;
+    height: 36px;
+    color: #d4af37;
+}
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s;
-        }
+.logo-link span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    transform: translateY(7px);
+}
 
-        nav ul li a:hover { color: #d4af37; }
 
         /* ======================
            PARTICLE BACKGROUND
@@ -226,20 +230,25 @@
 <body>
 
 <header>
-    <nav>
-        <div class="logo">
-            <a href="/" class="logo" style="text-decoration:none; color:#f4c542;">
-            <img src="/images/bar.png" alt="logo">
-            B.E.S.T Bartenders
-        </a>
-        </div>
-
-        <ul id="navMenu">
-            <li><a href="/">Home</a></li>
-            <li><a href="/#contact">Contact</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg class="best-logo" viewBox="0 0 64 64">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
+    </div>
+  </nav>
 </header>
+
 
 <!-- Particles -->
 <div class="particles" id="particles"></div>
