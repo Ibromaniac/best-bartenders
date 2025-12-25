@@ -252,7 +252,7 @@
     <section class="login-container">
       <h2>Customer Registration</h2>
 
-      <form>
+      <form action="/customer-registration" method="POST">
 
         <!-- FIRST NAME -->
         <div class="input-group">
@@ -262,7 +262,7 @@
               <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
           </span>
-          <input type="text" placeholder="First name" required>
+          <input type="text" name="firstname" placeholder="First name" required>
         </div>
 
         <!-- LAST NAME -->
@@ -273,7 +273,7 @@
               <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
           </span>
-          <input type="text" placeholder="Last name" required>
+          <input type="text" name="lastname" placeholder="Last name" required>
         </div>
 
         <!-- ADDRESS -->
@@ -285,7 +285,7 @@
               <circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
           </span>
-          <input type="text" placeholder="Address" required>
+          <input type="text" name="address" placeholder="Address" required>
         </div>
 
         <!-- EMAIL -->
@@ -297,7 +297,7 @@
               <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
           </span>
-          <input type="email" placeholder="Email address" required>
+          <input type="email" name="email" placeholder="Email address" required>
         </div>
 
         <!-- PHONE -->
@@ -314,7 +314,7 @@
                     fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
           </span>
-          <input type="tel" placeholder="Phone number" required>
+          <input type="tel" name="phone" placeholder="Phone number" required>
         </div>
 
         <!-- PASSWORD -->
@@ -328,7 +328,8 @@
             </svg>
           </span>
 
-          <input type="password" id="password" placeholder="Create password" required>
+          <input type="password" name="password" id="password" placeholder="Create password" required>
+
 
           <button type="button" class="toggle-password" onclick="togglePassword()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
