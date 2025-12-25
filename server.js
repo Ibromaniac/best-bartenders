@@ -128,6 +128,15 @@ app.get("/bartender-registration-success", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "bartender-registration-success.html"));
 });
 
+app.get("/booking-details", (req, res) => {
+  if (!req.session.customerId) {
+    return res.redirect("/customer-login");
+  }
+
+  res.sendFile(path.join(__dirname, "views", "booking-details.html"));
+});
+
+
 // -----------------------
 // CUSTOMER REGISTRATION (FIXED)
 // -----------------------
