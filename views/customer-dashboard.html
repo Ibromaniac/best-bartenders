@@ -591,9 +591,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+ function loadBookings() {
   fetch(`/api/customer-bookings/${customerEmail}`)
     .then(res => res.json())
     .then(bookings => {
+      container.innerHTML = "";
+
       if (!bookings.length) {
         container.innerHTML = `<div class="empty-state">You have no bookings yet.</div>`;
         return;
@@ -602,15 +605,20 @@ document.addEventListener("DOMContentLoaded", function () {
       bookings.forEach(booking => {
         let statusClass =
           booking.status === "Accepted" ? "accepted" :
-          booking.status === "Rejected" ? "rejected" : "pending";
+          booking.status === "Rejected" ? "rejected" :
+          booking.status === "Cancelled" ? "rejected" :
+          "pending";
 
         const card = document.createElement("div");
-        card.className = "booking-card";
+        card.className = "booking-card tap-effect";
+card.onclick = () => {
+  window.location.href = `/booking-details?id=${booking._id}`;
+};
+
 
         card.innerHTML = `
           <h4>${booking.eventType}</h4>
           <p class="booking-detail">📅 ${booking.eventDate}</p>
-          <p class="booking-detail">⏰ ${booking.eventTime}</p>
           <p class="booking-detail">📍 ${booking.location}</p>
           <span class="status ${statusClass}">
             ${booking.status || "Pending"}
@@ -620,17 +628,14 @@ document.addEventListener("DOMContentLoaded", function () {
         container.appendChild(card);
       });
     });
+}
 
-});
-// ✅ REAL MOBILE TAP RIPPLE
-document.querySelectorAll(".tap-effect").forEach(el => {
-  el.addEventListener("click", function (e) {
-    this.classList.remove("touched");
-    void this.offsetWidth;
-    this.classList.add("touched");
-  });
-});
+// initial load
+loadBookings();
 
+// auto refresh every 15 seconds
+setInterval(loadBookings, 15000);
+});
 </script>
 <!-- ✅ MOBILE BOTTOM NAV -->
 <div class="bottom-nav">

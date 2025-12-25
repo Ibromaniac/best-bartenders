@@ -444,3 +444,25 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// GET ONE BOOKING (details page use)
+app.get("/api/booking/:id", async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    res.json(booking);
+  } catch (err) {
+    res.status(500).json({ error: "Booking not found" });
+  }
+});
+
+// CANCEL BOOKING (customer action)
+app.post("/api/cancel-booking/:id", async (req, res) => {
+  try {
+    await Booking.findByIdAndUpdate(req.params.id, {
+      status: "Cancelled"
+    });
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json({ error: "Cancel failed" });
+  }
+});
