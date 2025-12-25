@@ -125,6 +125,10 @@ nav {
     margin-top: 10px;
 }
 
+#bookings {
+  scroll-margin-top: 80px; /* header height + breathing room */
+}
+
 /* ======================
     ✅ PROFILE SUMMARY
 ====================== */
@@ -493,7 +497,7 @@ button, .card {
         </div>
     </div>
 
-    <div class="bookings-section">
+    <div class="bookings-section" id="bookings">
         <h2 class="section-title">My Bookings</h2>
         <div id="myBookings"></div>
     </div>
@@ -514,8 +518,9 @@ button, .card {
             <div class="card-icon">📅</div>
             <h3>Your Bookings</h3>
             <p>See your booking history and statuses</p>
-            <button onclick="window.scrollTo({ top: document.querySelector('.bookings-section').offsetTop, behavior: 'smooth' })">View Bookings</button>
-        </div>
+            <button onclick="document.getElementById('bookings').scrollIntoView({ behavior: 'smooth' })">
+  View Bookings
+</button>
 
         <div class="card tap-effect">
 
