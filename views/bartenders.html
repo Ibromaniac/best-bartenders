@@ -26,7 +26,7 @@ html, body {
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       color: #fff;
-      padding-top: 60px;
+      padding-top: 64px;
       transform: translateZ(0);
       backface-visibility: hidden;
     }
@@ -44,54 +44,58 @@ html, body {
     /* ======================
        HEADER
     ====================== */
-    header {
-      background: rgba(26, 26, 26, 0.95);
-      backdrop-filter: blur(6px);
-      padding: 14px 0;
-      position: fixed;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
+  header {
+  height: 64px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding-left: 1rem;
-      padding-right: 2rem;
-    }
+nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 2rem;
+}
 
-    .logo {
-      margin-right: auto;
-      display: flex;
-      align-items: center;
-    }
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
 
-    .logo-link {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      color: #d4af37;
-      text-decoration: none;
-    }
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: #d4af37;
+  transition: transform 0.25s ease;
+}
 
-    .best-logo {
-      width: 36px;
-      height: 36px;
-      color: #d4af37;
-    }
+.logo-link:hover {
+  transform: translateY(-1px);
+}
 
-    .logo-link span {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.6px;
-      transform: translateY(7px);
-    }
+.best-logo {
+  width: 36px;
+  height: 36px;
+  color: #d4af37;
+}
+
+.logo-link span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  transform: translateY(7px);
+}
 
     /* ======================
        PAGE HEADER
