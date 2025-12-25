@@ -548,8 +548,7 @@ button, .card {
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("myBookings");
 
-
-  // ✅ LOAD LOGGED-IN CUSTOMER NAME FROM SESSION
+  // 1️⃣ Ask server who is logged in
   fetch("/api/current-customer")
     .then(res => {
       if (!res.ok) throw new Error("Not logged in");
@@ -558,70 +557,68 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(user => {
       document.getElementById("customerName").textContent =
         "Hello, " + user.firstname + "!";
+
+      // 2️⃣ Load bookings using server email
+      loadBookings(user.email);
     })
     .catch(() => {
-      document.getElementById("customerName").textContent = "Hello!";
+      container.innerHTML =
+        `<div class="empty-state">Session expired. Please log in again.</div>`;
     });
 
-  // ✅ LOAD CUSTOMER BOOKINGS
+  function loadBookings(email) {
+    fetch(`/api/customer-bookings/${email}`)
+      .then(res => res.json())
+      .then(bookings => {
+        container.innerHTML = "";
 
- function loadBookings() {
-  fetch("/api/current-customer")
-    .then(res => {
-      if (!res.ok) throw new Error("Not logged in");
-      return res.json();
-    })
-    .then(user => {
-      return fetch(`/api/customer-bookings/${user.email}`);
-    })
-    .then(res => res.json())
-    .then(bookings => {
-      container.innerHTML = "";
+        if (!bookings.length) {
+          container.innerHTML =
+            `<div class="empty-state">You have no bookings yet.</div>`;
+          return;
+        }
 
-      if (!bookings.length) {
-        container.innerHTML = `<div class="empty-state">You have no bookings yet.</div>`;
-        return;
-      }
+        bookings.forEach(booking => {
+          const statusClass =
+            booking.status === "Accepted" ? "accepted" :
+            booking.status === "Rejected" || booking.status === "Cancelled"
+              ? "rejected"
+              : "pending";
 
-      bookings.forEach(booking => {
-        let statusClass =
-          booking.status === "Accepted" ? "accepted" :
-          booking.status === "Rejected" || booking.status === "Cancelled"
-            ? "rejected"
-            : "pending";
+          const card = document.createElement("div");
+          card.className = "booking-card tap-effect";
 
-        const card = document.createElement("div");
-        card.className = "booking-card tap-effect";
+          card.onclick = () => {
+            window.location.href = `/booking-details?id=${booking._id}`;
+          };
 
-        card.onclick = () => {
-          window.location.href = `/booking-details?id=${booking._id}`;
-        };
+          card.innerHTML = `
+            <h4>${booking.eventType}</h4>
+            <p class="booking-detail">📅 ${booking.eventDate}</p>
+            <p class="booking-detail">📍 ${booking.location}</p>
+            <span class="status ${statusClass}">
+              ${booking.status || "Pending"}
+            </span>
+          `;
 
-        card.innerHTML = `
-          <h4>${booking.eventType}</h4>
-          <p class="booking-detail">📅 ${booking.eventDate}</p>
-          <p class="booking-detail">📍 ${booking.location}</p>
-          <span class="status ${statusClass}">
-            ${booking.status || "Pending"}
-          </span>
-        `;
-
-        container.appendChild(card);
+          container.appendChild(card);
+        });
+      })
+      .catch(() => {
+        container.innerHTML =
+          `<div class="empty-state">Failed to load bookings.</div>`;
       });
-    })
-    .catch(() => {
-      container.innerHTML = `<div class="empty-state">Session expired. Please log in again.</div>`;
-    });
-}
+  }
 
-
-// initial load
-loadBookings();
-
-// auto refresh every 15 seconds
-setInterval(loadBookings, 15000);
+  // refresh every 15s
+  setInterval(() => {
+    fetch("/api/current-customer")
+      .then(res => res.json())
+      .then(user => loadBookings(user.email));
+  }, 15000);
 });
 </script>
+
 <!-- ✅ MOBILE BOTTOM NAV -->
 <div class="bottom-nav">
   <button onclick="location.href='/'">🏠</button>
