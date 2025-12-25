@@ -545,79 +545,61 @@ button, .card {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("myBookings");
+  const nameEl = document.getElementById("customerName");
 
-  // 1️⃣ Ask server who is logged in
-  fetch("/api/current-customer")
-    .then(res => {
-      if (!res.ok) throw new Error("Not logged in");
-      return res.json();
-    })
-    .then(user => {
-      document.getElementById("customerName").textContent =
-        "Hello, " + user.firstname + "!";
+  try {
+    // 1️⃣ Ask server who is logged in
+    const userRes = await fetch("/api/current-customer");
+    if (!userRes.ok) throw new Error("Not logged in");
+    const user = await userRes.json();
 
-      // 2️⃣ Load bookings using server email
-      loadBookings(user.email);
-    })
-    .catch(() => {
+    nameEl.textContent = "Hello, " + user.firstname + "!";
+
+    // 2️⃣ Ask server for THIS customer's bookings
+    const bookingsRes = await fetch(`/api/customer-bookings/${user.email}`);
+    const bookings = await bookingsRes.json();
+
+    container.innerHTML = "";
+
+    if (!bookings.length) {
       container.innerHTML =
-        `<div class="empty-state">Session expired. Please log in again.</div>`;
+        `<div class="empty-state">You have no bookings yet.</div>`;
+      return;
+    }
+
+    bookings.forEach(b => {
+      const statusClass =
+        b.status === "Accepted" ? "accepted" :
+        b.status === "Rejected" || b.status === "Cancelled"
+          ? "rejected"
+          : "pending";
+
+      const card = document.createElement("div");
+      card.className = "booking-card tap-effect";
+      card.onclick = () =>
+        window.location.href = `/booking-details?id=${b._id}`;
+
+      card.innerHTML = `
+        <h4>${b.eventType}</h4>
+        <p class="booking-detail">📅 ${b.eventDate}</p>
+        <p class="booking-detail">📍 ${b.location}</p>
+        <span class="status ${statusClass}">
+          ${b.status || "Pending"}
+        </span>
+      `;
+
+      container.appendChild(card);
     });
 
-  function loadBookings(email) {
-    fetch(`/api/customer-bookings/${email}`)
-      .then(res => res.json())
-      .then(bookings => {
-        container.innerHTML = "";
-
-        if (!bookings.length) {
-          container.innerHTML =
-            `<div class="empty-state">You have no bookings yet.</div>`;
-          return;
-        }
-
-        bookings.forEach(booking => {
-          const statusClass =
-            booking.status === "Accepted" ? "accepted" :
-            booking.status === "Rejected" || booking.status === "Cancelled"
-              ? "rejected"
-              : "pending";
-
-          const card = document.createElement("div");
-          card.className = "booking-card tap-effect";
-
-          card.onclick = () => {
-            window.location.href = `/booking-details?id=${booking._id}`;
-          };
-
-          card.innerHTML = `
-            <h4>${booking.eventType}</h4>
-            <p class="booking-detail">📅 ${booking.eventDate}</p>
-            <p class="booking-detail">📍 ${booking.location}</p>
-            <span class="status ${statusClass}">
-              ${booking.status || "Pending"}
-            </span>
-          `;
-
-          container.appendChild(card);
-        });
-      })
-      .catch(() => {
-        container.innerHTML =
-          `<div class="empty-state">Failed to load bookings.</div>`;
-      });
+  } catch (err) {
+    container.innerHTML =
+      `<div class="empty-state">Session expired. Please log in again.</div>`;
   }
-
-  // refresh every 15s
-  setInterval(() => {
-    fetch("/api/current-customer")
-      .then(res => res.json())
-      .then(user => loadBookings(user.email));
-  }, 15000);
 });
 </script>
+
 
 <!-- ✅ MOBILE BOTTOM NAV -->
 <div class="bottom-nav">
