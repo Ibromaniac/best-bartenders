@@ -567,6 +567,8 @@ button, .card {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  const container = document.getElementById("myBookings");
+
 
   // ✅ LOAD LOGGED-IN CUSTOMER NAME FROM SESSION
   fetch("/api/current-customer")
@@ -583,16 +585,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
   // ✅ LOAD CUSTOMER BOOKINGS
-  const customerEmail = localStorage.getItem("customerEmail");
-  const container = document.getElementById("myBookings");
-
-  if (!customerEmail) {
-    container.innerHTML = `<div class="empty-state">Please log in again to see your bookings.</div>`;
-    return;
-  }
 
  function loadBookings() {
-  fetch(`/api/customer-bookings/${customerEmail}`)
+  fetch("/api/current-customer")
+    .then(res => {
+      if (!res.ok) throw new Error("Not logged in");
+      return res.json();
+    })
+    .then(user => {
+      return fetch(`/api/customer-bookings/${user.email}`);
+    })
     .then(res => res.json())
     .then(bookings => {
       container.innerHTML = "";
@@ -605,16 +607,16 @@ document.addEventListener("DOMContentLoaded", function () {
       bookings.forEach(booking => {
         let statusClass =
           booking.status === "Accepted" ? "accepted" :
-          booking.status === "Rejected" ? "rejected" :
-          booking.status === "Cancelled" ? "rejected" :
-          "pending";
+          booking.status === "Rejected" || booking.status === "Cancelled"
+            ? "rejected"
+            : "pending";
 
         const card = document.createElement("div");
         card.className = "booking-card tap-effect";
-card.onclick = () => {
-  window.location.href = `/booking-details?id=${booking._id}`;
-};
 
+        card.onclick = () => {
+          window.location.href = `/booking-details?id=${booking._id}`;
+        };
 
         card.innerHTML = `
           <h4>${booking.eventType}</h4>
@@ -627,8 +629,12 @@ card.onclick = () => {
 
         container.appendChild(card);
       });
+    })
+    .catch(() => {
+      container.innerHTML = `<div class="empty-state">Session expired. Please log in again.</div>`;
     });
 }
+
 
 // initial load
 loadBookings();
