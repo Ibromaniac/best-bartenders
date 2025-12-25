@@ -4,20 +4,64 @@
     <meta charset="UTF-8">
     <title>Customer Dashboard - B.E.S.T Bartenders</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  min-height: 100vh;
-  color: #fff;
-  padding-top: 64px; /* MATCH LOGIN HEADER */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    min-height: 100vh;
+    color: #fff;
+    padding-top: 90px;
+}
+
+
 /* ======================
-   HEADER — EXACT MATCH TO CUSTOMER LOGIN
+    ✅ SAME PREMIUM HEADER AS LOGIN
+====================== */  
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: flex-start;
+        }
+
+        nav ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav ul a:hover {
+            color: #d4af37;
+        }
+
+        .nav-btn {
+            background: #ffffff;          /* ✅ white button */
+            color: #000 !important;
+            padding: 5px 12px; 
+            border-radius: 6px;
+            font-weight: bold;    
+        }
+         
+        nav ul li {
+  transform: translateY(4px);
+}
+        .nav-btn:hover {
+    background: #f2f2f2;
+}
+         
+/* ======================
+   HEADER (MATCH HOME)
+====================== */
+/* EXACT HOME PAGE LOGO */
+/* ======================
+   HEADER (MATCH CUSTOMER LOGIN EXACTLY)
 ====================== */
 header {
   height: 64px;
@@ -36,14 +80,14 @@ nav {
   width: 100%;
   display: flex;
   align-items: center;
-  padding-left: 1rem;
+  padding-left: 1rem;   /* 👈 SAME AS LOGIN */
   padding-right: 2rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin-right: auto;
+  margin-right: auto; /* 👈 PUSH LEFT */
 }
 
 .logo-link {
@@ -65,39 +109,13 @@ nav {
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.6px;
-  transform: translateY(7px);
+  transform: translateY(7px); /* 👈 SAME ALIGNMENT */
   margin-left: 1px;
 }
 
 .logo-link:hover {
   transform: translateY(-1px);
 }
-
-.nav-links {
-  list-style: none;
-}
-
-.nav-btn {
-  background: #ffffff;
-  color: #000;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.nav-btn:hover {
-  background: #f2f2f2;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-
 
 /* ======================
     ✅ DASHBOARD CONTAINER
@@ -301,10 +319,6 @@ nav {
   box-shadow: 0 10px 25px rgba(212,175,55,0.45);
 }
 
-#bookings {
-  scroll-margin-top: 130px; /* header height + breathing room */
-}
-
 @keyframes iconPop {
     0% { transform: scale(1); }
     50% { transform: scale(1.25); }
@@ -436,7 +450,6 @@ button, .card {
   transform: scale(0.96);
 }
 
-
 </style>
 </head>
 
@@ -498,7 +511,7 @@ button, .card {
         </div>
     </div>
 
-    <div class="bookings-section" id="bookings">
+    <div class="bookings-section">
         <h2 class="section-title">My Bookings</h2>
         <div id="myBookings"></div>
     </div>
@@ -519,9 +532,7 @@ button, .card {
             <div class="card-icon">📅</div>
             <h3>Your Bookings</h3>
             <p>See your booking history and statuses</p>
-            <button onclick="document.getElementById('bookings').scrollIntoView({ behavior: 'smooth' })">
-  View Bookings
-</button>
+            <button onclick="window.scrollTo({ top: document.querySelector('.bookings-section').offsetTop, behavior: 'smooth' })">View Bookings</button>
         </div>
 
         <div class="card tap-effect">
@@ -545,62 +556,83 @@ button, .card {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("myBookings");
-  const nameEl = document.getElementById("customerName");
 
-  try {
-    // 1️⃣ Ask server who is logged in
-    const userRes = await fetch("/api/current-customer");
-    if (!userRes.ok) throw new Error("Not logged in");
-    const user = await userRes.json();
 
-    nameEl.textContent = "Hello, " + user.firstname + "!";
-
-    // 2️⃣ Ask server for THIS customer's bookings
-    const bookingsRes = await fetch(`/api/customer-bookings/${user.email}`);
-    const bookings = await bookingsRes.json();
-
-    container.innerHTML = "";
-
-    if (!bookings.length) {
-      container.innerHTML =
-        `<div class="empty-state">You have no bookings yet.</div>`;
-      return;
-    }
-
-    bookings.forEach(b => {
-      const statusClass =
-        b.status === "Accepted" ? "accepted" :
-        b.status === "Rejected" || b.status === "Cancelled"
-          ? "rejected"
-          : "pending";
-
-      const card = document.createElement("div");
-      card.className = "booking-card tap-effect";
-      card.onclick = () =>
-        window.location.href = `/booking-details?id=${b._id}`;
-
-      card.innerHTML = `
-        <h4>${b.eventType}</h4>
-        <p class="booking-detail">📅 ${b.eventDate}</p>
-        <p class="booking-detail">📍 ${b.location}</p>
-        <span class="status ${statusClass}">
-          ${b.status || "Pending"}
-        </span>
-      `;
-
-      container.appendChild(card);
+  // ✅ LOAD LOGGED-IN CUSTOMER NAME FROM SESSION
+  fetch("/api/current-customer")
+    .then(res => {
+      if (!res.ok) throw new Error("Not logged in");
+      return res.json();
+    })
+    .then(user => {
+      document.getElementById("customerName").textContent =
+        "Hello, " + user.firstname + "!";
+    })
+    .catch(() => {
+      document.getElementById("customerName").textContent = "Hello!";
     });
 
-  } catch (err) {
-    container.innerHTML =
-      `<div class="empty-state">Session expired. Please log in again.</div>`;
-  }
+  // ✅ LOAD CUSTOMER BOOKINGS
+
+ function loadBookings() {
+  fetch("/api/current-customer")
+    .then(res => {
+      if (!res.ok) throw new Error("Not logged in");
+      return res.json();
+    })
+    .then(user => {
+      return fetch(`/api/customer-bookings/${user.email}`);
+    })
+    .then(res => res.json())
+    .then(bookings => {
+      container.innerHTML = "";
+
+      if (!bookings.length) {
+        container.innerHTML = `<div class="empty-state">You have no bookings yet.</div>`;
+        return;
+      }
+
+      bookings.forEach(booking => {
+        let statusClass =
+          booking.status === "Accepted" ? "accepted" :
+          booking.status === "Rejected" || booking.status === "Cancelled"
+            ? "rejected"
+            : "pending";
+
+        const card = document.createElement("div");
+        card.className = "booking-card tap-effect";
+
+        card.onclick = () => {
+          window.location.href = `/booking-details?id=${booking._id}`;
+        };
+
+        card.innerHTML = `
+          <h4>${booking.eventType}</h4>
+          <p class="booking-detail">📅 ${booking.eventDate}</p>
+          <p class="booking-detail">📍 ${booking.location}</p>
+          <span class="status ${statusClass}">
+            ${booking.status || "Pending"}
+          </span>
+        `;
+
+        container.appendChild(card);
+      });
+    })
+    .catch(() => {
+      container.innerHTML = `<div class="empty-state">Session expired. Please log in again.</div>`;
+    });
+}
+
+
+// initial load
+loadBookings();
+
+// auto refresh every 15 seconds
+setInterval(loadBookings, 15000);
 });
 </script>
-
-
 <!-- ✅ MOBILE BOTTOM NAV -->
 <div class="bottom-nav">
   <button onclick="location.href='/'">🏠</button>
