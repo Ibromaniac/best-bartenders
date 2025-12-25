@@ -235,29 +235,40 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", async () => {
   // 1️⃣ Get bartender ID from URL
   const pathParts = window.location.pathname.split("/");
   const bartenderId = pathParts[pathParts.length - 1];
-
   document.getElementById("bartenderIdInput").value = bartenderId;
 
-  // 2️⃣ Inject customer email
-  document.getElementById("customerEmailInput").value =
-    localStorage.getItem("customerEmail");
+  try {
+    // 2️⃣ Get logged-in customer from session
+    const res = await fetch("/api/current-customer");
+    if (!res.ok) throw new Error("Not logged in");
 
-  // 3️⃣ Fetch bartender info to show name
+    const user = await res.json();
+
+    // ✅ THIS IS THE FIX
+    document.getElementById("customerEmailInput").value = user.email;
+
+  } catch (err) {
+    alert("Session expired. Please log in again.");
+    window.location.href = "/customer-login";
+  }
+
+  // 3️⃣ Load bartender name
   fetch("/api/bartenders")
     .then(res => res.json())
     .then(bartenders => {
       const bartender = bartenders.find(b => b._id === bartenderId);
-
       if (bartender) {
         document.getElementById("bookingTitle").innerText =
           `Book ${bartender.firstname} ${bartender.lastname}`;
       }
-    })
-    .catch(err => console.error("Failed to load bartender name", err));
+    });
+});
 </script>
+
 
 </body>
 </html>
