@@ -550,14 +550,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const nameEl = document.getElementById("customerName");
 
   try {
-    // 1️⃣ Ask server who is logged in
     const userRes = await fetch("/api/current-customer");
     if (!userRes.ok) throw new Error("Not logged in");
     const user = await userRes.json();
 
     nameEl.textContent = "Hello, " + user.firstname + "!";
 
-    // 2️⃣ Ask server for THIS customer's bookings
     const bookingsRes = await fetch(`/api/customer-bookings/${user.email}`);
     const bookings = await bookingsRes.json();
 
@@ -577,7 +575,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           : "pending";
 
       const card = document.createElement("div");
-      card.className = "booking-card tap-effect";
+      card.className = "booking-card";
       card.onclick = () =>
         window.location.href = `/booking-details?id=${b._id}`;
 
@@ -593,12 +591,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       container.appendChild(card);
     });
 
-  } catch (err) {
+  } catch {
     container.innerHTML =
-      `<div class="empty-state">Session expired. Please log in again.</div>`;
+      `<div class="empty-state">Please log in again.</div>`;
   }
 });
 </script>
+
 
 
 <!-- ✅ MOBILE BOTTOM NAV -->
