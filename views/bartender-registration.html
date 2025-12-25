@@ -1,253 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bartender Registration</title>
-    <link rel="icon" type="image/x-icon" href="barimage.ico">
+  <meta charset="UTF-8">
+  <title>Bartender Registration - B.E.S.T Bartenders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #fafafa;
-            color: #000;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        /* NAVBAR */
-        .navbar {
-            width: 100%;
-            background: #000;
-            color: #f4c542;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 35px;
-            box-sizing: border-box;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 22px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #f4c542;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f7f7;
+      color: #000;
+      padding-top: 60px;
+    }
 
-        .logo img {
-            width: 28px;
-            margin-right: 10px;
-        }
+    /* ======================
+       HEADER (MATCH LOGIN)
+    ====================== */
+    header {
+      background: #000;
+      padding: 14px 0;
+      position: fixed;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
 
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 15px;
-            font-weight: bold;
-        }
+    nav {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding-left: 1rem;
+      padding-right: 2rem;
+    }
 
-        .nav-links a:hover {
-            color: #f4c542;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: auto;
+    }
 
-        /* PAGE WRAPPER */
-       .page-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 45px;     /* ⬆️ moves form UP */
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 40px;
-}
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: #f4c542;
+    }
 
+    .best-logo {
+      width: 36px;
+      height: 36px;
+      color: #f4c542;
+    }
 
-        /* SIDE IMAGE DECORATION */
-        .side-decor {
-            width: 180px;
-            opacity: 0.12;
-            margin-top: 40px;
-        }
+    .logo-link span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      transform: translateY(7px);
+      margin-left: -1px;
+    }
 
-        .left-decor { margin-right: 20px; }
-        .right-decor { margin-left: 20px; }
+    /* ======================
+       LAYOUT
+    ====================== */
+    .login-wrapper {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
 
-        /* FORM CONTAINER */
-        .registration-container {
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 460px;
-            border: 1px solid rgba(212,175,55,0.4);
-            box-shadow: 0 0 18px rgba(212,175,55,0.25);
-        }
+    .login-video {
+      flex: 1;
+      position: relative;
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 26px;
-            font-weight: bold;
-            color: #000;
-        }
+    .login-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        label {
-            font-weight: bold;
-            font-size: 14px;
-            color: #444;
-        }
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #f4c542;
+      padding: 3rem;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0 20px 0;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            font-size: 15px;
-            background: #fff;
-        }
+    .login-side {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #000;
-            color: #f4c542;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+    /* ======================
+       CARD
+    ====================== */
+    .login-container {
+      width: 100%;
+      max-width: 460px;
+      padding: 2.8rem 2.6rem;
+      border-radius: 22px;
+      background: #ffffff;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    }
 
-        button:hover {
-            background: #f4c542;
-            color: #000;
-        }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
 
-        p {
-            text-align: center;
-            margin-top: 15px;
-        }
+    /* ======================
+       FORM
+    ====================== */
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
 
-        a {
-            color: #005eff;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
 
-        @media(max-width: 820px){
-            .side-decor { display: none; }
-        }
-    </style>
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #f4c542;
+      box-shadow: 0 0 0 2px rgba(244,197,66,.4);
+      outline: none;
+    }
+
+    /* PASSWORD */
+    .password-group {
+      position: relative;
+    }
+
+    .password-group input {
+      padding-right: 48px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 38px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #f4c542;
+      opacity: .6;
+      width: 20px;
+      height: 20px;
+    }
+
+    .toggle-password:hover {
+      opacity: 1;
+    }
+
+    /* BUTTON */
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #000;
+      color: #fff;
+      margin-top: 1rem;
+      box-shadow: 0 10px 25px rgba(244,197,66,.45);
+    }
+
+    .login-btn:hover {
+      background: #f4c542;
+      color: #000;
+    }
+
+    .extra-links {
+      margin-top: 1.6rem;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .extra-links a {
+      color: #f4c542;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .login-video { display: none; }
+      .login-side { padding: 2rem 1.5rem; }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <a href="/" class="logo">
-            <img src="/images/bar.png" alt="logo">
-            B.E.S.T Bartenders
-        </a>
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg viewBox="0 0 64 64" class="best-logo">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0" stroke="currentColor" stroke-width="3"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
+    </div>
+  </nav>
+</header>
 
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/#contact">Contact</a>
+<div class="login-wrapper">
+
+  <div class="login-video">
+    <video autoplay muted loop>
+      <source src="/videos/home-video.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay">
+      Join the Elite.<br>Become a Bartender.
+    </div>
+  </div>
+
+  <div class="login-side">
+    <section class="login-container">
+      <h2>Bartender Registration</h2>
+
+      <form action="/bartender-registration" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" name="firstname" required>
         </div>
-    </div>
 
-    <!-- MAIN CONTENT WRAPPER -->
-    <div class="page-wrapper">
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" name="lastname" required>
+        </div>
 
-        <!-- LEFT DECOR IMAGE -->
-        <img src="/images/cocktail-left.png" class="side-decor left-decor">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" required>
+        </div>
 
-        <!-- REGISTRATION FORM -->
-        <section class="registration-container">
-            <h2>Bartender Registration</h2>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" name="phone" required>
+        </div>
 
-            <!-- IMPORTANT: enctype="multipart/form-data" -->
-            <form action="/bartender-registration" method="POST" enctype="multipart/form-data">
+        <div class="form-group password-group">
+          <label>Password</label>
+          <input type="password" id="password" name="password" required>
+         <button
+  type="button"
+  class="toggle-password"
+  onclick="togglePassword()"
+  aria-label="Toggle password visibility"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/>
+    <circle cx="12" cy="12" r="3"/>
+    <line id="eyeSlash" x1="4" y1="20" x2="20" y2="4" opacity="0"/>
+  </svg>
+</button>
+ 
+        </div>
 
-                <label>First Name</label>
-                <input type="text" name="firstname" required>
+        <div class="form-group">
+          <label>Years of Experience</label>
+          <input type="number" name="experience" required>
+        </div>
 
-                <label>Last Name</label>
-                <input type="text" name="lastname" required>
+        <div class="form-group">
+          <label>Skills</label>
+          <input type="text" name="skills" required>
+        </div>
 
-                <label>Email</label>
-                <input type="email" name="email" required>
+        <div class="form-group">
+          <label>Hourly Rate ($)</label>
+          <input type="number" name="rate" required>
+        </div>
 
-                <label>Phone Number</label>
-                <input type="tel" name="phone" required>
+        <div class="form-group">
+          <label>Upload Profile Photo</label>
+          <input type="file" name="profile_photo" required>
+        </div>
 
-                <label>Password</label>
-                <input type="password" name="password" required>
+        <div class="form-group">
+          <label>Upload Bartending License</label>
+          <input type="file" name="bartending_license" required>
+        </div>
 
-                <label>Years of Experience</label>
-                <input type="number" name="experience" required>
+        <div class="form-group">
+          <label>Upload Government ID</label>
+          <input type="file" name="government_id" required>
+        </div>
 
-                <label>Skills</label>
-                <input type="text" name="skills" required>
+        <button class="login-btn" type="submit">Register</button>
 
-                <label>Hourly Rate ($)</label>
-                <input type="number" name="rate" required>
+        <div class="extra-links">
+          <p>Already registered? <a href="/bartenders-login">Login</a></p>
+        </div>
 
-                <label>Street Address</label>
-                <input type="text" name="street" required>
+      </form>
+    </section>
+  </div>
+</div>
 
-                <label>Apartment / Unit (Optional)</label>
-                <input type="text" name="apt">
+<script>
+function togglePassword() {
+  const input = document.getElementById("password");
+  const slash = document.getElementById("eyeSlash");
 
-                <label>City</label>
-                <input type="text" name="city" required>
+  if (input.type === "password") {
+    input.type = "text";
+    if (slash) slash.style.opacity = "1";
+  } else {
+    input.type = "password";
+    if (slash) slash.style.opacity = "0";
+  }
+}
 
-                <label>State</label>
-                <select name="state" required>
-                    <option value="">Select state</option>
-                    <option value="CA">California</option>
-                    <option value="NY">New York</option>
-                    <option value="TX">Texas</option>
-                    <option value="FL">Florida</option>
-                    <option value="NV">Nevada</option>
-                    <option value="WA">Washington</option>
-                    <option value="AZ">Arizona</option>
-                    <option value="NJ">New Jersey</option>
-                    <option value="IL">Illinois</option>
-                    <option value="GA">Georgia</option>
-                </select>
-
-                <label>ZIP Code</label>
-                <input type="text" name="zip" required>
-
-                <!-- NEW FIELDS -->
-                <label>Bartending License Number</label>
-                <input type="text" name="licenseNumber" required>
-
-                <label>Upload Profile Photo</label>
-                <input type="file" name="profile_photo" accept="image/*" required>
-
-                <label>Upload Bartending License</label>
-                <input type="file" name="bartending_license" accept=".jpg,.png,.pdf" required>
-
-                <label>Upload Government ID</label>
-                <input type="file" name="government_id" accept=".jpg,.png,.pdf" required>
-
-                <button type="submit">Register</button>
-            </form>
-
-            <p>
-                Already have an account?<br>
-                <a href="/bartenders-login">Login here</a>
-            </p>
-        </section>
-
-        <!-- RIGHT DECOR -->
-        <img src="/images/cocktail-right.png" class="side-decor right-decor">
-
-    </div>
+</script>
 
 </body>
 </html>
+
