@@ -43,14 +43,14 @@ nav {
   width: 100%;
   display: flex;
   align-items: center;
-  padding-left: 1rem;   /* 👈 SAME AS LOGIN */
+  padding-left: 1rem;
   padding-right: 2rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin-right: auto; /* 👈 PUSH LEFT */
+  margin-right: auto;
 }
 
 .logo-link {
@@ -72,8 +72,9 @@ nav {
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.6px;
-  transform: translateY(7px); /* 👈 SAME ALIGNMENT */
-  margin-left: 1px;
+  margin-left: 4px;   /* move BEST right */
+  position: relative;
+  top: 7px;           /* vertical alignment WITHOUT transform */
 }
 
 .logo-link:hover {
