@@ -293,33 +293,40 @@ if (files.profile_photo && files.profile_photo[0]) {
   }
 );
 
+// -----------------------
 // BARTENDER LOGIN
+// -----------------------
 app.post("/bartenders-login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const bartender = await Bartender.findOne({ email });
-    if (!bartender) return res.send("No account found");
 
-    const isMatch = await bcrypt.compare(password, bartender.password);
-    if (!isMatch) return res.send("Incorrect password");
-
-    if (!bartender.approved) {
-      return res.send("Account under review");
+    if (!bartender) {
+      return res.json({ message: "No account found." });
     }
 
-    // ✅ SET SESSION
-    req.session.bartenderId = bartender._id;
+    if (bartender.password !== password) {
+      return res.json({ message: "Incorrect password." });
+    }
 
-    // ✅ SERVER REDIRECT
-    res.redirect("/bartender-dashboard");
+    if (!bartender.approved) {
+      return res.json({
+        message: "Your account is still under review. Come back later."
+      });
+    }
+
+    // ✅ SUCCESS RESPONSE
+    return res.json({
+      message: "Login successful",
+      bartenderId: bartender._id
+    });
 
   } catch (err) {
     console.log(err);
-    res.status(500).send("Login failed");
+    return res.json({ message: "Server error during login" });
   }
 });
-
 app.get("/book/:id", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "book.html"));
 });
@@ -437,19 +444,6 @@ app.get("/api/current-customer", async (req, res) => {
     console.log("❌ Current customer error:", err);
     res.status(500).json({ message: "Failed to load customer" });
   }
-});
-
-// =======================
-// BARTENDER DASHBOARD PAGE
-// =======================
-app.get("/bartender-dashboard", (req, res) => {
-  if (!req.session.bartenderId) {
-    return res.redirect("/bartenders-login");
-  }
-
-  res.sendFile(
-    path.join(__dirname, "views", "bartender-dashboard.html")
-  );
 });
 
 
