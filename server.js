@@ -306,9 +306,12 @@ app.post("/bartenders-login", async (req, res) => {
       return res.json({ message: "No account found." });
     }
 
-    if (bartender.password !== password) {
-      return res.json({ message: "Incorrect password." });
-    }
+    const isMatch = await bcrypt.compare(password, bartender.password);
+
+if (!isMatch) {
+  return res.json({ message: "Incorrect password." });
+}
+
 
     if (!bartender.approved) {
       return res.json({
