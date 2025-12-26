@@ -364,7 +364,7 @@
     <section class="login-container">
       <h2>Bartender Login</h2>
 
-      <form id="loginForm">
+      <form action="/bartenders-login" method="POST">
         <div class="input-group">
   <span class="input-icon">
     <!-- EMAIL SVG -->
@@ -435,8 +435,6 @@
 </div>
 
 <script>
-const form = document.getElementById("loginForm");
-const btn = document.querySelector(".login-btn");
 function togglePassword() {
   const input = document.getElementById("password");
 
@@ -446,36 +444,8 @@ function togglePassword() {
     input.type = "password";
   }
 }
-
-form.addEventListener("submit", async function(e) {
-  e.preventDefault();
-  btn.classList.add("loading");
-
-  const email = form.email.value;
-  const password = form.password.value;
-
-  try {
-    const res = await fetch("/bartenders-login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-
-    if (data.bartenderId) {
-      localStorage.setItem("bartenderId", data.bartenderId);
-      window.location.href = "/bartender-bookings?bartenderId=" + data.bartenderId;
-    } else {
-      alert(data.message || "Login failed");
-      btn.classList.remove("loading");
-    }
-  } catch {
-    alert("Server error");
-    btn.classList.remove("loading");
-  }
-});
 </script>
+
 
 </body>
 </html>
