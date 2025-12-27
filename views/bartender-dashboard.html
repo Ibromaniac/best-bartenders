@@ -171,41 +171,62 @@
         <button class="logout" onclick="logout()">Log Out</button>
     </div>
 
-    <!-- FIREBASE AUTH -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // 1️⃣ Get logged-in bartender from session
+    const bartenderRes = await fetch("/api/current-bartender");
 
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_DOMAIN.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_BUCKET.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+    if (!bartenderRes.ok) {
+      document.getElementById("bartenderBookings").innerHTML =
+        "<p>Please log in again.</p>";
+      return;
+    }
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+    const bartender = await bartenderRes.json();
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById("welcomeText").innerText = Welcome, ${user.email};
-            } else {
-                window.location.href = "login.html";
-            }
-        });
+    // 2️⃣ Fetch bookings for THIS bartender
+    const bookingsRes = await fetch(
+      `/api/bartender-bookings/${bartender._id}`
+    );
 
-        window.logout = function () {
-            signOut(auth).then(() => {
-                window.location.href = "login.html";
-            });
-        }
+    const bookings = await bookingsRes.json();
+    const container = document.getElementById("bartenderBookings");
+    container.innerHTML = "";
 
-        window.goTo = function(page) {
-            window.location.href = page;
-        }
-    </script>
+    if (!bookings.length) {
+      container.innerHTML = "<p>No bookings yet.</p>";
+      return;
+    }
+
+    // 3️⃣ Render bookings
+    bookings.forEach(b => {
+      const div = document.createElement("div");
+      div.style.background = "#fff";
+      div.style.padding = "15px";
+      div.style.marginBottom = "10px";
+      div.style.borderRadius = "10px";
+      div.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
+
+      div.innerHTML = `
+        <strong>${b.eventType}</strong><br>
+        📅 ${b.eventDate}<br>
+        ⏰ ${b.eventTime}<br>
+        📍 ${b.location}<br>
+        Status: ${b.status || "Pending"}
+      `;
+
+      container.appendChild(div);
+    });
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("bartenderBookings").innerHTML =
+      "<p>Error loading bookings.</p>";
+  }
+});
+</script>
+
 
 </body>
 </html>
