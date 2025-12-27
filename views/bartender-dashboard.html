@@ -171,15 +171,22 @@
         <button class="logout" onclick="logout()">Log Out</button>
     </div>
 
-    <script>
+    <!-- BOOKINGS LIST -->
+<h2 style="margin-top:40px;color:#000;">Incoming Bookings</h2>
+
+<div id="bartenderBookings"></div>
+
+
+   <script>
 document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("bartenderBookings");
+
   try {
-    // 1️⃣ Get logged-in bartender from session
+    // 1️⃣ Get logged-in bartender
     const bartenderRes = await fetch("/api/current-bartender");
 
     if (!bartenderRes.ok) {
-      document.getElementById("bartenderBookings").innerHTML =
-        "<p>Please log in again.</p>";
+      container.innerHTML = "<p>Please log in again.</p>";
       return;
     }
 
@@ -191,7 +198,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     const bookings = await bookingsRes.json();
-    const container = document.getElementById("bartenderBookings");
     container.innerHTML = "";
 
     if (!bookings.length) {
@@ -199,21 +205,41 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // 3️⃣ Render bookings
+    // 3️⃣ Render bookings WITH ACTION BUTTONS
     bookings.forEach(b => {
       const div = document.createElement("div");
+
       div.style.background = "#fff";
-      div.style.padding = "15px";
-      div.style.marginBottom = "10px";
-      div.style.borderRadius = "10px";
-      div.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
+      div.style.padding = "18px";
+      div.style.marginBottom = "15px";
+      div.style.borderRadius = "12px";
+      div.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
 
       div.innerHTML = `
         <strong>${b.eventType}</strong><br>
         📅 ${b.eventDate}<br>
         ⏰ ${b.eventTime}<br>
         📍 ${b.location}<br>
-        Status: ${b.status || "Pending"}
+        <b>Status:</b> ${b.status || "Pending"}
+        <br><br>
+
+        ${
+          b.status === "Accepted"
+            ? "<span style='color:green;font-weight:bold;'>Accepted</span>"
+            : b.status === "Rejected"
+            ? "<span style='color:red;font-weight:bold;'>Rejected</span>"
+            : `
+              <button onclick="acceptBooking('${b._id}')"
+                style="padding:8px 14px;background:#28a745;color:#fff;border:none;border-radius:6px;margin-right:8px;cursor:pointer;">
+                Accept
+              </button>
+
+              <button onclick="rejectBooking('${b._id}')"
+                style="padding:8px 14px;background:#dc3545;color:#fff;border:none;border-radius:6px;cursor:pointer;">
+                Reject
+              </button>
+            `
+        }
       `;
 
       container.appendChild(div);
@@ -221,10 +247,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   } catch (err) {
     console.error(err);
-    document.getElementById("bartenderBookings").innerHTML =
-      "<p>Error loading bookings.</p>";
+    container.innerHTML = "<p>Error loading bookings.</p>";
   }
 });
+
+// 🔴 ACCEPT BOOKING
+function acceptBooking(id) {
+  window.location.href = `/accept/${id}`;
+}
+
+// 🔴 REJECT BOOKING
+function rejectBooking(id) {
+  window.location.href = `/reject/${id}`;
+}
+
+// LOGOUT
+function logout() {
+  window.location.href = "/logout";
+}
 </script>
 
 
