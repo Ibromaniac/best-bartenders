@@ -440,6 +440,29 @@ app.get("/api/current-customer", async (req, res) => {
 });
 
 // =======================
+// ✅ CURRENT LOGGED-IN BARTENDER
+// =======================
+app.get("/api/current-bartender", async (req, res) => {
+  try {
+    if (!req.session.bartenderId) {
+      return res.status(401).json({ message: "Not logged in" });
+    }
+
+    const bartender = await Bartender.findById(req.session.bartenderId);
+
+    res.json({
+      _id: bartender._id,
+      firstname: bartender.firstname,
+      lastname: bartender.lastname,
+      email: bartender.email
+    });
+  } catch (err) {
+    console.log("❌ Current bartender error:", err);
+    res.status(500).json({ message: "Failed to load bartender" });
+  }
+});
+
+// =======================
 // BARTENDER DASHBOARD PAGE
 // =======================
 app.get("/bartender-dashboard", (req, res) => {
