@@ -118,6 +118,131 @@
         button.logout:hover {
             opacity: 0.8;
         }
+
+ /* ==============================
+   PREMIUM DASHBOARD UPGRADE
+============================== */
+
+.section-title {
+  margin-top: 10px;
+  margin-bottom: 14px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.dashboard-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
+}
+
+.left-panel, .right-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.bookings {
+  display: grid;
+  gap: 14px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat-card {
+  border-radius: 14px;
+  padding: 14px;
+  background: #0b0b0b;
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.75;
+  letter-spacing: 0.2px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #f4c542;
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    padding: 0 18px 30px;
+  }
+}
+
+/* ==============================
+   PREMIUM ANIMATIONS
+============================== */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.booking-card {
+  animation: fadeUp 0.45s ease both;
+}
+
+/* GOLD HOVER EFFECT */
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(244,197,66,0.35);
+}
+
+/* BUTTON MICRO INTERACTION */
+.action-btn {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* ==============================
+   LOADING SKELETON
+============================== */
+
+.skeleton {
+  height: 96px;
+  border-radius: 14px;
+  background: linear-gradient(
+    90deg,
+    #eee 25%,
+    #f5f5f5 37%,
+    #eee 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
     </style>
 </head>
 
@@ -172,13 +297,51 @@
     </div>
 
     <!-- BOOKINGS LIST -->
-<h2 style="margin-top:40px;color:#000;">Incoming Bookings</h2>
 
-<div id="bartenderBookings"></div>
+    <!-- PREMIUM DASHBOARD GRID -->
+<div class="dashboard-grid">
 
+  <!-- LEFT: BOOKINGS -->
+  <div class="left-panel">
+    <h2 class="section-title">Incoming Bookings</h2>
+    <div id="bartenderBookings" class="bookings">
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+</div>
+
+  </div>
+
+  <!-- RIGHT: STATS + ACTIONS -->
+  <div class="right-panel">
+    <h2 class="section-title">Quick Stats</h2>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Jobs</div>
+        <div class="stat-value" id="totalJobs">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Accepted</div>
+        <div class="stat-value" id="acceptedJobs">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Pending</div>
+        <div class="stat-value" id="pendingJobs">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Rejected</div>
+        <div class="stat-value" id="rejectedJobs">0</div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
    <script>
-document.addEventListener("DOMContentLoaded", async () => {
+async function loadBookings() {
   const container = document.getElementById("bartenderBookings");
 
   try {
@@ -197,8 +360,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       `/api/bartender-bookings/${bartender._id}`
     );
 
-    const bookings = await bookingsRes.json();
+    if (!bookingsRes.ok) {
+  container.innerHTML = "<p>Failed to load bookings.</p>";
+  return;
+}
+
+const bookings = await bookingsRes.json();
+
+
+    await new Promise(r => setTimeout(r, 300));
+
     container.innerHTML = "";
+
+    // 🔢 UPDATE STATS (CORRECT LOCATION)
+document.getElementById("totalJobs").innerText = bookings.length;
+document.getElementById("acceptedJobs").innerText =
+  bookings.filter(b => b.status === "Accepted").length;
+document.getElementById("rejectedJobs").innerText =
+  bookings.filter(b => b.status === "Rejected").length;
+document.getElementById("pendingJobs").innerText =
+  bookings.filter(b => !b.status || b.status === "Pending").length;
 
     if (!bookings.length) {
       container.innerHTML = "<p>No bookings yet.</p>";
@@ -208,39 +389,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 3️⃣ Render bookings WITH ACTION BUTTONS
     bookings.forEach(b => {
       const div = document.createElement("div");
+div.className = "booking-card";
 
-      div.style.background = "#fff";
-      div.style.padding = "18px";
-      div.style.marginBottom = "15px";
-      div.style.borderRadius = "12px";
-      div.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
+div.innerHTML = `
+  <strong>${b.eventType}</strong><br>
+  📅 ${b.eventDate}<br>
+  ⏰ ${b.eventTime}<br>
+  📍 ${b.location}<br><br>
 
-      div.innerHTML = `
-        <strong>${b.eventType}</strong><br>
-        📅 ${b.eventDate}<br>
-        ⏰ ${b.eventTime}<br>
-        📍 ${b.location}<br>
-        <b>Status:</b> ${b.status || "Pending"}
-        <br><br>
+  <span style="
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    background:${
+      b.status === 'Accepted'
+        ? '#28a745'
+        : b.status === 'Rejected'
+        ? '#dc3545'
+        : '#f4c542'
+    };
+    color:#000;
+  ">
+    ${b.status || "Pending"}
+  </span>
 
-        ${
-          b.status === "Accepted"
-            ? "<span style='color:green;font-weight:bold;'>Accepted</span>"
-            : b.status === "Rejected"
-            ? "<span style='color:red;font-weight:bold;'>Rejected</span>"
-            : `
-              <button onclick="acceptBooking('${b._id}')"
-                style="padding:8px 14px;background:#28a745;color:#fff;border:none;border-radius:6px;margin-right:8px;cursor:pointer;">
-                Accept
-              </button>
+  <br><br>
 
-              <button onclick="rejectBooking('${b._id}')"
-                style="padding:8px 14px;background:#dc3545;color:#fff;border:none;border-radius:6px;cursor:pointer;">
-                Reject
-              </button>
-            `
-        }
-      `;
+  ${
+    b.status
+      ? ""
+      : `
+        <button class="action-btn"
+          onclick="acceptBooking('${b._id}')"
+          style="background:#28a745;color:#fff;border:none;border-radius:8px;padding:8px 14px;margin-right:6px;">
+          Accept
+        </button>
+
+        <button class="action-btn"
+          onclick="rejectBooking('${b._id}')"
+          style="background:#dc3545;color:#fff;border:none;border-radius:8px;padding:8px 14px;">
+          Reject
+        </button>
+      `
+  }
+`;
+
 
       container.appendChild(div);
     });
@@ -249,23 +443,59 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(err);
     container.innerHTML = "<p>Error loading bookings.</p>";
   }
-});
-
-// 🔴 ACCEPT BOOKING
-function acceptBooking(id) {
-  window.location.href = `/accept/${id}`;
 }
 
-// 🔴 REJECT BOOKING
-function rejectBooking(id) {
-  window.location.href = `/reject/${id}`;
+async function acceptBooking(id) {
+  await fetch(`/accept/${id}`);
+  showToast("Booking accepted ✔");
+  loadBookings();
+}
+
+async function rejectBooking(id) {
+  await fetch(`/reject/${id}`);
+  showToast("Booking rejected ✖");
+  loadBookings();
+}
+
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.innerText = message;
+  toast.style.opacity = "1";
+  toast.style.transform = "translateY(0)";
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(10px)";
+  }, 1800);
+}
+
+   function goTo(page) {
+  window.location.href = page;
 }
 
 // LOGOUT
 function logout() {
   window.location.href = "/logout";
 }
+
+loadBookings();
+
 </script>
+<div id="toast" style="
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:#000;
+  color:#f4c542;
+  padding:14px 22px;
+  border-radius:30px;
+  font-weight:700;
+  opacity:0;
+  transform:translateY(10px);
+  transition:0.3s;
+  z-index:9999;
+"></div>
 
 
 </body>
