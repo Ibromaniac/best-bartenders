@@ -208,6 +208,13 @@ app.get("/logout", (req, res) => {
     res.clearCookie("connect.sid"); // express-session cookie
     res.redirect("/customer-login");
   });
+
+  app.get("/bartender-logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/bartenders-login");
+  });
+});
+
 });
 
 // -----------------------

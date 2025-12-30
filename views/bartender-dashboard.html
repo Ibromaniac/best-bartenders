@@ -42,13 +42,13 @@ nav {
   margin-right: auto;
 }
 
-.logo-link {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: #f4c542;
+.logo-link span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(5px); /* 🔥 MATCH LOGIN HEADER */
 }
+
 
 .best-logo {
   width: 36px;
@@ -65,11 +65,12 @@ nav {
   background: transparent;
   border: 2px solid #f4c542;
   color: #f4c542;
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
+  line-height: 1;
 }
 
 .header-logout:hover {
@@ -507,7 +508,7 @@ function showToast(message) {
 
 // LOGOUT
 function logout() {
-  window.location.href = "/logout";
+  window.location.href = "/bartender-logout";
 }
 
 loadBookings();
