@@ -15,7 +15,7 @@
         /* -----------------------------
            NAVBAR (MATCHES YOUR DESIGN)
         ----------------------------- */
-       header {
+  header {
   background: #000;
   padding: 14px 0;
   position: fixed;
@@ -42,23 +42,25 @@ nav {
   margin-right: auto;
 }
 
-.logo-link span {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-  transform: translateY(5px); /* 🔥 MATCH LOGIN HEADER */
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #f4c542;
 }
-
 
 .best-logo {
   width: 36px;
   height: 36px;
+  display: block;
 }
 
 .logo-link span {
   font-size: 1.5rem;
   font-weight: 700;
-  transform: translateY(7px);
+  line-height: 1;
+  transform: translateY(5px);
 }
 
 .header-logout {
@@ -68,9 +70,9 @@ nav {
   padding: 6px 14px;
   border-radius: 20px;
   font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   transition: 0.2s;
-  line-height: 1;
 }
 
 .header-logout:hover {
