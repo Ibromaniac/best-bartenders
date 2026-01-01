@@ -466,23 +466,24 @@ div.innerHTML = `
   <br><br>
 
   ${
-    b.status
-      ? ""
-      : `
-        <button class="action-btn"
-          onclick="acceptBooking('${b._id}')"
-          style="background:#28a745;color:#fff;border:none;border-radius:8px;padding:8px 14px;margin-right:6px;">
-          Accept
-        </button>
+  !b.status || b.status === "Pending"
+    ? `
+      <button class="action-btn"
+        onclick="acceptBooking('${b._id}')"
+        style="background:#28a745;color:#fff;border:none;border-radius:8px;padding:8px 14px;margin-right:6px;">
+        Accept
+      </button>
 
-        <button class="action-btn"
-          onclick="rejectBooking('${b._id}')"
-          style="background:#dc3545;color:#fff;border:none;border-radius:8px;padding:8px 14px;">
-          Reject
-        </button>
-      `
-  }
-`;
+      <button class="action-btn"
+        onclick="rejectBooking('${b._id}')"
+        style="background:#dc3545;color:#fff;border:none;border-radius:8px;padding:8px 14px;">
+        Reject
+      </button>
+    `
+    : ""
+}
+    `;
+
 
 
       container.appendChild(div);
