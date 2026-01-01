@@ -1100,14 +1100,24 @@ section {
     <h2>Menu</h2>
 
     <ul>
-        <li><a href="/dashboard">Dashboard <span class="menu-arrow">›</span></a></li>
-        <li><a href="#home">Home <span class="menu-arrow">›</span></a></li>
-        <li><a href="/#services">Services <span class="menu-arrow">›</span></a></li>
-        <li><a href="/#about">About <span class="menu-arrow">›</span></a></li>
-        <li><a href="/#contact">Contact <span class="menu-arrow">›</span></a></li>
+    <li id="menuDashboard" style="display:none">
+        <a href="/dashboard">Dashboard <span class="menu-arrow">›</span></a>
+    </li>
 
-        <li><a href="/choose-login">Login <span class="menu-arrow">›</span></a></li>
-    </ul>
+    <li><a href="#home">Home <span class="menu-arrow">›</span></a></li>
+    <li><a href="/#services">Services <span class="menu-arrow">›</span></a></li>
+    <li><a href="/#about">About <span class="menu-arrow">›</span></a></li>
+    <li><a href="/#contact">Contact <span class="menu-arrow">›</span></a></li>
+
+    <li id="menuLogin">
+        <a href="/choose-login">Login <span class="menu-arrow">›</span></a>
+    </li>
+
+    <li id="menuLogout" style="display:none">
+        <a href="/logout">Logout <span class="menu-arrow">›</span></a>
+    </li>
+</ul>
+
 </div>
 
 <!-- ======================
@@ -1614,8 +1624,41 @@ revealOnScroll(); // run on page load
 })();
 </script>
 
+<script>
+(async () => {
+  const menuLogin = document.getElementById("menuLogin");
+  const menuLogout = document.getElementById("menuLogout");
+  const menuDashboard = document.getElementById("menuDashboard");
 
+  try {
+    // 🍸 Bartender logged in
+    const bartenderRes = await fetch("/api/current-bartender");
+    if (bartenderRes.ok) {
+      menuLogin.style.display = "none";
+      menuLogout.style.display = "block";
+      menuDashboard.style.display = "block";
+      return;
+    }
 
+    // 👤 Customer logged in
+    const customerRes = await fetch("/api/current-customer");
+    if (customerRes.ok) {
+      menuLogin.style.display = "none";
+      menuLogout.style.display = "block";
+      menuDashboard.style.display = "block";
+      return;
+    }
+
+    // 🚫 Not logged in
+    menuLogin.style.display = "block";
+    menuLogout.style.display = "none";
+    menuDashboard.style.display = "none";
+
+  } catch (err) {
+    console.warn("Hamburger menu session check failed");
+  }
+})();
+</script>
 
 </body>
 </html>
