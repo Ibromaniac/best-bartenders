@@ -1524,94 +1524,42 @@ section {
      MOBILE MENU SCRIPT
 ======================= -->
 <script>
-const hamburger = document.getElementById("hamburger");
-const sideMenu = document.getElementById("sideMenu");
-
-
-// 🔥 CLOSE MENU WHEN CLICKING ANY LINK INSIDE IT
-document.querySelectorAll(".side-menu a").forEach(link => {
-    link.addEventListener("click", () => {
-        sideMenu.classList.remove("active");
-        hamburger.classList.remove("active");
-        overlay.classList.remove("active");
-
-        setTimeout(() => {
-            document.body.style.overflow = "auto";
-        }, 300); // match your menu transition
-    });
-});
-
-const overlay = document.getElementById("overlay");
-
-hamburger.addEventListener("click", () => {
-    const isOpen = sideMenu.classList.toggle("active");
-    hamburger.classList.toggle("active");
-    overlay.classList.toggle("active");
-
-    // ✅ Prevent background scroll when menu is open
-    document.body.style.overflow = isOpen ? "hidden" : "auto";
-});
-
-overlay.addEventListener("click", () => {
-    hamburger.classList.remove("active");
-    sideMenu.classList.remove("active");
-    overlay.classList.remove("active");
-
-    // ✅ Restore scroll
-    document.body.style.overflow = "auto";
-});
-
-// SCROLL REVEAL ANIMATION
-const reveals = document.querySelectorAll(".reveal");
-
-const revealOnScroll = () => {
-    const windowHeight = window.innerHeight;
-
-    reveals.forEach(el => {
-        const elementTop = el.getBoundingClientRect().top;
-        const revealPoint = 120;
-
-        if (elementTop < windowHeight - revealPoint) {
-            el.classList.add("show");
-        }
-    });
-};
-
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll(); // run on page load
-
-</script>
-
-<script>
 (async () => {
-  const btn = document.getElementById("pickBartenderBtn");
-  if (!btn) return; // 👈 IMPORTANT SAFETY GUARD
+  const pickBtn = document.getElementById("pickBartenderBtn");
+  const joinBtn = document.getElementById("bartenderJoinBtn");
 
   try {
-    // 1️⃣ Bartender logged in
+    // 🍸 Bartender logged in
     const bartenderRes = await fetch("/api/current-bartender");
     if (bartenderRes.ok) {
-      btn.textContent = "Bartender Dashboard";
-      btn.href = "/bartender-dashboard";
-      btn.classList.add("disabled");
+      // Hide customer CTA
+      if (pickBtn) pickBtn.style.display = "none";
+
+      // Convert join CTA → dashboard
+      if (joinBtn) {
+        joinBtn.innerHTML = "Go to Dashboard";
+        joinBtn.href = "/bartender-dashboard";
+      }
       return;
     }
 
-    // 2️⃣ Customer logged in → keep default
+    // 👤 Customer logged in
     const customerRes = await fetch("/api/current-customer");
     if (customerRes.ok) {
-      btn.href = "/bartenders";
+      // Hide bartender join CTA
+      if (joinBtn) joinBtn.style.display = "none";
       return;
     }
 
-    // 3️⃣ Not logged in
-    btn.href = "/choose-login";
+    // 🚫 Not logged in
+    if (pickBtn) pickBtn.href = "/choose-login";
 
   } catch (err) {
-    console.log("Session check failed");
+    console.log("Session detection failed");
   }
 })();
 </script>
+
 
 
 
