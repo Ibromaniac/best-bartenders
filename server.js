@@ -233,6 +233,26 @@ app.get("/bartender-logout", (req, res) => {
   });
 });
 
+// =======================
+// SMART DASHBOARD REDIRECT
+// =======================
+app.get("/dashboard", (req, res) => {
+  if (req.session.customerId) {
+    return res.redirect("/customer-dashboard");
+  }
+
+  if (req.session.bartenderId) {
+    return res.redirect("/bartender-dashboard");
+  }
+
+  // Not logged in
+  res.redirect("/choose-login");
+});
+
+app.get("/choose-login", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "choose-login.html"));
+});
+
 // -----------------------
 // BARTENDER REGISTRATION WITH FILES
 // -----------------------
