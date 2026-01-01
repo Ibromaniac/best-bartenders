@@ -210,7 +210,13 @@ app.get("/logout", (req, res) => {
   });
 
   app.get("/bartender-logout", (req, res) => {
-  req.session.destroy(() => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error(err);
+      return res.redirect("/bartenders-login");
+    }
+
+    res.clearCookie("connect.sid"); // default session cookie
     res.redirect("/bartenders-login");
   });
 });
