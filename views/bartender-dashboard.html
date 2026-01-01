@@ -442,10 +442,17 @@ div.className = "booking-card";
 
 div.innerHTML = `
   <strong>${b.eventType}</strong><br>
-👤 ${b.customerName.split(" ")[0]}<br>
+
+  👤 ${b.customerName ? b.customerName.split(" ")[0] : "Customer"}<br>
+
   📅 ${b.eventDate}<br>
   ⏰ ${b.eventTime}<br>
-  📍 ${b.location}<br><br>
+
+  📍 ${
+    b.location
+      ? b.location.split(",").slice(-2).join(", ").trim()
+      : "Location hidden"
+  }<br><br>
 
   <span style="
     padding:6px 14px;
@@ -461,29 +468,29 @@ div.innerHTML = `
     };
     color:#000;
   ">
-    ${b.status || "Pending"}
+    ${b.status}
   </span>
 
   <br><br>
 
   ${
-  !b.status || b.status === "Pending"
-    ? `
-      <button class="action-btn"
-        onclick="acceptBooking('${b._id}')"
-        style="background:#28a745;color:#fff;border:none;border-radius:8px;padding:8px 14px;margin-right:6px;">
-        Accept
-      </button>
+    b.status === "Pending"
+      ? `
+        <button class="action-btn"
+          onclick="acceptBooking('${b._id}')"
+          style="background:#28a745;color:#fff;border:none;border-radius:8px;padding:8px 14px;margin-right:6px;">
+          Accept
+        </button>
 
-      <button class="action-btn"
-        onclick="rejectBooking('${b._id}')"
-        style="background:#dc3545;color:#fff;border:none;border-radius:8px;padding:8px 14px;">
-        Reject
-      </button>
-    `
-    : ""
-}
-    `;
+        <button class="action-btn"
+          onclick="rejectBooking('${b._id}')"
+          style="background:#dc3545;color:#fff;border:none;border-radius:8px;padding:8px 14px;">
+          Reject
+        </button>
+      `
+      : ""
+  }
+`;
 
 
 
