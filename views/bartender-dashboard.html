@@ -393,6 +393,16 @@ async function loadBookings() {
     }
 
     const bartender = await bartenderRes.json();
+    const nameFromEmail = bartender.email
+  ? bartender.email.split("@")[0]
+  : "Bartender";
+
+const displayName =
+  nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
+
+document.getElementById("welcomeText").innerText =
+  `Welcome, ${displayName} 🍸`;
+
     document.getElementById("welcomeText").innerText =
   `Welcome, ${bartender.firstName || "Bartender"} 🍸`;
 
