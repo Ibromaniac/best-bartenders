@@ -305,7 +305,7 @@ nav {
 
     <!-- DASHBOARD CONTENT -->
     <div class="dashboard-container">
-        <div id="welcomeText" class="welcome">Welcome!</div>
+        <div id="welcomeText" class="welcome">Welcome</div>
 
         <div class="cards">
             <div class="card" onclick="goTo('incoming-jobs.html')">
@@ -393,6 +393,8 @@ async function loadBookings() {
     }
 
     const bartender = await bartenderRes.json();
+    document.getElementById("welcomeText").innerText =
+  `Welcome, ${bartender.firstName || "Bartender"} 🍸`;
 
     // 2️⃣ Fetch bookings for THIS bartender
     const bookingsRes = await fetch(
