@@ -471,6 +471,20 @@ div.innerHTML = `
     ${b.status || "Pending"}
   </span>
 
+  ${
+  b.status === "Accepted"
+    ? `
+      <div style="margin-top:14px;font-size:14px;color:#222;">
+        <button class="action-btn"
+          onclick="viewAcceptedDetails('${b._id}')"
+          style="background:#000;color:#f4c542;border:none;border-radius:8px;padding:8px 14px;">
+          View customer details
+        </button>
+      </div>
+    `
+    : ""
+}
+
   <br><br>
 
   ${
@@ -576,6 +590,29 @@ function showToast(message) {
 // LOGOUT
 function logout() {
   window.location.href = "/logout";
+}
+
+async function viewAcceptedDetails(id) {
+  try {
+    const res = await fetch(`/api/booking/accepted/${id}`);
+
+    if (!res.ok) {
+      alert("You are not allowed to view these details.");
+      return;
+    }
+
+    const data = await res.json();
+
+    alert(
+      `Customer: ${data.customerName}\n` +
+      `Phone: ${data.customerPhone}\n` +
+      `Email: ${data.customerEmail}\n` +
+      `Address: ${data.location}`
+    );
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load booking details.");
+  }
 }
 
 loadBookings();

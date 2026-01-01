@@ -501,6 +501,40 @@ app.get("/api/current-customer", async (req, res) => {
 });
 
 // =======================
+// 🔓 ACCEPTED BOOKING DETAILS (BARTENDER ONLY)
+// =======================
+app.get("/api/booking/accepted/:id", async (req, res) => {
+  try {
+    if (!req.session.bartenderId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const booking = await Booking.findOne({
+      _id: req.params.id,
+      bartenderId: req.session.bartenderId,
+      status: "Accepted"
+    });
+
+    if (!booking) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    res.json({
+      customerName: booking.customerName,
+      customerEmail: booking.customerEmail,
+      customerPhone: booking.customerPhone,
+      location: booking.location,
+      eventType: booking.eventType,
+      eventDate: booking.eventDate,
+      eventTime: booking.eventTime
+    });
+  } catch (err) {
+    console.error("Accepted booking fetch error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// =======================
 // ✅ CURRENT LOGGED-IN BARTENDER
 // =======================
 app.get("/api/current-bartender", async (req, res) => {
