@@ -1524,6 +1524,65 @@ section {
      MOBILE MENU SCRIPT
 ======================= -->
 <script>
+const hamburger = document.getElementById("hamburger");
+const sideMenu = document.getElementById("sideMenu");
+
+
+// 🔥 CLOSE MENU WHEN CLICKING ANY LINK INSIDE IT
+document.querySelectorAll(".side-menu a").forEach(link => {
+    link.addEventListener("click", () => {
+        sideMenu.classList.remove("active");
+        hamburger.classList.remove("active");
+        overlay.classList.remove("active");
+
+        setTimeout(() => {
+            document.body.style.overflow = "auto";
+        }, 300); // match your menu transition
+    });
+});
+
+const overlay = document.getElementById("overlay");
+
+hamburger.addEventListener("click", () => {
+    const isOpen = sideMenu.classList.toggle("active");
+    hamburger.classList.toggle("active");
+    overlay.classList.toggle("active");
+
+    // ✅ Prevent background scroll when menu is open
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+});
+
+overlay.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    sideMenu.classList.remove("active");
+    overlay.classList.remove("active");
+
+    // ✅ Restore scroll
+    document.body.style.overflow = "auto";
+});
+
+// SCROLL REVEAL ANIMATION
+const reveals = document.querySelectorAll(".reveal");
+
+const revealOnScroll = () => {
+    const windowHeight = window.innerHeight;
+
+    reveals.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const revealPoint = 120;
+
+        if (elementTop < windowHeight - revealPoint) {
+            el.classList.add("show");
+        }
+    });
+};
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll(); // run on page load
+
+</script>
+
+<script>
 (async () => {
   const pickBtn = document.getElementById("pickBartenderBtn");
   const joinBtn = document.getElementById("bartenderJoinBtn");
@@ -1555,11 +1614,6 @@ section {
   }
 })();
 </script>
-
-
-
-
-
 
 </body>
 </html>
