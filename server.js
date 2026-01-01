@@ -106,15 +106,6 @@ app.get("/customer-dashboard", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "customer-dashboard.html"));
 });
 
-
-app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
-    if (err) return res.status(500).send("Error logging out");
-    res.clearCookie("connect.sid");
-    res.redirect("/customer-login");
-  });
-});
-
 // BARTENDER ROUTES
 app.get("/bartenders-login", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "bartenders-login.html"));
@@ -193,44 +184,6 @@ app.post("/customer-login", async (req, res) => {
     console.error("❌ LOGIN ERROR:", err);
     res.status(500).send("Login failed");
   }
-});
-
-// =======================
-// ✅ LOGOUT ROUTE
-// =======================
-app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error("❌ Logout error:", err);
-      return res.status(500).send("Error logging out");
-    }
-
-    res.clearCookie("connect.sid"); // express-session cookie
-    res.redirect("/customer-login");
-  });
-
-  app.get("/bartender-logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/bartenders-login");
-  });
-});
-
-});
-
-
-// =======================
-// BARTENDER LOGOUT
-// =======================
-app.get("/bartender-logout", (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error("❌ Bartender logout error:", err);
-      return res.redirect("/bartenders-login");
-    }
-
-    res.clearCookie("connect.sid");
-    res.redirect("/bartenders-login");
-  });
 });
 
 // =======================
@@ -438,38 +391,34 @@ app.get("/api/customer-bookings/:email", async (req, res) => {
 app.get("/bartender-bookings", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "bartender-bookings.html"));
 });
-// -----------------------
-app.get("/accept/:id", async (req, res) => {
-  await Booking.findByIdAndUpdate(req.params.id, { status: "Accepted" });
-  // ACCEPT BOOKING
-app.get("/accept/:id", async (req, res) => {
-  if (!req.session.bartenderId) {
-    return res.redirect("/bartenders-login");
-  }
 
-  await Booking.findByIdAndUpdate(req.params.id, {
-    status: "Accepted"
+// =======================
+// ✅ SMART LOGOUT (CUSTOMER + BARTENDER)
+// =======================
+app.get("/logout", (req, res) => {
+  const isBartender = !!req.session.bartenderId;
+  const isCustomer = !!req.session.customerId;
+
+  req.session.destroy(err => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.redirect("/");
+    }
+
+    res.clearCookie("connect.sid");
+
+    if (isBartender) {
+      return res.redirect("/bartenders-login");
+    }
+
+    if (isCustomer) {
+      return res.redirect("/customer-login");
+    }
+
+    res.redirect("/");
   });
-
-  // ✅ GO BACK TO DASHBOARD
-  res.redirect("/bartender-dashboard");
 });
 
-// REJECT BOOKING
-app.get("/reject/:id", async (req, res) => {
-  if (!req.session.bartenderId) {
-    return res.redirect("/bartenders-login");
-  }
-
-  await Booking.findByIdAndUpdate(req.params.id, {
-    status: "Rejected"
-  });
-
-  // ✅ GO BACK TO DASHBOARD
-  res.redirect("/bartender-dashboard");
-});
-
-});
 
 app.get("/reject/:id", async (req, res) => {
   await Booking.findByIdAndUpdate(req.params.id, { status: "Rejected" });
