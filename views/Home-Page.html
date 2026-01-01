@@ -1532,12 +1532,9 @@ section {
     // 🍸 Bartender logged in
     const bartenderRes = await fetch("/api/current-bartender");
     if (bartenderRes.ok) {
-      // Hide customer CTA
-      if (pickBtn) pickBtn.style.display = "none";
-
-      // Convert join CTA → dashboard
+      if (pickBtn) pickBtn.remove(); // safer than display:none
       if (joinBtn) {
-        joinBtn.innerHTML = "Go to Dashboard";
+        joinBtn.textContent = "Go to Dashboard";
         joinBtn.href = "/bartender-dashboard";
       }
       return;
@@ -1546,8 +1543,7 @@ section {
     // 👤 Customer logged in
     const customerRes = await fetch("/api/current-customer");
     if (customerRes.ok) {
-      // Hide bartender join CTA
-      if (joinBtn) joinBtn.style.display = "none";
+      if (joinBtn) joinBtn.remove();
       return;
     }
 
@@ -1555,10 +1551,11 @@ section {
     if (pickBtn) pickBtn.href = "/choose-login";
 
   } catch (err) {
-    console.log("Session detection failed");
+    console.warn("Session detection failed");
   }
 })();
 </script>
+
 
 
 
