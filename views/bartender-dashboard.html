@@ -407,7 +407,7 @@ document.getElementById("welcomeText").innerText =
     // 2️⃣ Fetch bookings for THIS bartender
     const bookingsRes = await fetch(
       `/api/bartender-bookings/${bartender._id}`
-    );
+    );  
 
     if (!bookingsRes.ok) {
   container.innerHTML = "<p>Failed to load bookings.</p>";
@@ -525,7 +525,7 @@ function showToast(message) {
 
 // LOGOUT
 function logout() {
-  window.location.href = "/bartender-logout";
+  window.location.href = "/logout";
 }
 
 loadBookings();
