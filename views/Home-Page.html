@@ -442,6 +442,12 @@ section {
     font-weight: 600;
 }
 
+.btn.disabled {
+  pointer-events: none;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
         /* ======================
            FOOTER 
         ======================= */
@@ -1570,6 +1576,37 @@ const revealOnScroll = () => {
 window.addEventListener("scroll", revealOnScroll);
 revealOnScroll(); // run on page load
 
+</script>
+
+<script>
+(async () => {
+  try {
+    // Check bartender session
+    const bartenderRes = await fetch("/api/current-bartender");
+    if (bartenderRes.ok) {
+      const btn = document.getElementById("pickBartenderBtn");
+
+      btn.classList.add("disabled");
+      btn.textContent = "Bartender Dashboard";
+      btn.href = "/bartender-dashboard";
+      return;
+    }
+
+    // Check customer session
+    const customerRes = await fetch("/api/current-customer");
+    if (customerRes.ok) {
+      // Customer → keep button active
+      return;
+    }
+
+    // Not logged in
+    const btn = document.getElementById("pickBartenderBtn");
+    btn.href = "/choose-login";
+
+  } catch (err) {
+    console.log("Session check failed");
+  }
+})();
 </script>
 
 
