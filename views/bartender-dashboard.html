@@ -401,10 +401,8 @@ const displayName =
   nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
 
 document.getElementById("welcomeText").innerText =
-  `Welcome, ${displayName} 🍸`;
+  `Welcome, ${bartender.firstname} 🍸`;
 
-    document.getElementById("welcomeText").innerText =
-  `Welcome, ${bartender.firstName || "Bartender"} 🍸`;
 
     // 2️⃣ Fetch bookings for THIS bartender
     const bookingsRes = await fetch(
