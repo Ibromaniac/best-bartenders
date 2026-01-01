@@ -419,38 +419,53 @@ app.get("/logout", (req, res) => {
   });
 });
 
-
-app.get("/reject/:id", async (req, res) => {
-  await Booking.findByIdAndUpdate(req.params.id, { status: "Rejected" });
-  // ACCEPT BOOKING
+// =======================
+// ACCEPT BOOKING (BARTENDER)
+// =======================
 app.get("/accept/:id", async (req, res) => {
   if (!req.session.bartenderId) {
-    return res.redirect("/bartenders-login");
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
-  await Booking.findByIdAndUpdate(req.params.id, {
-    status: "Accepted"
+  const booking = await Booking.findOne({
+    _id: req.params.id,
+    bartenderId: req.session.bartenderId
   });
 
-  // ✅ GO BACK TO DASHBOARD
-  res.redirect("/bartender-dashboard");
+  if (!booking) {
+    return res.status(403).json({ message: "Not your booking" });
+  }
+
+  booking.status = "Accepted";
+  await booking.save();
+
+  res.sendStatus(200);
 });
 
-// REJECT BOOKING
+// =======================
+// REJECT BOOKING (BARTENDER)
+// =======================
 app.get("/reject/:id", async (req, res) => {
   if (!req.session.bartenderId) {
-    return res.redirect("/bartenders-login");
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
-  await Booking.findByIdAndUpdate(req.params.id, {
-    status: "Rejected"
+  const booking = await Booking.findOne({
+    _id: req.params.id,
+    bartenderId: req.session.bartenderId
   });
 
-  // ✅ GO BACK TO DASHBOARD
-  res.redirect("/bartender-dashboard");
+  if (!booking) {
+    return res.status(403).json({ message: "Not your booking" });
+  }
+
+  booking.status = "Rejected";
+  await booking.save();
+
+  res.sendStatus(200);
 });
 
-});
+
 app.get("/api/bartenders", async (req, res) => {
   const bartenders = await Bartender.find({});
   res.json(bartenders);

@@ -495,17 +495,58 @@ div.innerHTML = `
 }
 
 async function acceptBooking(id) {
-  await fetch(`/accept/${id}`);
-  showToast("Booking accepted ✔");
-  loadBookings();
+  try {
+    const res = await fetch(`/accept/${id}`, { method: "GET" });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/bartenders-login";
+        return;
+      }
+
+      if (res.status === 403) {
+        alert("You are not allowed to accept this booking.");
+        return;
+      }
+
+      throw new Error("Accept failed");
+    }
+
+    showToast("Booking accepted ✔");
+    loadBookings();
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while accepting the booking.");
+  }
 }
 
 async function rejectBooking(id) {
-  await fetch(`/reject/${id}`);
-  showToast("Booking rejected ✖");
-  loadBookings();
-}
+  try {
+    const res = await fetch(`/reject/${id}`, { method: "GET" });
 
+    if (!res.ok) {
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/bartenders-login";
+        return;
+      }
+
+      if (res.status === 403) {
+        alert("You are not allowed to reject this booking.");
+        return;
+      }
+
+      throw new Error("Reject failed");
+    }
+
+    showToast("Booking rejected ✖");
+    loadBookings();
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while rejecting the booking.");
+  }
+}
 
 function showToast(message) {
   const toast = document.getElementById("toast");
