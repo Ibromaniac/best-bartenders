@@ -1165,7 +1165,9 @@ section {
         <h1>Professional Bartending Services</h1>
         <p>Elevate Your Event with Expert Mixologists</p>
 
-        <a href="/bartenders" class="btn">Pick your Bartender</a>
+        <a href="/bartenders" class="btn" id="pickBartenderBtn">
+  Pick your Bartender
+</a>
     <a href="/bartenders-login" class="btn-white">
   Bartenders on Tap <span>(Join the club)</span>
 </a>
@@ -1580,27 +1582,27 @@ revealOnScroll(); // run on page load
 
 <script>
 (async () => {
+  const btn = document.getElementById("pickBartenderBtn");
+  if (!btn) return; // 👈 IMPORTANT SAFETY GUARD
+
   try {
-    // Check bartender session
+    // 1️⃣ Bartender logged in
     const bartenderRes = await fetch("/api/current-bartender");
     if (bartenderRes.ok) {
-      const btn = document.getElementById("pickBartenderBtn");
-
-      btn.classList.add("disabled");
       btn.textContent = "Bartender Dashboard";
       btn.href = "/bartender-dashboard";
+      btn.classList.add("disabled");
       return;
     }
 
-    // Check customer session
+    // 2️⃣ Customer logged in → keep default
     const customerRes = await fetch("/api/current-customer");
     if (customerRes.ok) {
-      // Customer → keep button active
+      btn.href = "/bartenders";
       return;
     }
 
-    // Not logged in
-    const btn = document.getElementById("pickBartenderBtn");
+    // 3️⃣ Not logged in
     btn.href = "/choose-login";
 
   } catch (err) {
@@ -1608,6 +1610,7 @@ revealOnScroll(); // run on page load
   }
 })();
 </script>
+
 
 
 
