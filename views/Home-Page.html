@@ -15,6 +15,10 @@
   scroll-behavior: smooth; /* 👈 ADD THIS LINE */
 }
 
+#menuLogout {
+  display: none;
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -1100,15 +1104,29 @@ section {
     <h2>Menu</h2>
 
     <ul>
-        <li><a href="/dashboard">Dashboard <span class="menu-arrow">›</span></a></li>
-        <li><a href="#home">Home <span class="menu-arrow">›</span></a></li>
-        <li><a href="/#services">Services <span class="menu-arrow">›</span></a></li>
-        <li><a href="/#about">About <span class="menu-arrow">›</span></a></li>
-        <li><a href="/#contact">Contact <span class="menu-arrow">›</span></a></li>
+  <!-- ROLE-AWARE LINKS -->
+  <li id="menuDashboard">
+    <a href="/dashboard">Dashboard <span class="menu-arrow">›</span></a>
+  </li>
 
-        <li><a href="/customer-login">Customer Login <span class="menu-arrow">›</span></a></li>
-        <li><a href="/bartenders-login">Bartender Login <span class="menu-arrow">›</span></a></li>
-    </ul>
+  <li><a href="#home">Home <span class="menu-arrow">›</span></a></li>
+  <li><a href="/#services">Services <span class="menu-arrow">›</span></a></li>
+  <li><a href="/#about">About <span class="menu-arrow">›</span></a></li>
+  <li><a href="/#contact">Contact <span class="menu-arrow">›</span></a></li>
+
+  <li id="menuCustomerLogin">
+    <a href="/customer-login">Customer Login <span class="menu-arrow">›</span></a>
+  </li>
+
+  <li id="menuBartenderLogin">
+    <a href="/bartenders-login">Bartender Login <span class="menu-arrow">›</span></a>
+  </li>
+
+  <li id="menuLogout">
+    <a href="/logout">Logout <span class="menu-arrow">›</span></a>
+  </li>
+</ul>
+
 </div>
 
 <!-- ======================
@@ -1147,7 +1165,7 @@ section {
             <li><a href="/customer-login" class="nav-btn">Log In</a></li>
         </ul>
 
-</ul>
+
 
     </nav>
 </header>
