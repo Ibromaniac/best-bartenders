@@ -133,8 +133,11 @@ app.get("/booking-details", (req, res) => {
 // -----------------------
 // CUSTOMER REGISTRATION (FIXED)
 // -----------------------
+console.log("🔐 TOKEN GENERATED:", verificationToken);
+
 app.post("/customer-registration", async (req, res) => {
   const { firstname, lastname, address, email, phone, password } = req.body;
+  
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -165,6 +168,7 @@ app.post("/customer-registration", async (req, res) => {
            border-radius:6px;font-weight:bold;">
            Verify Email
         </a>
+        
       `
     });
 
