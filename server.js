@@ -658,14 +658,16 @@ app.post("/api/cancel-booking/:id", async (req, res) => {
 app.get("/test-email", async (req, res) => {
   try {
     await sendEmail({
-      to: process.env.EMAIL_FROM, // ✅ SendGrid sender email
-      subject: "Test Email ✅",
-      html: "<h2>Email system working</h2>"
+      to: "bestbartenders100@gmail.com",
+      subject: "SendGrid Test ✅",
+      html: "<h2>SendGrid is working</h2>"
     });
 
     res.send("Test email sent");
   } catch (err) {
-    console.error("❌ Test email failed:", err);
+    console.error(err.response?.body || err);
     res.status(500).send("Email failed");
   }
 });
+
+
