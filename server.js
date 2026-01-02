@@ -473,12 +473,6 @@ app.get("/accept/:id", async (req, res) => {
         <!-- HEADER -->
         <tr>
           <td style="padding:24px;text-align:center;border-bottom:1px solid #222;">
-            <img 
-              src="https://your-domain-or-cloudinary-link/logo.png"
-              alt="B.E.S.T Bartenders"
-              width="120"
-              style="display:block;margin:0 auto 10px;"
-            />
             <h1 style="margin:0;color:#d4af37;font-size:22px;">
               Booking Accepted 🎉
             </h1>
@@ -543,7 +537,7 @@ app.get("/accept/:id", async (req, res) => {
     await sendEmail({
       to: booking.bartenderId.email,
       subject: "You accepted a booking 🍸",
-     html: `
+    html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -628,7 +622,6 @@ app.get("/accept/:id", async (req, res) => {
 </body>
 </html>
 `
-
     });
 
     res.sendStatus(200);
