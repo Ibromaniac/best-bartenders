@@ -453,71 +453,90 @@ app.get("/accept/:id", async (req, res) => {
       to: booking.customerEmail,
       subject: "Your booking has been accepted 🎉",
       html: `
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-  <body style="margin:0;padding:0;background:#0b0b0b;font-family:Arial,Helvetica,sans-serif;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:30px 0;">
-      <tr>
-        <td align="center">
-          <table width="600" cellpadding="0" cellspacing="0" style="background:#111;border-radius:14px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,0.6);">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
 
-            <!-- HEADER -->
-            <tr>
-              <td style="padding:26px;text-align:center;border-bottom:1px solid #222;">
-                <h1 style="margin:0;color:#d4af37;letter-spacing:1px;">
-                  B.E.S.T Bartenders
-                </h1>
-                <p style="margin:6px 0 0;color:#aaa;font-size:14px;">
-                  Premium Bartending Services
-                </p>
-              </td>
-            </tr>
+<body style="margin:0;padding:0;background:#0b0b0b;font-family:Arial,Helvetica,sans-serif;">
 
-            <!-- BODY -->
-            <tr>
-              <td style="padding:30px;color:#eee;">
-                <h2 style="margin-top:0;color:#fff;">🎉 Booking Accepted</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+  style="background:#0b0b0b;padding:20px 10px;">
+  <tr>
+    <td align="center">
 
-                <p style="line-height:1.6;color:#ccc;">
-                  Great news! Your bartender has accepted your booking request.
-                </p>
+      <!-- MAIN CONTAINER -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+        style="max-width:600px;background:#111;border-radius:14px;overflow:hidden;">
 
-                <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;background:#0f0f0f;border-radius:10px;">
-                  <tr>
-                    <td style="padding:16px;color:#ccc;">
-                      <strong style="color:#d4af37;">Event:</strong> {{EVENT_TYPE}}<br>
-                      <strong style="color:#d4af37;">Date:</strong> {{EVENT_DATE}}<br>
-                      <strong style="color:#d4af37;">Time:</strong> {{EVENT_TIME}}<br>
-                      <strong style="color:#d4af37;">Location:</strong> {{CITY_STATE}}
-                    </td>
-                  </tr>
-                </table>
+        <!-- HEADER -->
+        <tr>
+          <td style="padding:24px;text-align:center;border-bottom:1px solid #222;">
+            <img 
+              src="https://your-domain-or-cloudinary-link/logo.png"
+              alt="B.E.S.T Bartenders"
+              width="120"
+              style="display:block;margin:0 auto 10px;"
+            />
+            <h1 style="margin:0;color:#d4af37;font-size:22px;">
+              Booking Accepted 🎉
+            </h1>
+          </td>
+        </tr>
 
-                <p style="color:#aaa;font-size:14px;line-height:1.6;">
-                  Your bartender will contact you soon with final details.
-                </p>
+        <!-- BODY -->
+        <tr>
+          <td style="padding:26px;color:#eee;">
 
-                <p style="margin-top:30px;color:#888;font-size:13px;">
-                  — B.E.S.T Bartenders Team
-                </p>
-              </td>
-            </tr>
+            <p style="color:#ccc;line-height:1.6;margin-top:0;">
+              Great news! Your booking request has been accepted by a bartender.
+            </p>
 
-            <!-- FOOTER -->
-            <tr>
-              <td style="padding:18px;text-align:center;background:#0b0b0b;color:#666;font-size:12px;">
-                © B.E.S.T Bartenders · All Rights Reserved
-              </td>
-            </tr>
+            <!-- DETAILS CARD -->
+            <table width="100%" cellpadding="0" cellspacing="0"
+              style="margin:20px 0;background:#0f0f0f;border-radius:10px;">
+              <tr>
+                <td style="padding:16px;color:#ccc;font-size:14px;line-height:1.7;">
 
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
+                  <strong style="color:#d4af37;">Event:</strong>
+                  ${booking.eventType}<br>
+
+                  <strong style="color:#d4af37;">Date:</strong>
+                  ${booking.eventDate}<br>
+
+                  <strong style="color:#d4af37;">Time:</strong>
+                  ${booking.eventTime}<br>
+
+                  <strong style="color:#d4af37;">Location:</strong>
+                  ${booking.location.split(",").slice(-2).join(", ")}
+
+                </td>
+              </tr>
+            </table>
+
+            <p style="color:#aaa;font-size:13px;line-height:1.6;">
+              Your bartender will contact you shortly to finalize arrangements.
+            </p>
+
+            <p style="margin-top:28px;color:#888;font-size:12px;">
+              Thank you for choosing<br>
+              <strong style="color:#d4af37;">B.E.S.T Bartenders</strong>
+            </p>
+
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
 </html>
+`
 
-      `
     });
 
     // 📧 EMAIL BARTENDER
@@ -544,12 +563,6 @@ app.get("/accept/:id", async (req, res) => {
         <!-- LOGO HEADER -->
         <tr>
           <td style="padding:24px;text-align:center;border-bottom:1px solid #222;">
-            <img 
-              src="https://your-domain-or-cloudinary-link/logo.png"
-              alt="B.E.S.T Bartenders"
-              width="120"
-              style="display:block;margin:0 auto 10px;"
-            />
             <h1 style="margin:0;color:#d4af37;font-size:22px;">
               Booking Confirmed 🍸
             </h1>
