@@ -657,13 +657,17 @@ app.post("/api/cancel-booking/:id", async (req, res) => {
   }
 });
 
-// TEST EMAIL ROUTE — REMOVE IN PRODUCTION
-// app.get("/test-email", async (req, res) => {
-//   await sendEmail({
-//     to: process.env.EMAIL_USER,
-//     subject: "Test Email ✅",
-//     html: "<h2>Email system working</h2>"
-//   });
-//   res.send("Test email sent");
-// });
+app.get("/test-email", async (req, res) => {
+  try {
+    await sendEmail({
+      to: process.env.EMAIL_USER,
+      subject: "Test Email ✅",
+      html: "<h2>Email system working</h2>"
+    });
 
+    res.send("Test email sent");
+  } catch (err) {
+    console.error("❌ Test email failed:", err);
+    res.status(500).send("Email failed");
+  }
+});
