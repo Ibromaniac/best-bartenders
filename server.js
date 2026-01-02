@@ -524,60 +524,98 @@ app.get("/accept/:id", async (req, res) => {
     await sendEmail({
       to: booking.bartenderId.email,
       subject: "You accepted a booking 🍸",
-      html: `
-        <!DOCTYPE html>
+     html: `
+<!DOCTYPE html>
 <html>
-  <body style="margin:0;padding:0;background:#0b0b0b;font-family:Arial,Helvetica,sans-serif;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:30px 0;">
-      <tr>
-        <td align="center">
-          <table width="600" cellpadding="0" cellspacing="0" style="background:#111;border-radius:14px;overflow:hidden;">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
 
-            <tr>
-              <td style="padding:26px;text-align:center;border-bottom:1px solid #222;">
-                <h1 style="margin:0;color:#d4af37;">Booking Confirmed 🍸</h1>
-              </td>
-            </tr>
+<body style="margin:0;padding:0;background:#0b0b0b;font-family:Arial,Helvetica,sans-serif;">
 
-            <tr>
-              <td style="padding:30px;color:#eee;">
-                <p style="color:#ccc;line-height:1.6;">
-                  You’ve successfully accepted a booking. Here are the full details:
-                </p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:20px 10px;">
+  <tr>
+    <td align="center">
 
-                <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;background:#0f0f0f;border-radius:10px;">
-                  <tr>
-                    <td style="padding:16px;color:#ccc;">
-                      <strong style="color:#d4af37;">Customer:</strong> {{CUSTOMER_NAME}}<br>
-                      <strong style="color:#d4af37;">Email:</strong> {{CUSTOMER_EMAIL}}<br>
-                      <strong style="color:#d4af37;">Phone:</strong> {{CUSTOMER_PHONE}}<br><br>
+      <!-- MAIN CONTAINER -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+        style="max-width:600px;background:#111;border-radius:14px;overflow:hidden;">
 
-                      <strong style="color:#d4af37;">Event:</strong> {{EVENT_TYPE}}<br>
-                      <strong style="color:#d4af37;">Date:</strong> {{EVENT_DATE}}<br>
-                      <strong style="color:#d4af37;">Time:</strong> {{EVENT_TIME}}<br>
-                      <strong style="color:#d4af37;">Address:</strong> {{FULL_ADDRESS}}
-                    </td>
-                  </tr>
-                </table>
+        <!-- LOGO HEADER -->
+        <tr>
+          <td style="padding:24px;text-align:center;border-bottom:1px solid #222;">
+            <img 
+              src="https://your-domain-or-cloudinary-link/logo.png"
+              alt="B.E.S.T Bartenders"
+              width="120"
+              style="display:block;margin:0 auto 10px;"
+            />
+            <h1 style="margin:0;color:#d4af37;font-size:22px;">
+              Booking Confirmed 🍸
+            </h1>
+          </td>
+        </tr>
 
-                <p style="color:#aaa;font-size:14px;">
-                  Please reach out to the customer promptly to confirm final arrangements.
-                </p>
+        <!-- CONTENT -->
+        <tr>
+          <td style="padding:26px;color:#eee;">
 
-                <p style="margin-top:30px;color:#888;font-size:13px;">
-                  — B.E.S.T Bartenders
-                </p>
-              </td>
-            </tr>
+            <p style="color:#ccc;line-height:1.6;margin-top:0;">
+              You’ve successfully accepted a booking. Below are the full details:
+            </p>
 
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
+            <!-- DETAILS CARD -->
+            <table width="100%" cellpadding="0" cellspacing="0"
+              style="margin:20px 0;background:#0f0f0f;border-radius:10px;">
+              <tr>
+                <td style="padding:16px;color:#ccc;font-size:14px;line-height:1.7;">
+
+                  <strong style="color:#d4af37;">Customer:</strong>
+                  ${booking.customerName}<br>
+
+                  <strong style="color:#d4af37;">Email:</strong>
+                  ${booking.customerEmail}<br>
+
+                  <strong style="color:#d4af37;">Phone:</strong>
+                  ${booking.customerPhone}<br><br>
+
+                  <strong style="color:#d4af37;">Event:</strong>
+                  ${booking.eventType}<br>
+
+                  <strong style="color:#d4af37;">Date:</strong>
+                  ${booking.eventDate}<br>
+
+                  <strong style="color:#d4af37;">Time:</strong>
+                  ${booking.eventTime}<br>
+
+                  <strong style="color:#d4af37;">Address:</strong>
+                  ${booking.location}
+
+                </td>
+              </tr>
+            </table>
+
+            <p style="color:#aaa;font-size:13px;line-height:1.6;">
+              Please contact the customer promptly to finalize arrangements.
+            </p>
+
+            <p style="margin-top:28px;color:#888;font-size:12px;">
+              — B.E.S.T Bartenders
+            </p>
+
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
 </html>
+`
 
-      `
     });
 
     res.sendStatus(200);
