@@ -1,4 +1,5 @@
 require("dotenv").config();
+const crypto = require("crypto"); // put at top of server.js
 const sendEmail = require("./utils/sendEmail");
 const bcrypt = require("bcrypt");
 const Booking = require("./best-bartenders/models/booking");
@@ -132,12 +133,12 @@ app.get("/booking-details", (req, res) => {
 // -----------------------
 // CUSTOMER REGISTRATION (FIXED)
 // -----------------------
-
 app.post("/customer-registration", async (req, res) => {
   const { firstname, lastname, address, email, phone, password } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = crypto.randomBytes(32).toString("hex");
 
     const customer = await Customer.create({
       firstname,
@@ -145,10 +146,28 @@ app.post("/customer-registration", async (req, res) => {
       address,
       email,
       phone,
-      password: hashedPassword
+      password: hashedPassword,
+      emailVerified: false,
+      emailVerificationToken: verificationToken
     });
 
-    console.log("✅ Customer saved:", customer);
+    const verifyUrl = `${process.env.BASE_URL}/verify-email/${verificationToken}`;
+
+    await sendEmail({
+      to: customer.email,
+      subject: "Verify your email – B.E.S.T Bartenders",
+      html: `
+        <h2>Welcome to B.E.S.T Bartenders 🍸</h2>
+        <p>Please verify your email to activate your account.</p>
+        <a href="${verifyUrl}"
+           style="display:inline-block;margin-top:16px;padding:12px 22px;
+           background:#d4af37;color:#000;text-decoration:none;
+           border-radius:6px;font-weight:bold;">
+           Verify Email
+        </a>
+      `
+    });
+
     res.redirect("/registration-success");
 
   } catch (err) {
@@ -160,6 +179,31 @@ app.post("/customer-registration", async (req, res) => {
   }
 });
 
+app.get("/verify-email/:token", async (req, res) => {
+  try {
+    const customer = await Customer.findOne({
+      emailVerificationToken: req.params.token
+    });
+
+    if (!customer) {
+      return res.send("Invalid or expired verification link.");
+    }
+
+    customer.emailVerified = true;
+    customer.emailVerificationToken = null;
+    await customer.save();
+
+    res.send(`
+      <h2>Email Verified ✅</h2>
+      <p>Your account is now active.</p>
+      <a href="/customer-login">Login</a>
+    `);
+
+  } catch (err) {
+    console.error("Verification error:", err);
+    res.status(500).send("Verification failed");
+  }
+});
 
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
@@ -170,12 +214,16 @@ app.post("/customer-login", async (req, res) => {
   try {
     const customer = await Customer.findOne({ email });
     if (!customer) {
-      return res.status(401).send("Email not found");
+      return res.status(401).send("Invalid credentials");
     }
 
     const isMatch = await bcrypt.compare(password, customer.password);
     if (!isMatch) {
-      return res.status(401).send("Incorrect password");
+      return res.status(401).send("Invalid credentials");
+    }
+
+    if (!customer.emailVerified) {
+      return res.send("Please verify your email before logging in.");
     }
 
     req.session.customerId = customer._id;
@@ -186,6 +234,7 @@ app.post("/customer-login", async (req, res) => {
     res.status(500).send("Login failed");
   }
 });
+
 
 // =======================
 // SMART DASHBOARD REDIRECT
