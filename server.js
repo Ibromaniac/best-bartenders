@@ -444,9 +444,13 @@ app.get("/accept/:id", async (req, res) => {
     if (booking.status === "Accepted") {
       return res.status(400).json({ message: "Already accepted" });
     }
-    
+
     booking.status = "Accepted";
     await booking.save();
+
+console.log("➡️ Accept route hit");
+console.log("Customer email:", booking.customerEmail);
+console.log("Bartender email:", booking.bartenderId.email);
 
     // 📧 EMAIL CUSTOMER
     await sendEmail({
@@ -649,4 +653,14 @@ app.post("/api/cancel-booking/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Cancel failed" });
   }
+});
+
+app.get("/test-email", async (req, res) => {
+  await sendEmail({
+    to: process.env.EMAIL_USER,
+    subject: "Test Email ✅",
+    html: "<h2>Email system working</h2>"
+  });
+
+  res.send("Test email sent");
 });
