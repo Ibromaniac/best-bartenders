@@ -448,10 +448,6 @@ app.get("/accept/:id", async (req, res) => {
     booking.status = "Accepted";
     await booking.save();
 
-console.log("➡️ Accept route hit");
-console.log("Customer email:", booking.customerEmail);
-console.log("Bartender email:", booking.bartenderId.email);
-
     // 📧 EMAIL CUSTOMER
     await sendEmail({
       to: booking.customerEmail,
@@ -654,20 +650,3 @@ app.post("/api/cancel-booking/:id", async (req, res) => {
     res.status(500).json({ error: "Cancel failed" });
   }
 });
-
-app.get("/test-email", async (req, res) => {
-  try {
-    await sendEmail({
-      to: "bestbartenders100@gmail.com",
-      subject: "SendGrid Test ✅",
-      html: "<h2>SendGrid is working</h2>"
-    });
-
-    res.send("Test email sent");
-  } catch (err) {
-    console.error(err.response?.body || err);
-    res.status(500).send("Email failed");
-  }
-});
-
-
