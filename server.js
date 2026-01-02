@@ -1,4 +1,5 @@
 require("dotenv").config();
+const sendEmail = require("./utils/sendEmail");
 const bcrypt = require("bcrypt");
 const Booking = require("./best-bartenders/models/booking");
 const mongoose = require("mongoose");
@@ -422,25 +423,75 @@ app.get("/logout", (req, res) => {
 // =======================
 // ACCEPT BOOKING (BARTENDER)
 // =======================
+// =======================
+// ACCEPT BOOKING (BARTENDER + EMAILS) ✅ FINAL
+// =======================
 app.get("/accept/:id", async (req, res) => {
-  if (!req.session.bartenderId) {
-    return res.status(401).json({ message: "Unauthorized" });
+  try {
+    if (!req.session.bartenderId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const booking = await Booking.findOne({
+      _id: req.params.id,
+      bartenderId: req.session.bartenderId
+    }).populate("bartenderId");
+
+    if (!booking) {
+      return res.status(403).json({ message: "Not your booking" });
+    }
+
+    if (booking.status === "Accepted") {
+      return res.status(400).json({ message: "Already accepted" });
+    }
+    
+    booking.status = "Accepted";
+    await booking.save();
+
+    // 📧 EMAIL CUSTOMER
+    await sendEmail({
+      to: booking.customerEmail,
+      subject: "Your booking has been accepted 🎉",
+      html: `
+        <h2>Good news!</h2>
+        <p>Your booking for <strong>${booking.eventType}</strong> has been accepted.</p>
+        <p>
+          📅 ${booking.eventDate}<br>
+          ⏰ ${booking.eventTime}<br>
+          📍 ${booking.location.split(",").slice(-2).join(", ")}
+        </p>
+        <p>Your bartender will contact you shortly.</p>
+        <p><strong>B.E.S.T Bartenders</strong></p>
+      `
+    });
+
+    // 📧 EMAIL BARTENDER
+    await sendEmail({
+      to: booking.bartenderId.email,
+      subject: "You accepted a booking 🍸",
+      html: `
+        <h2>Booking Accepted</h2>
+        <p><strong>Customer:</strong> ${booking.customerName}</p>
+        <p><strong>Phone:</strong> ${booking.customerPhone}</p>
+        <p><strong>Email:</strong> ${booking.customerEmail}</p>
+        <p><strong>Address:</strong> ${booking.location}</p>
+        <hr>
+        <p>
+          📅 ${booking.eventDate}<br>
+          ⏰ ${booking.eventTime}<br>
+          🎉 ${booking.eventType}
+        </p>
+        <p><strong>B.E.S.T Bartenders</strong></p>
+      `
+    });
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error("Accept booking error:", err);
+    res.status(500).json({ message: "Failed to accept booking" });
   }
-
-  const booking = await Booking.findOne({
-    _id: req.params.id,
-    bartenderId: req.session.bartenderId
-  });
-
-  if (!booking) {
-    return res.status(403).json({ message: "Not your booking" });
-  }
-
-  booking.status = "Accepted";
-  await booking.save();
-
-  res.sendStatus(200);
 });
+
 
 // =======================
 // REJECT BOOKING (BARTENDER)
