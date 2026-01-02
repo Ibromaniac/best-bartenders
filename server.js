@@ -1,6 +1,4 @@
 require("dotenv").config();
-console.log("EMAIL_USER =", process.env.EMAIL_USER);
-console.log("EMAIL_PASS exists =", !!process.env.EMAIL_PASS);
 const sendEmail = require("./utils/sendEmail");
 const bcrypt = require("bcrypt");
 const Booking = require("./best-bartenders/models/booking");
@@ -660,7 +658,7 @@ app.post("/api/cancel-booking/:id", async (req, res) => {
 app.get("/test-email", async (req, res) => {
   try {
     await sendEmail({
-      to: process.env.EMAIL_USER,
+      to: process.env.EMAIL_FROM, // ✅ SendGrid sender email
       subject: "Test Email ✅",
       html: "<h2>Email system working</h2>"
     });
