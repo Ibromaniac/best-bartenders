@@ -472,8 +472,8 @@ app.get("/accept/:id", async (req, res) => {
 
         <!-- HEADER -->
         <tr>
-          <td style="padding:24px;text-align:center;border-bottom:1px solid #222;">
-            <h1 style="margin:0;color:#d4af37;font-size:22px;">
+          <td style="padding:26px;text-align:center;border-bottom:1px solid #222;">
+            <h1 style="margin:0;color:#d4af37;font-size:22px;letter-spacing:0.5px;">
               Booking Accepted 🎉
             </h1>
           </td>
@@ -531,6 +531,7 @@ app.get("/accept/:id", async (req, res) => {
 </html>
 `
 
+
     });
 
     // 📧 EMAIL BARTENDER
@@ -546,7 +547,8 @@ app.get("/accept/:id", async (req, res) => {
 
 <body style="margin:0;padding:0;background:#0b0b0b;font-family:Arial,Helvetica,sans-serif;">
 
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:20px 10px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+  style="background:#0b0b0b;padding:20px 10px;">
   <tr>
     <td align="center">
 
@@ -554,10 +556,10 @@ app.get("/accept/:id", async (req, res) => {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
         style="max-width:600px;background:#111;border-radius:14px;overflow:hidden;">
 
-        <!-- LOGO HEADER -->
+        <!-- HEADER -->
         <tr>
-          <td style="padding:24px;text-align:center;border-bottom:1px solid #222;">
-            <h1 style="margin:0;color:#d4af37;font-size:22px;">
+          <td style="padding:26px;text-align:center;border-bottom:1px solid #222;">
+            <h1 style="margin:0;color:#d4af37;font-size:22px;letter-spacing:0.5px;">
               Booking Confirmed 🍸
             </h1>
           </td>
@@ -607,7 +609,7 @@ app.get("/accept/:id", async (req, res) => {
             </p>
 
             <p style="margin-top:28px;color:#888;font-size:12px;">
-              — B.E.S.T Bartenders
+              — <strong style="color:#d4af37;">B.E.S.T Bartenders</strong>
             </p>
 
           </td>
