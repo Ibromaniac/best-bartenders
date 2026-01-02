@@ -133,7 +133,6 @@ app.get("/booking-details", (req, res) => {
 // -----------------------
 // CUSTOMER REGISTRATION (FIXED)
 // -----------------------
-console.log("🔐 TOKEN GENERATED:", verificationToken);
 
 app.post("/customer-registration", async (req, res) => {
   const { firstname, lastname, address, email, phone, password } = req.body;
@@ -142,6 +141,8 @@ app.post("/customer-registration", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
+
+console.log("🔐 TOKEN GENERATED:", verificationToken);
 
     const customer = await Customer.create({
       firstname,
