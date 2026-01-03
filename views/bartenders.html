@@ -354,35 +354,36 @@ fetch("/api/bartenders")
 </script>
 
 <script>
-async function lockBookingUI() {
+async function setupBookingGate() {
+  let isPremium = false;
+
   try {
     const res = await fetch("/api/current-customer");
-
-    const buttons = document.querySelectorAll(".book-btn");
-
-    // ❌ Not logged in OR not premium → do nothing on click
-    if (!res.ok) {
-      return;
+    if (res.ok) {
+      const customer = await res.json();
+      isPremium = customer.isPremium === true;
     }
-
-    const customer = await res.json();
-
-    if (!customer.isPremium) {
-      return;
-    }
-
-    // ✅ Premium user → enable navigation
-    buttons.forEach(btn => {
-      btn.onclick = () => {
-        const id = btn.dataset.bartenderId;
-        window.location.href = `/book/${id}`;
-      };
-    });
-
   } catch (err) {
-    console.error("Booking gate error", err);
+    console.log("Customer not logged in");
   }
+
+  document.querySelectorAll(".book-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const bartenderId = btn.dataset.bartenderId;
+
+      if (!isPremium) {
+        // ❌ Do nothing (silent block)
+        alert("Premium membership required to book a bartender.");
+        return;
+      }
+
+      // ✅ Premium user
+      window.location.href = `/book/${bartenderId}`;
+    });
+  });
 }
+
+setupBookingGate();
 </script>
 
 
