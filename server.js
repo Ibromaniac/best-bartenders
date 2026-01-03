@@ -11,6 +11,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.log(err));
 
 const express = require("express");
+const app = express();
 const path = require("path");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -64,8 +65,8 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 
-// -----------------------
-const app = express();
+
+app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
