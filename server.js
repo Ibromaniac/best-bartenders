@@ -141,6 +141,8 @@ app.post("/customer-registration", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
+const verificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+
 
 const customer = await Customer.create({
   firstname,
@@ -151,8 +153,9 @@ const customer = await Customer.create({
   password: hashedPassword,
   emailVerified: false,
   emailVerificationToken: verificationToken,
-  emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000
+  emailVerificationExpires: verificationExpires
 });
+
 
 
     const verifyUrl = `${process.env.BASE_URL}/verify-email/${verificationToken}`;
