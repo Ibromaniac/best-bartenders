@@ -342,7 +342,8 @@ fetch("/api/bartenders")
         </div>
       `;
     });
-
+   
+    setupBookingGate();
 
   })
   .catch(err => {
@@ -380,7 +381,6 @@ async function setupBookingGate() {
   });
 }
 
-setupBookingGate();
 </script>
 
 </body>
