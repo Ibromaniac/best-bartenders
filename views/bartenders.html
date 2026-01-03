@@ -183,6 +183,8 @@ nav {
       padding: 12px;
       border-radius: 14px;
       border: none;
+      position: relative;
+      padding-left: 36px; /* space for lock */
       font-weight: 700;
       cursor: pointer;
       font-size: 15px;
@@ -209,17 +211,6 @@ nav {
   box-shadow: none;
 }
 
-.book-btn.locked::after {
-  content: "🔒";
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  opacity: 0.85;
-   animation: pulse 2s infinite;
-}
-
 .book-btn.locked:hover {
   transform: none;
   box-shadow: none;
@@ -239,18 +230,13 @@ nav {
 }
 
 .book-btn.locked::before {
-  content: "";
+  content: "🔒";
   position: absolute;
-  top: 0;
-  left: -120%;
-  width: 120%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(212,175,55,0.25),
-    transparent
-  );
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  opacity: 0.85;
   animation: shimmer 2.8s infinite;
 }
 
