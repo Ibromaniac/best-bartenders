@@ -343,7 +343,6 @@ fetch("/api/bartenders")
       `;
     });
 
-    lockBookingUI();
 
   })
   .catch(err => {
@@ -372,12 +371,10 @@ async function setupBookingGate() {
       const bartenderId = btn.dataset.bartenderId;
 
       if (!isPremium) {
-        // ❌ Do nothing (silent block)
         alert("Premium membership required to book a bartender.");
         return;
       }
 
-      // ✅ Premium user
       window.location.href = `/book/${bartenderId}`;
     });
   });
@@ -385,8 +382,6 @@ async function setupBookingGate() {
 
 setupBookingGate();
 </script>
-
-
 
 </body>
 </html>
