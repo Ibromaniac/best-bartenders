@@ -189,42 +189,22 @@ const customer = await Customer.create({
 });
 
 app.get("/verify-email/:token", async (req, res) => {
-  try {
-    console.log("TOKEN FROM URL:", req.params.token);
+  const customer = await Customer.findOne({
+    emailVerificationToken: req.params.token
+  });
 
-    const customer = await Customer.findOne({
-      emailVerificationToken: req.params.token
-    });
-
-    console.log("CUSTOMER FOUND:", customer);
-
-    if (!customer) {
-      return res.send("Invalid verification link.");
-    }
-
-    // ⏰ EXPIRY CHECK IN JS (THIS IS THE KEY FIX)
-    if (
-      !customer.emailVerificationExpires ||
-      customer.emailVerificationExpires.getTime() < Date.now()
-    ) {
-      return res.send("Verification link expired. Please resend.");
-    }
-
-    customer.emailVerified = true;
-    customer.emailVerificationToken = null;
-    customer.emailVerificationExpires = null;
-
-    await customer.save();
-
-    res.sendFile(
-      path.join(__dirname, "views", "email-verified.html")
-    );
-
-  } catch (err) {
-    console.error("Verification error:", err);
-    res.status(500).send("Verification failed");
+  if (!customer) {
+    return res.send("Invalid verification link.");
   }
+
+  customer.emailVerified = true;
+  customer.emailVerificationToken = null;
+  customer.emailVerificationExpires = null;
+  await customer.save();
+
+  res.sendFile(path.join(__dirname, "views", "email-verified.html"));
 });
+
 
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
