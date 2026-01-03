@@ -142,8 +142,6 @@ app.post("/customer-registration", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
-console.log("🔐 TOKEN GENERATED:", verificationToken);
-
     const customer = await Customer.create({
       firstname,
       lastname,
@@ -198,11 +196,10 @@ app.get("/verify-email/:token", async (req, res) => {
     customer.emailVerificationToken = null;
     await customer.save();
 
-    res.send(`
-      <h2>Email Verified ✅</h2>
-      <p>Your account is now active.</p>
-      <a href="/customer-login">Login</a>
-    `);
+    res.sendFile(
+  path.join(__dirname, "views", "email-verified.html")
+);
+
 
   } catch (err) {
     console.error("Verification error:", err);
