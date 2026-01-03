@@ -197,15 +197,47 @@ nav {
       box-shadow: 0 18px 40px rgba(212,175,55,0.6);
     }
 
-    .book-btn:disabled {
-  background: #444;
-  color: #aaa;
+   .book-btn.locked {
+  background: linear-gradient(
+    135deg,
+    rgba(212,175,55,0.25),
+    rgba(240,201,87,0.25)
+  );
+  color: rgba(212,175,55,0.9);
+  cursor: not-allowed;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  position: relative;
+  overflow: hidden;
+}
+
+.book-btn.locked::after {
+  content: "🔒 Premium Only";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #d4af37;
+  backdrop-filter: blur(4px);
+}
+
+.book-btn.locked:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.book-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .premium-warning {
   font-size: 13px;
-  color: #d4af37;
-  margin-top: 6px;
+  color: rgba(212,175,55,0.85);
+  margin-top: 8px;
+  letter-spacing: 0.3px;
 }
 
 
@@ -282,8 +314,9 @@ fetch("/api/bartenders")
 </button>
 
 <p class="premium-warning" style="display:none;">
-  🔒 Upgrade to Premium to book a bartender
+  Unlock full access with <strong>Premium</strong>
 </p>
+
 
         </div>
       `;
@@ -328,9 +361,9 @@ async function lockBookingUI() {
     // 🔒 NOT PREMIUM
     if (!customer.isPremium) {
       buttons.forEach(btn => {
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-        btn.style.cursor = "not-allowed";
+        btn.classList.add("locked");
+btn.disabled = true;
+
       });
 
       warnings.forEach(w => {
