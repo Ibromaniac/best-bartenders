@@ -288,6 +288,9 @@ fetch("/api/bartenders")
         </div>
       `;
     });
+
+    lockBookingUI();
+
   })
   .catch(err => {
     document.getElementById("bartenderList").innerHTML =
@@ -300,11 +303,29 @@ fetch("/api/bartenders")
 async function lockBookingUI() {
   try {
     const res = await fetch("/api/current-customer");
+
+    // 🔒 NOT LOGGED IN
+    if (!res.ok) {
+      document.querySelectorAll(".book-btn").forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.cursor = "not-allowed";
+      });
+
+      document.querySelectorAll(".premium-warning").forEach(w => {
+        w.textContent = "🔒 Login to book a bartender";
+        w.style.display = "block";
+      });
+
+      return;
+    }
+
     const customer = await res.json();
 
     const buttons = document.querySelectorAll(".book-btn");
     const warnings = document.querySelectorAll(".premium-warning");
 
+    // 🔒 NOT PREMIUM
     if (!customer.isPremium) {
       buttons.forEach(btn => {
         btn.disabled = true;
@@ -312,8 +333,13 @@ async function lockBookingUI() {
         btn.style.cursor = "not-allowed";
       });
 
-      warnings.forEach(w => w.style.display = "block");
-    } else {
+      warnings.forEach(w => {
+        w.textContent = "🔒 Upgrade to Premium to book a bartender";
+        w.style.display = "block";
+      });
+    } 
+    // ✅ PREMIUM
+    else {
       buttons.forEach(btn => {
         btn.addEventListener("click", () => {
           const id = btn.dataset.bartenderId;
@@ -325,9 +351,8 @@ async function lockBookingUI() {
     console.error("UI lock error", err);
   }
 }
-
-lockBookingUI();
 </script>
+
 
 
 </body>
