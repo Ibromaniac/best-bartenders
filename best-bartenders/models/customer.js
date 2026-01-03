@@ -15,7 +15,16 @@ const customerSchema = new mongoose.Schema({
     default: false
   },
 
-  emailVerificationToken: String
+  // ⭐ PREMIUM ACCESS
+  isPremium: {
+    type: Boolean,
+    default: false
+  },
+
+  emailVerificationToken: String,
+  emailVerificationExpires: Date
 });
 
+
 module.exports = mongoose.model("Customer", customerSchema);
+

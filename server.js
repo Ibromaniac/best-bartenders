@@ -107,6 +107,7 @@ app.get("/customer-dashboard", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "customer-dashboard.html"));
 });
 
+
 // BARTENDER ROUTES
 app.get("/bartenders-login", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "bartenders-login.html"));
@@ -366,45 +367,58 @@ app.post("/bartenders-login", async (req, res) => {
   }
 });
 
-app.get("/book/:id", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "book.html"));
-});
-
 app.post("/book", async (req, res) => {
+  try {
+    // 🔐 Must be logged in
+    if (!req.session.customerId) {
+      return res.redirect("/customer-login");
+    }
 
-  const {
-    customerName,
-    customerEmail,
-    customerPhone,
-    bartenderId,
-    eventType,
-    eventDate,
-    eventTime,
-    location
-  } = req.body;
+    // 🔐 Load customer from DB
+    const customer = await Customer.findById(req.session.customerId);
 
-  const newBooking = new Booking({
-    customerName,
-    customerEmail,
-    customerPhone,
-    bartenderId,
-    eventType,
-    eventDate,
-    eventTime,
-    location
-  });
+    if (!customer) {
+      return res.status(401).send("Customer not found");
+    }
 
-  await newBooking.save();
+    // 🔐 PREMIUM CHECK (SERVER-LEVEL ENFORCEMENT)
+    if (!customer.isPremium) {
+      return res.send("Upgrade to premium to book a bartender");
+    }
 
-  res.redirect("/booking-success");
-  });
+    // ✅ Booking data
+    const {
+      customerName,
+      customerEmail,
+      customerPhone,
+      bartenderId,
+      eventType,
+      eventDate,
+      eventTime,
+      location
+    } = req.body;
 
-// -----------------------
-// Bartender Routing
-app.get("/my-bookings", async (req, res) => {
-  const bookings = await Booking.find({}).populate("bartenderId");
-  res.json(bookings);
+    const newBooking = new Booking({
+      customerName,
+      customerEmail,
+      customerPhone,
+      bartenderId,
+      eventType,
+      eventDate,
+      eventTime,
+      location
+    });
+
+    await newBooking.save();
+
+    res.redirect("/booking-success");
+
+  } catch (err) {
+    console.error("❌ BOOKING ERROR:", err);
+    res.status(500).send("Booking failed");
+  }
 });
+
 // ✅ LOCKED BARTENDER-ONLY BOOKINGS API
 app.get("/api/bartender-bookings/:bartenderId", async (req, res) => {
   try {
@@ -733,7 +747,8 @@ app.get("/api/current-customer", async (req, res) => {
       firstname: customer.firstname,
       lastname: customer.lastname,
       email: customer.email,
-      profile_photo: customer.profile_photo
+      profile_photo: customer.profile_photo,
+      isPremium: customer.isPremium
     });
   } catch (err) {
     console.log("❌ Current customer error:", err);

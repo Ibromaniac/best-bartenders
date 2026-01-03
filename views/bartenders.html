@@ -197,6 +197,18 @@ nav {
       box-shadow: 0 18px 40px rgba(212,175,55,0.6);
     }
 
+    .book-btn:disabled {
+  background: #444;
+  color: #aaa;
+}
+
+.premium-warning {
+  font-size: 13px;
+  color: #d4af37;
+  margin-top: 6px;
+}
+
+
     .empty-msg {
       grid-column: 1 / -1;
       text-align: center;
@@ -262,9 +274,17 @@ fetch("/api/bartenders")
           <p><strong>Skills:</strong> ${b.skills || "Not set"}</p>
           <p><strong>Rate:</strong> $${b.rate || "Not set"}</p>
 
-          <a href="/book/${b._id}">
-            <button class="book-btn">Book Bartender</button>
-          </a>
+         <button 
+  class="book-btn"
+  data-bartender-id="${b._id}"
+>
+  Book Bartender
+</button>
+
+<p class="premium-warning" style="display:none;">
+  🔒 Upgrade to Premium to book a bartender
+</p>
+
         </div>
       `;
     });
@@ -275,6 +295,40 @@ fetch("/api/bartenders")
     console.error(err);
   });
 </script>
+
+<script>
+async function lockBookingUI() {
+  try {
+    const res = await fetch("/api/current-customer");
+    const customer = await res.json();
+
+    const buttons = document.querySelectorAll(".book-btn");
+    const warnings = document.querySelectorAll(".premium-warning");
+
+    if (!customer.isPremium) {
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.cursor = "not-allowed";
+      });
+
+      warnings.forEach(w => w.style.display = "block");
+    } else {
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.bartenderId;
+          window.location.href = `/book/${id}`;
+        });
+      });
+    }
+  } catch (err) {
+    console.error("UI lock error", err);
+  }
+}
+
+lockBookingUI();
+</script>
+
 
 </body>
 </html>
