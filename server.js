@@ -142,16 +142,18 @@ app.post("/customer-registration", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
-    const customer = await Customer.create({
-      firstname,
-      lastname,
-      address,
-      email,
-      phone,
-      password: hashedPassword,
-      emailVerified: false,
-      emailVerificationToken: verificationToken
-    });
+const customer = await Customer.create({
+  firstname,
+  lastname,
+  address,
+  email,
+  phone,
+  password: hashedPassword,
+  emailVerified: false,
+  emailVerificationToken: verificationToken,
+  emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000
+});
+
 
     const verifyUrl = `${process.env.BASE_URL}/verify-email/${verificationToken}`;
 
@@ -185,8 +187,10 @@ app.post("/customer-registration", async (req, res) => {
 app.get("/verify-email/:token", async (req, res) => {
   try {
     const customer = await Customer.findOne({
-      emailVerificationToken: req.params.token
-    });
+  emailVerificationToken: req.params.token,
+  emailVerificationExpires: { $gt: Date.now() }
+});
+
 
     if (!customer) {
       return res.send("Invalid or expired verification link.");
@@ -841,4 +845,42 @@ app.post("/api/cancel-booking/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Cancel failed" });
   }
+});
+
+app.get("/resend-verification", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "resend-verification.html"));
+});
+
+app.post("/resend-verification", async (req, res) => {
+  const { email } = req.body;
+
+  const customer = await Customer.findOne({ email });
+
+  if (!customer) {
+    return res.send("No account found with this email.");
+  }
+
+  if (customer.emailVerified) {
+    return res.send("Email already verified. Please log in.");
+  }
+
+  const newToken = crypto.randomBytes(32).toString("hex");
+
+  customer.emailVerificationToken = newToken;
+  customer.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000;
+  await customer.save();
+
+  const verifyUrl = `${process.env.BASE_URL}/verify-email/${newToken}`;
+
+  await sendEmail({
+    to: customer.email,
+    subject: "Verify your email – B.E.S.T Bartenders",
+    html: `
+      <h2>Verify Your Email</h2>
+      <p>This link expires in 24 hours.</p>
+      <a href="${verifyUrl}">Verify Email</a>
+    `
+  });
+
+  res.send("Verification email resent. Check your inbox.");
 });
