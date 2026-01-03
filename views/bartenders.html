@@ -240,6 +240,28 @@ nav {
   letter-spacing: 0.3px;
 }
 
+.book-btn.locked::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(212,175,55,0.25),
+    transparent
+  );
+  animation: shimmer 2.8s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -120%; }
+  100% { left: 120%; }
+}
+
+
 
     .empty-msg {
       grid-column: 1 / -1;
@@ -339,19 +361,19 @@ async function lockBookingUI() {
 
     // 🔒 NOT LOGGED IN
     if (!res.ok) {
-      document.querySelectorAll(".book-btn").forEach(btn => {
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-        btn.style.cursor = "not-allowed";
-      });
+  document.querySelectorAll(".book-btn").forEach(btn => {
+    btn.classList.add("locked");
+    btn.disabled = true;
+  });
 
-      document.querySelectorAll(".premium-warning").forEach(w => {
-        w.textContent = "🔒 Login to book a bartender";
-        w.style.display = "block";
-      });
+  document.querySelectorAll(".premium-warning").forEach(w => {
+    w.textContent = "🔒 Login to book a bartender";
+    w.style.display = "block";
+  });
 
-      return;
-    }
+  return;
+}
+
 
     const customer = await res.json();
 
@@ -374,10 +396,11 @@ btn.disabled = true;
     // ✅ PREMIUM
     else {
       buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const id = btn.dataset.bartenderId;
-          window.location.href = `/book/${id}`;
-        });
+        btn.onclick = () => {
+  const id = btn.dataset.bartenderId;
+  window.location.href = `/book/${id}`;
+};
+
       });
     }
   } catch (err) {
