@@ -1,3 +1,4 @@
+console.log("🔥 SERVER VERSION: NO EXPIRY CHECK ACTIVE 🔥");
 require("dotenv").config();
 const crypto = require("crypto"); // put at top of server.js
 const sendEmail = require("./utils/sendEmail");
