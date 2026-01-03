@@ -153,7 +153,8 @@ const customer = await Customer.create({
   password: hashedPassword,
   emailVerified: false,
   emailVerificationToken: verificationToken,
-  emailVerificationExpires: verificationExpires
+  emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000
+
 });
 
 
