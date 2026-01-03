@@ -189,10 +189,14 @@ const customer = await Customer.create({
 
 app.get("/verify-email/:token", async (req, res) => {
   try {
+    console.log("TOKEN FROM URL:", req.params.token);
+
     const customer = await Customer.findOne({
-  emailVerificationToken: req.params.token,
-  emailVerificationExpires: { $gt: Date.now() }
-});
+      emailVerificationToken: req.params.token,
+      emailVerificationExpires: { $gt: Date.now() }
+    });
+
+    console.log("CUSTOMER FOUND:", customer);
 
 
     if (!customer) {
