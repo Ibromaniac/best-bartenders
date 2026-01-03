@@ -358,52 +358,29 @@ async function lockBookingUI() {
   try {
     const res = await fetch("/api/current-customer");
 
-    // 🔒 NOT LOGGED IN
+    const buttons = document.querySelectorAll(".book-btn");
+
+    // ❌ Not logged in OR not premium → do nothing on click
     if (!res.ok) {
-  document.querySelectorAll(".book-btn").forEach(btn => {
-    btn.classList.add("locked");
-    btn.disabled = true;
-  });
-
-  document.querySelectorAll(".premium-warning").forEach(w => {
-    w.textContent = "🔒 Login to book a bartender";
-    w.style.display = "block";
-  });
-
-  return;
-}
-
+      return;
+    }
 
     const customer = await res.json();
 
-    const buttons = document.querySelectorAll(".book-btn");
-    const warnings = document.querySelectorAll(".premium-warning");
-
-    // 🔒 NOT PREMIUM
     if (!customer.isPremium) {
-      buttons.forEach(btn => {
-        btn.classList.add("locked");
-btn.disabled = true;
-
-      });
-
-      warnings.forEach(w => {
-        w.textContent = "🔒 Upgrade to Premium to book a bartender";
-        w.style.display = "block";
-      });
-    } 
-    // ✅ PREMIUM
-    else {
-      buttons.forEach(btn => {
-        btn.onclick = () => {
-  const id = btn.dataset.bartenderId;
-  window.location.href = `/book/${id}`;
-};
-
-      });
+      return;
     }
+
+    // ✅ Premium user → enable navigation
+    buttons.forEach(btn => {
+      btn.onclick = () => {
+        const id = btn.dataset.bartenderId;
+        window.location.href = `/book/${id}`;
+      };
+    });
+
   } catch (err) {
-    console.error("UI lock error", err);
+    console.error("Booking gate error", err);
   }
 }
 </script>
