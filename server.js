@@ -64,9 +64,6 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-
-
-app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
