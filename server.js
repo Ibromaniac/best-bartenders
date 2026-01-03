@@ -153,7 +153,7 @@ const customer = await Customer.create({
   password: hashedPassword,
   emailVerified: false,
   emailVerificationToken: verificationToken,
-  emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000
+  emailVerificationExpires: new Date(Date.now() + 24 * 60 * 60 * 1000)
 
 });
 
@@ -875,7 +875,8 @@ app.post("/resend-verification", async (req, res) => {
   const newToken = crypto.randomBytes(32).toString("hex");
 
   customer.emailVerificationToken = newToken;
-  customer.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000;
+  customer.emailVerificationExpires =
+  new Date(Date.now() + 24 * 60 * 60 * 1000);
   await customer.save();
 
   const verifyUrl = `${process.env.BASE_URL}/verify-email/${newToken}`;
