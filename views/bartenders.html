@@ -220,6 +220,10 @@ nav {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.book-btn.locked,
+.book-btn[data-locked="true"] {
+  cursor: pointer; /* still clickable */
+}
 
     .book-btn:hover {
       transform: translateY(-3px);
@@ -233,6 +237,67 @@ nav {
       color: rgba(255,255,255,0.6);
       font-size: 1.1rem;
     }
+
+    /* ===== UPGRADE MODAL ===== */
+.upgrade-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.upgrade-box {
+  background: linear-gradient(135deg, #1a1a1a, #242424);
+  border-radius: 22px;
+  padding: 2.2rem;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.8);
+}
+
+.upgrade-box h2 {
+  color: #d4af37;
+  margin-bottom: 0.8rem;
+}
+
+.upgrade-box p {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.8rem;
+}
+
+.upgrade-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #d4af37, #f0c957);
+  color: #1a1a1a;
+  box-shadow: 0 14px 30px rgba(212,175,55,0.45);
+}
+
+.upgrade-btn:hover {
+  transform: translateY(-2px);
+}
+
+.upgrade-close {
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  font-size: 13px;
+}
+
   </style>
 </head>
 
@@ -256,101 +321,134 @@ nav {
 </header>
 
 <section class="page-header">
-  <h3>Pick Your Bartender</h3>
+  <h1>Pick Your Bartender</h1>
   <p>Browse verified professionals and book with confidence</p>
 </section>
 
 <div id="bartenderList"></div>
 
 <script>
-fetch("/api/bartenders")
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("bartenderList");
-
-    if (!data || data.length === 0) {
-      container.innerHTML = `<p class="empty-msg">No bartenders available at the moment.</p>`;
-      return;
-    }
-
-    data.forEach(b => {
-  const photoUrl = b.profile_photo
-    ? b.profile_photo
-    : "/images/default-user.jpg";
-
-
-      container.innerHTML += `
-        <div class="bartender-card">
-        <div class="premium-badge">👑MEMBERS ONLY</div>
-          <img
-            src="${photoUrl}"
-            alt="${b.firstname} ${b.lastname}"
-            class="bartender-photo"
-            onerror="this.src='/images/default-bartender.jpg'"
-          >
-          <h3>${b.firstname} ${b.lastname}</h3>
-          <p><strong>City:</strong> ${b.city || "Not set"}</p>
-          <p><strong>Skills:</strong> ${b.skills || "Not set"}</p>
-          <p><strong>Rate:</strong> $${b.rate || "Not set"}</p>
-
-         <button 
-  class="book-btn"
-  data-bartender-id="${b._id}"
->
-  Book Bartender
-</button>
-
-<p class="premium-warning" style="display:none;">
-  Unlock full access with <strong>Premium</strong>
-</p>
-
-
-        </div>
-      `;
-    });
-   
-    setupBookingGate();
-
-  })
-  .catch(err => {
-    document.getElementById("bartenderList").innerHTML =
-      `<p class="empty-msg">Error loading bartenders.</p>`;
-    console.error(err);
-  });
+let isPremium = false;
 </script>
 
-<script>
-async function setupBookingGate() {
-  let isPremium = false;
 
+<script>
+async function loadBartenders() {
   try {
-    const res = await fetch("/api/current-customer");
-    if (res.ok) {
-      const customer = await res.json();
+    const customerRes = await fetch("/api/current-customer");
+    if (customerRes.ok) {
+      const customer = await customerRes.json();
       isPremium = customer.isPremium === true;
     }
-  } catch (err) {
-    console.log("Customer not logged in");
+  } catch {
+    isPremium = false;
   }
 
+  fetch("/api/bartenders")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("bartenderList");
+
+      if (!data || data.length === 0) {
+        container.innerHTML = `<p class="empty-msg">No bartenders available at the moment.</p>`;
+        return;
+      }
+
+      data.forEach(b => {
+        const photoUrl = b.profile_photo || "/images/default-user.jpg";
+
+        container.innerHTML += `
+          <div class="bartender-card">
+            ${!isPremium ? `<div class="premium-badge">👑 MEMBERS ONLY</div>` : ""}
+            <img
+              src="${photoUrl}"
+              class="bartender-photo"
+              onerror="this.src='/images/default-bartender.jpg'"
+            >
+            <h3>${b.firstname} ${b.lastname}</h3>
+            <p><strong>City:</strong> ${b.city || "Not set"}</p>
+            <p><strong>Skills:</strong> ${b.skills || "Not set"}</p>
+            <p><strong>Rate:</strong> $${b.rate || "Not set"}</p>
+
+            <button class="book-btn" data-bartender-id="${b._id}">
+              Book Bartender
+            </button>
+          </div>
+        `;
+      });
+
+      setupBookingGate();
+    });
+}
+
+loadBartenders();
+</script>
+
+
+<script>
+function openUpgradeModal() {
+  document.getElementById("upgradeModal").style.display = "flex";
+}
+
+function closeUpgradeModal() {
+  document.getElementById("upgradeModal").style.display = "none";
+}
+
+document.getElementById("upgradeNowBtn").addEventListener("click", () => {
+  window.location.href = "/subscribe";
+});
+
+async function setupBookingGate() {
+  function setupBookingGate() {
   document.querySelectorAll(".book-btn").forEach(btn => {
     const bartenderId = btn.dataset.bartenderId;
 
-    // 🔒 NOT PREMIUM → SHOW LOCK
-   if (!isPremium) {
-  btn.addEventListener("click", () => {
-    window.location.href = "/subscribe";
-  });
-  return;
-}
+    if (!isPremium) {
+      btn.addEventListener("click", openUpgradeModal);
+      return;
+    }
 
-    // ✅ PREMIUM → ALLOW BOOKING
     btn.addEventListener("click", () => {
       window.location.href = `/book/${bartenderId}`;
     });
   });
 }
+
+
+  document.querySelectorAll(".book-btn").forEach(btn => {
+    const bartenderId = btn.dataset.bartenderId;
+
+    if (!isPremium) {
+      btn.addEventListener("click", openUpgradeModal);
+      return;
+    }
+
+    btn.addEventListener("click", () => {
+      window.location.href = `/book/${bartenderId}`;
+    });
+  });
+}
+
 </script>
+
+<!-- UPGRADE MODAL -->
+<div id="upgradeModal" class="upgrade-modal">
+  <div class="upgrade-box">
+    <h2>Unlock Premium Access</h2>
+    <p>
+      Book verified professional bartenders instantly.<br>
+      Priority access. Premium support.
+    </p>
+
+    <button id="upgradeNowBtn" class="upgrade-btn">
+      Upgrade Now
+    </button>
+
+    <button class="upgrade-close" onclick="closeUpgradeModal()">
+      Not now
+    </button>
+  </div>
+</div>
 
 
 </body>
