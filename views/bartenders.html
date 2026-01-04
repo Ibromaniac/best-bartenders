@@ -27,8 +27,6 @@ html, body {
       min-height: 100vh;
       color: #fff;
       padding-top: 64px;
-      transform: translateZ(0);
-      backface-visibility: hidden;
     }
 
     body::before {
@@ -239,6 +237,7 @@ nav {
   width: 100vw;
   height: 100vh;
 inset: 0;
+  transform: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,10 +364,10 @@ async function loadBartenders() {
             <p><strong>Skills:</strong> ${b.skills || "Not set"}</p>
             <p><strong>Rate:</strong> $${b.rate || "Not set"}</p>
 
-            <button type="button" class="book-btn" data-bartender-id="...">
-  Book Bartender
-</button>
-
+            <button class="book-btn" data-bartender-id="${b._id}">
+              Book Bartender
+            </button>
+          </div>
         `;
       });
 
@@ -402,19 +401,15 @@ function setupBookingGate() {
   document.querySelectorAll(".book-btn").forEach(btn => {
     const bartenderId = btn.dataset.bartenderId;
 
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();   // ⛔ stop scroll jump
-      e.stopPropagation();  // ⛔ stop bubbling
-
-      if (!isPremium) {
-        openUpgradeModal();
-      } else {
+    if (!isPremium) {
+      btn.addEventListener("click", openUpgradeModal);
+    } else {
+      btn.addEventListener("click", () => {
         window.location.href = `/book/${bartenderId}`;
-      }
-    });
+      });
+    }
   });
 }
-
 
 
 </script>
