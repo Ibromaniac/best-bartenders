@@ -291,6 +291,23 @@ nav {
   font-size: 13px;
 }
 
+👑 crown highlight */
+.premium-badge .crown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  background: #1a1a1a;                 /* dark contrast */
+  color: #f0c957;                      /* bright gold crown */
+  font-size: 13px;
+
+  box-shadow: 0 0 8px rgba(212,175,55,0.9);
+}
+
   </style>
 </head>
 
@@ -352,7 +369,11 @@ async function loadBartenders() {
 
         container.innerHTML += `
           <div class="bartender-card">
-            ${!isPremium ? `<div class="premium-badge">👑 MEMBERS ONLY</div>` : ""}
+            ${!isPremium ? `<div class="premium-badge">
+  <span class="crown">👑</span>
+  MEMBERS ONLY
+</div>
+` : ""}
             <img
               src="${photoUrl}"
               class="bartender-photo"
