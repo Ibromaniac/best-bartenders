@@ -239,16 +239,31 @@ nav {
     }
 
     /* ===== UPGRADE MODAL ===== */
-.upgrade-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(6px);
-  display: none;
+.modal-overlay {
+  position: fixed;          /* 🔑 KEY FIX */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
 }
+
+.modal-box {
+  background: #111;
+  border-radius: 18px;
+  max-width: 420px;
+  width: 90%;
+  padding: 24px;
+  color: #fff;
+}
+
+
 
 .upgrade-box {
   background: linear-gradient(135deg, #1a1a1a, #242424);
