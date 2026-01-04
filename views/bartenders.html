@@ -151,18 +151,30 @@ nav {
 .premium-badge {
   position: absolute;
   top: 14px;
-  right: 14px;
-  background: linear-gradient(135deg, #d4af37, #f0c957);
+  right: 10px;
+  background: linear-gradient(
+    120deg,
+    #d4af37,
+    #f0c957,
+    #d4af37
+  );
+  background-size: 200% 200%;
   color: #1a1a1a;
   font-size: 11px;
   font-weight: 700;
   padding: 6px 10px;
   border-radius: 999px;
-  box-shadow:
-    0 6px 18px rgba(212,175,55,0.45),
-    0 0 12px rgba(212,175,55,0.35);
-  letter-spacing: 0.2px;
+  box-shadow: 0 6px 18px rgba(212,175,55,0.45);
+  letter-spacing: 0.4px;
+  animation: premiumShimmer 4s ease-in-out infinite;
 }
+
+@keyframes premiumShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
     /* ======================
        BARTENDER IMAGE (FIXED)
