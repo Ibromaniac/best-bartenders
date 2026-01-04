@@ -420,28 +420,30 @@ document.getElementById("upgradeNowBtn").addEventListener("click", () => {
 });
 
 function setupBookingGate() {
+  // Book button logic
   document.querySelectorAll(".book-btn").forEach(btn => {
     const bartenderId = btn.dataset.bartenderId;
 
-    
-    if (!isPremium) {
-      btn.addEventListener("click", openUpgradeModal);
-    } else {
-      btn.addEventListener("click", () => {
-        window.location.href = `/book/${bartenderId}`;
-      });
-      
-    }
-  });
-}
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
 
- document.querySelectorAll(".premium-badge").forEach(badge => {
+      if (!isPremium) {
+        openUpgradeModal();
+      } else {
+        window.location.href = `/book/${bartenderId}`;
+      }
+    });
+  });
+
+  // MEMBERS ONLY badge logic (AFTER render)
+  document.querySelectorAll(".premium-badge").forEach(badge => {
     badge.addEventListener("click", (e) => {
       e.preventDefault();
-      e.stopPropagation(); // 🔒 stop card/button interference
+      e.stopPropagation();
       openUpgradeModal();
     });
-});
+  });
+}
 
 
 
