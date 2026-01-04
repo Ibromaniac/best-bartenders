@@ -138,6 +138,7 @@ nav {
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
       text-align: center;
+      position: relative;
       will-change: transform;              /* 👈 ADD */
       transform: translateZ(0);             /* 👈 ADD */
     }
@@ -146,6 +147,22 @@ nav {
       transform: translateY(-6px);
       box-shadow: 0 28px 70px rgba(212,175,55,0.25);
     }
+
+.premium-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #d4af37, #f0c957);
+  color: #1a1a1a;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  box-shadow:
+    0 6px 18px rgba(212,175,55,0.45),
+    0 0 12px rgba(212,175,55,0.35);
+  letter-spacing: 0.4px;
+}
 
     /* ======================
        BARTENDER IMAGE (FIXED)
@@ -253,6 +270,7 @@ fetch("/api/bartenders")
 
       container.innerHTML += `
         <div class="bartender-card">
+        <div class="premium-badge">MEMBERS ONLY</div>
           <img
             src="${photoUrl}"
             alt="${b.firstname} ${b.lastname}"
@@ -308,13 +326,12 @@ async function setupBookingGate() {
     const bartenderId = btn.dataset.bartenderId;
 
     // 🔒 NOT PREMIUM → SHOW LOCK
-    if (!isPremium) {
-      btn.classList.add("locked");   // ✅ THIS WAS MISSING
-      btn.addEventListener("click", () => {
-        alert("Premium membership required to book a bartender.");
-      });
-      return;
-    }
+   if (!isPremium) {
+  btn.addEventListener("click", () => {
+    window.location.href = "/subscribe";
+  });
+  return;
+}
 
     // ✅ PREMIUM → ALLOW BOOKING
     btn.addEventListener("click", () => {
