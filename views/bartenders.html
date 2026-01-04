@@ -231,18 +231,17 @@ nav {
 
     /* ===== UPGRADE MODAL ===== */
 .modal-overlay {
-  position: fixed;          /* 🔑 KEY FIX */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-inset: 0;
-  transform: none !important;
+  position: fixed;
+  inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
   z-index: 9999;
 }
 
