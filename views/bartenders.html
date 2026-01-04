@@ -183,6 +183,14 @@ premium-badge {
   100% { background-position: 0% 50%; }
 }
 
+.premium-tap {
+  cursor: pointer;
+}
+
+.premium-tap:active {
+  transform: scale(0.96);
+}
+
 
     /* ======================
        BARTENDER IMAGE (FIXED)
@@ -366,7 +374,8 @@ async function loadBartenders() {
 
         container.innerHTML += `
           <div class="bartender-card">
-            ${!isPremium ? `<div class="premium-badge"> MEMBERS ONLY</div>` : ""}
+            ${!isPremium ? `<div class="premium-badge premium-tap">MEMBERS ONLY</div>
+` : ""}
             <img
               src="${photoUrl}"
               class="bartender-photo"
@@ -414,15 +423,25 @@ function setupBookingGate() {
   document.querySelectorAll(".book-btn").forEach(btn => {
     const bartenderId = btn.dataset.bartenderId;
 
+    
     if (!isPremium) {
       btn.addEventListener("click", openUpgradeModal);
     } else {
       btn.addEventListener("click", () => {
         window.location.href = `/book/${bartenderId}`;
       });
+      
     }
   });
 }
+
+document.addEventListener("click", (e) => {
+  const badge = e.target.closest(".premium-badge");
+  if (badge && !isPremium) {
+    openUpgradeModal();
+  }
+});
+
 
 
 </script>
