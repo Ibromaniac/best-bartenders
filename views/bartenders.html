@@ -237,6 +237,17 @@ nav {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Locked (non-premium) state */
+.book-btn.locked {
+  filter: brightness(0.85);
+  box-shadow: 0 6px 14px rgba(212,175,55,0.25);
+}
+
+/* Touch feedback (mobile-friendly, not hover) */
+.book-btn.locked:active {
+  transform: scale(0.97);
+}
+
 .book-btn.locked,
 .book-btn[data-locked="true"] {
   cursor: pointer; /* still clickable */
