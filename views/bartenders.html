@@ -163,6 +163,20 @@ nav {
   animation: premiumShimmer 2s ease-in-out infinite;
 }
 
+premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.premium-badge::before {
+  content: "👑";
+  font-size: 14px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.75))
+          drop-shadow(0 0 6px rgba(255,255,255,0.35));
+}
+
 @keyframes premiumShimmer {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -291,23 +305,6 @@ nav {
   font-size: 13px;
 }
 
-👑 crown highlight */
-.premium-badge .crown {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-
-  background: #1a1a1a;                 /* dark contrast */
-  color: #f0c957;                      /* bright gold crown */
-  font-size: 13px;
-
-  box-shadow: 0 0 8px rgba(212,175,55,0.9);
-}
-
   </style>
 </head>
 
@@ -369,11 +366,7 @@ async function loadBartenders() {
 
         container.innerHTML += `
           <div class="bartender-card">
-            ${!isPremium ? `<div class="premium-badge">
-  <span class="crown">👑</span>
-  MEMBERS ONLY
-</div>
-` : ""}
+            ${!isPremium ? `<div class="premium-badge"> MEMBERS ONLY</div>` : ""}
             <img
               src="${photoUrl}"
               class="bartender-photo"
