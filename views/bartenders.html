@@ -163,7 +163,7 @@ nav {
   animation: premiumShimmer 2s ease-in-out infinite;
 }
 
-premium-badge {
+.premium-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -435,11 +435,12 @@ function setupBookingGate() {
   });
 }
 
-document.addEventListener("click", (e) => {
-  const badge = e.target.closest(".premium-badge");
-  if (badge && !isPremium) {
-    openUpgradeModal();
-  }
+ document.querySelectorAll(".premium-badge").forEach(badge => {
+    badge.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // 🔒 stop card/button interference
+      openUpgradeModal();
+    });
 });
 
 
