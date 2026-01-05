@@ -3,6 +3,8 @@ require("dotenv").config();
 const crypto = require("crypto"); // put at top of server.js
 const sendEmail = require("./utils/sendEmail");
 const bcrypt = require("bcrypt");
+const Stripe = require("stripe");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const Booking = require("./best-bartenders/models/booking");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -826,7 +828,6 @@ app.get("/bartender-dashboard", (req, res) => {
   );
 });
 
-
 // -----------------------
 const PORT = process.env.PORT || 3000;
 
@@ -896,25 +897,42 @@ app.post("/resend-verification", async (req, res) => {
 });
 
 app.post("/create-checkout-session", async (req, res) => {
+  if (!req.session.customerId) {
+    return res.status(401).json({ error: "Not logged in" });
+  }
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-
       payment_method_types: ["card"],
-
       line_items: [
         {
           price: "price_1Sm1sMFCGLC1gCosQBIWLT5h",
           quantity: 1,
         },
       ],
-
-     success_url: `${process.env.BASE_URL}/upgrade-success`,
-     cancel_url: `${process.env.BASE_URL}/bartenders`,
+      success_url: `${process.env.BASE_URL}/upgrade-success`,
+      cancel_url: `${process.env.BASE_URL}/bartenders`,
     });
 
     res.json({ url: session.url });
   } catch (err) {
+    console.error("Stripe error:", err);
     res.status(500).json({ error: "Stripe checkout failed" });
   }
+});
+
+
+app.get("/upgrade-success", async (req, res) => {
+  if (!req.session.customerId) {
+    return res.redirect("/customer-login");
+  }
+
+  await Customer.findByIdAndUpdate(req.session.customerId, {
+    isPremium: true
+  });
+
+  res.sendFile(
+    path.join(__dirname, "views", "upgrade-success.html")
+  );
 });

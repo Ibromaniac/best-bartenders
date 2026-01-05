@@ -426,8 +426,22 @@ function closeUpgradeModal() {
 }
 
 
-document.getElementById("upgradeNowBtn").addEventListener("click", () => {
-  window.location.href = "/subscribe";
+document.addEventListener("DOMContentLoaded", () => {
+  const upgradeBtn = document.getElementById("upgradeNowBtn");
+  if (!upgradeBtn) return;
+
+  upgradeBtn.addEventListener("click", async () => {
+    try {
+      const res = await fetch("/create-checkout-session", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      window.location.href = data.url; // 🚀 Stripe Checkout
+    } catch (err) {
+      alert("Unable to start checkout. Please try again.");
+    }
+  });
 });
 
 function setupBookingGate() {
