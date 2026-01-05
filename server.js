@@ -894,3 +894,27 @@ app.post("/resend-verification", async (req, res) => {
 
   res.send("Verification email resent. Check your inbox.");
 });
+
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+
+      payment_method_types: ["card"],
+
+      line_items: [
+        {
+          price: "price_1Sm1sMFCGLC1gCosQBIWLT5h",
+          quantity: 1,
+        },
+      ],
+
+     success_url: `${process.env.BASE_URL}/upgrade-success`,
+     cancel_url: `${process.env.BASE_URL}/bartenders`,
+    });
+
+    res.json({ url: session.url });
+  } catch (err) {
+    res.status(500).json({ error: "Stripe checkout failed" });
+  }
+});
