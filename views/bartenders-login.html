@@ -422,7 +422,7 @@
     <section class="login-container">
       <h2>Bartender Login</h2>
 
-      <form id="loginForm">
+      <form method="POST" action="/bartenders-login">
         <div class="input-group">
   <span class="input-icon">
     <!-- EMAIL SVG -->
@@ -493,6 +493,7 @@
 </div>
 
 <script>
+const form = document.getElementById("loginForm");
 const btn = document.querySelector(".login-btn");
 function togglePassword() {
   const input = document.getElementById("password");
@@ -516,42 +517,6 @@ function togglePassword() {
     <button onclick="closeReviewModal()">Okay</button>
   </div>
 </div>
-
-<script>
-const form = document.getElementById("loginForm");
-const modal = document.getElementById("reviewModal");
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-
-  const res = await fetch("/bartenders-login", {
-    method: "POST",
-    body: formData
-  });
-
-  // 🔴 ACCOUNT UNDER REVIEW
-  if (res.status === 403) {
-    modal.classList.add("show");
-    return;
-  }
-
-  // ❌ WRONG LOGIN
-  if (!res.ok) {
-    alert("Invalid login credentials");
-    return;
-  }
-
-  // ✅ SUCCESS
-  window.location.href = "/bartender-dashboard";
-});
-
-function closeReviewModal() {
-  modal.classList.remove("show");
-}
-</script>
-
 
 </body>
 </html>
