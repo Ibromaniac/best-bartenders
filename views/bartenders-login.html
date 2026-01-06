@@ -270,38 +270,6 @@
       animation: spin .7s linear infinite;
     }
 
-    .review-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(10px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.review-modal.show {
-  display: flex;
-}
-
-.review-card {
-  background: #111;
-  color: #fff;
-  padding: 2.5rem 2.2rem;
-  border-radius: 18px;
-  text-align: center;
-  max-width: 420px;
-  width: 90%;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.8);
-  animation: popIn 0.35s ease;
-}
-
-.review-icon {
-  font-size: 2.6rem;
-  margin-bottom: 0.8rem;
-}
-
 .review-card h2 {
   color: #d4af37;
   margin-bottom: 0.6rem;
@@ -320,17 +288,6 @@
   background: linear-gradient(135deg, #d4af37, #f0c957);
   font-weight: 600;
   cursor: pointer;
-}
-
-@keyframes popIn {
-  from {
-    transform: scale(0.85);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 
 
@@ -493,30 +450,12 @@
 </div>
 
 <script>
-const form = document.getElementById("loginForm");
-const btn = document.querySelector(".login-btn");
 function togglePassword() {
   const input = document.getElementById("password");
-
-  if (input.type === "password") {
-    input.type = "text";
-  } else {
-    input.type = "password";
-  }
+  input.type = input.type === "password" ? "text" : "password";
 }
 </script>
-<div id="reviewModal" class="review-modal">
-  <div class="review-card">
-    <div class="review-icon">⏳</div>
-    <h2>Account Under Review</h2>
-    <p>
-      Your bartender profile is currently under review.
-      <br>
-      You’ll be notified once approval is complete.
-    </p>
-    <button onclick="closeReviewModal()">Okay</button>
-  </div>
-</div>
+
 
 </body>
 </html>
