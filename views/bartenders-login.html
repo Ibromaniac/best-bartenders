@@ -506,39 +506,42 @@
 </div>
 
 <script>
-const form = document.getElementById("loginForm");
-const modal = document.getElementById("reviewModal");
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
+  const modal = document.getElementById("reviewModal");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // ✅ stops page reload
 
-  const formData = new FormData(form);
+    const formData = new FormData(form);
 
-  const res = await fetch("/bartenders-login", {
-    method: "POST",
-    body: formData
+    const res = await fetch("/bartenders-login", {
+      method: "POST",
+      body: formData
+    });
+
+    // ✅ UNDER REVIEW -> show modal
+    if (res.status === 403) {
+      modal.classList.add("show");
+      return;
+    }
+
+    // ❌ WRONG LOGIN
+    if (!res.ok) {
+      alert("Invalid login credentials");
+      return;
+    }
+
+    // ✅ APPROVED -> go dashboard
+    window.location.href = "/bartender-dashboard";
   });
-
-  // 🔒 ACCOUNT UNDER REVIEW
-  if (res.status === 403) {
-    modal.classList.add("show");
-    return;
-  }
-
-  // ❌ WRONG LOGIN
-  if (!res.ok) {
-    alert("Invalid login credentials");
-    return;
-  }
-
-  // ✅ SUCCESS
-  window.location.href = "/bartender-dashboard";
 });
 
 function closeReviewModal() {
-  modal.classList.remove("show");
+  document.getElementById("reviewModal").classList.remove("show");
 }
 </script>
+
 
 
 </body>
