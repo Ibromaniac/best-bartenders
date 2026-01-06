@@ -352,7 +352,7 @@ app.post("/bartenders-login", async (req, res) => {
     if (!isMatch) return res.send("Incorrect password");
 
     if (!bartender.approved) {
-      return res.send("/bartender-under-review");
+      return res.redirect("/bartender-under-review");
     }
 
     // ✅ SET SESSION
