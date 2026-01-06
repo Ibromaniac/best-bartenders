@@ -352,7 +352,7 @@ app.post("/bartenders-login", async (req, res) => {
     if (!isMatch) return res.send("Incorrect password");
 
     if (!bartender.approved) {
-      return res.send("Account under review");
+      return res.send("/bartender-under-review");
     }
 
     // ✅ SET SESSION
@@ -893,4 +893,8 @@ app.post("/resend-verification", async (req, res) => {
   });
 
   res.send("Verification email resent. Check your inbox.");
+});
+
+app.get('/bartender-under-review', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'bartender-under-review.html'));
 });

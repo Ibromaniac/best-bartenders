@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Under Review - B.E.S.T Bartenders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, #f0c957, #d4af37);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 34px;
+      font-weight: 700;
+      box-shadow: 0 0 30px rgba(212,175,55,0.6);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #d0d0d0;
+      margin-bottom: 28px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(212,175,55,0.15);
+      color: #f0c957;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d4af37, #f0c957);
+      color: #000;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212,175,55,0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="icon">✓</div>
+
+    <h1>Account Under Review</h1>
+
+    <div class="status">Verification in Progress</div>
+
+    <p>
+      Thank you for registering with <strong>B.E.S.T Bartenders</strong>.<br>
+      Your profile is currently under review by our team.
+      You’ll be notified as soon as your account is approved.
+    </p>
+
+    <a href="/" class="btn">Return to Home</a>
+  </div>
+</body>
+</html>
