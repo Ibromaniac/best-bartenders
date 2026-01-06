@@ -55,12 +55,18 @@
 }
 
 .lightbox img {
-  transform: scale(0.85);
-  transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+   transform: scale(0.6);
+  opacity: 0;
+  transform-origin: center center;
+  transition:
+    transform 0.45s cubic-bezier(.22,1,.36,1),
+    opacity 0.35s ease;
 }
 
 .lightbox.show img {
-  transform: scale(1);
+  transform: scale(0.5);
+
+  opacity: 1;
 }
 
 
