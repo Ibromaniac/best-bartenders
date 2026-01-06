@@ -270,6 +270,70 @@
       animation: spin .7s linear infinite;
     }
 
+    .review-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.review-modal.show {
+  display: flex;
+}
+
+.review-card {
+  background: #111;
+  color: #fff;
+  padding: 2.5rem 2.2rem;
+  border-radius: 18px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+  animation: popIn 0.35s ease;
+}
+
+.review-icon {
+  font-size: 2.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.review-card h2 {
+  color: #d4af37;
+  margin-bottom: 0.6rem;
+}
+
+.review-card p {
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.review-card button {
+  margin-top: 1.6rem;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #d4af37, #f0c957);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
     @keyframes spin {
       to { transform: translate(-50%, -50%) rotate(360deg); }
     }
@@ -358,7 +422,7 @@
     <section class="login-container">
       <h2>Bartender Login</h2>
 
-      <form method="POST" action="/bartenders-login">
+      <form id="loginForm">
         <div class="input-group">
   <span class="input-icon">
     <!-- EMAIL SVG -->
@@ -429,7 +493,6 @@
 </div>
 
 <script>
-const form = document.getElementById("loginForm");
 const btn = document.querySelector(".login-btn");
 function togglePassword() {
   const input = document.getElementById("password");
@@ -441,6 +504,54 @@ function togglePassword() {
   }
 }
 </script>
+<div id="reviewModal" class="review-modal">
+  <div class="review-card">
+    <div class="review-icon">⏳</div>
+    <h2>Account Under Review</h2>
+    <p>
+      Your bartender profile is currently under review.
+      <br>
+      You’ll be notified once approval is complete.
+    </p>
+    <button onclick="closeReviewModal()">Okay</button>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById("loginForm");
+const modal = document.getElementById("reviewModal");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+
+  const res = await fetch("/bartenders-login", {
+    method: "POST",
+    body: formData
+  });
+
+  // 🔴 ACCOUNT UNDER REVIEW
+  if (res.status === 403) {
+    modal.classList.add("show");
+    return;
+  }
+
+  // ❌ WRONG LOGIN
+  if (!res.ok) {
+    alert("Invalid login credentials");
+    return;
+  }
+
+  // ✅ SUCCESS
+  window.location.href = "/bartender-dashboard";
+});
+
+function closeReviewModal() {
+  modal.classList.remove("show");
+}
+</script>
+
 
 </body>
 </html>

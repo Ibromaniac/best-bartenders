@@ -936,3 +936,27 @@ app.get("/upgrade-success", async (req, res) => {
     path.join(__dirname, "views", "upgrade-success.html")
   );
 });
+
+// POST /bartender-login
+router.post("/bartender-login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const bartender = await Bartender.findOne({ email });
+  if (!bartender) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const match = await bcrypt.compare(password, bartender.password);
+  if (!match) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  // 🚨 ACCOUNT UNDER REVIEW
+  if (!bartender.approved) {
+    return res.status(403).json({ status: "under_review" });
+  }
+
+  // ✅ APPROVED → CONTINUE LOGIN
+  req.session.bartenderId = bartender._id;
+  res.json({ status: "ok" });
+});
