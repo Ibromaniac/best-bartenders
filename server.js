@@ -352,9 +352,8 @@ app.post("/bartenders-login", async (req, res) => {
     if (!isMatch) return res.send("Incorrect password");
 
     if (!bartender.approved) {
-  return res.status(403).json({ status: "under_review" });
-}
-
+      return res.send("Account under review");
+    }
 
     // ✅ SET SESSION
     req.session.bartenderId = bartender._id;
