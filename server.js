@@ -209,6 +209,9 @@ app.get("/verify-email/:token", async (req, res) => {
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
 // -----------------------
+// -----------------------
+// CUSTOMER LOGIN (FINAL FIX)
+// -----------------------
 app.post("/customer-login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -218,19 +221,22 @@ app.post("/customer-login", async (req, res) => {
       ? await bcrypt.compare(password, customer.password)
       : false;
 
+    // ❌ wrong email OR password
     if (!customer || !isMatch) {
       return res.redirect("/customer-login?error=invalid");
     }
 
+    // ⚠️ email not verified
     if (!customer.emailVerified) {
       return res.redirect("/customer-login?error=verify");
     }
 
+    // ✅ success
     req.session.customerId = customer._id;
     res.redirect("/customer-dashboard");
 
   } catch (err) {
-    console.error("❌ LOGIN ERROR:", err);
+    console.error("❌ CUSTOMER LOGIN ERROR:", err);
     res.redirect("/customer-login?error=invalid");
   }
 });
@@ -345,30 +351,26 @@ app.post("/bartenders-login", async (req, res) => {
 
   try {
     const bartender = await Bartender.findOne({ email });
-    const isMatch = bartender
-      ? await bcrypt.compare(password, bartender.password)
-      : false;
+    if (!bartender) return res.send("No account found");
 
-    // ❌ wrong email OR password → same response
-    if (!bartender || !isMatch) {
-      return res.redirect("/bartenders-login?error=invalid");
-    }
+    const isMatch = await bcrypt.compare(password, bartender.password);
+    if (!isMatch) return res.send("Incorrect password");
 
-    // ⏳ account exists but not approved
     if (!bartender.approved) {
       return res.redirect("/bartender-under-review");
     }
 
-    // ✅ approved
+    // ✅ SET SESSION
     req.session.bartenderId = bartender._id;
+
+    // ✅ SERVER REDIRECT
     res.redirect("/bartender-dashboard");
 
   } catch (err) {
-    console.error("❌ BARTENDER LOGIN ERROR:", err);
-    res.redirect("/bartenders-login?error=invalid");
+    console.log(err);
+    res.status(500).send("Login failed");
   }
 });
-
 
 app.post("/book", async (req, res) => {
   try {
