@@ -378,8 +378,24 @@
   <div class="login-side">
     <section class="login-container">
       <h2>Bartender Login</h2>
+<div id="errorBox" style="
+  display:none;
+  background: rgba(120,0,0,0.45);
+  border: 1px solid rgba(255,80,80,0.6);
+  color: #ffd6d6;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+">
+</div>
 
-      <form method="POST" action="/bartenders-login">
+      <form
+  action="https://best-bartenders-api.onrender.com/bartenders-login"
+  method="POST">
+
         <div class="input-group">
   <span class="input-icon">
     <!-- EMAIL SVG -->
@@ -456,6 +472,20 @@ function togglePassword() {
 }
 </script>
 
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const errorBox = document.getElementById("errorBox");
+
+  if (params.get("error") === "invalid") {
+    errorBox.textContent = "Invalid email or password";
+    errorBox.style.display = "block";
+  }
+
+  if (params.get("error") === "review") {
+    errorBox.textContent = "Your account is under review. We’ll notify you once approved.";
+    errorBox.style.display = "block";
+  }
+</script>
 
 </body>
 </html>

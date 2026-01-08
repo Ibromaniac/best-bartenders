@@ -350,30 +350,36 @@ if (files.profile_photo && files.profile_photo[0]) {
 
 // BARTENDER LOGIN
 app.post("/bartenders-login", async (req, res) => {
+  console.log("🍸 BARTENDER LOGIN ROUTE HIT 🍸");
+
   const { email, password } = req.body;
 
   try {
     const bartender = await Bartender.findOne({ email });
-    if (!bartender) return res.send("No account found");
+    const isMatch = bartender
+      ? await bcrypt.compare(password, bartender.password)
+      : false;
 
-    const isMatch = await bcrypt.compare(password, bartender.password);
-    if (!isMatch) return res.send("Incorrect password");
-
-    if (!bartender.approved) {
-      return res.redirect("/bartender-under-review");
+    // ❌ invalid email or password
+    if (!bartender || !isMatch) {
+      return res.redirect("/bartenders-login?error=invalid");
     }
 
-    // ✅ SET SESSION
-    req.session.bartenderId = bartender._id;
+    // ⚠️ not approved yet
+    if (!bartender.approved) {
+      return res.redirect("/bartenders-login?error=review");
+    }
 
-    // ✅ SERVER REDIRECT
+    // ✅ success
+    req.session.bartenderId = bartender._id;
     res.redirect("/bartender-dashboard");
 
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Login failed");
+    console.error("❌ BARTENDER LOGIN ERROR:", err);
+    res.redirect("/bartenders-login?error=invalid");
   }
 });
+
 
 app.post("/book", async (req, res) => {
   try {
