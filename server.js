@@ -209,10 +209,41 @@ app.get("/verify-email/:token", async (req, res) => {
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
 // -----------------------
-app.post("/customer-login", (req, res) => {
-  console.log("🔥🔥🔥 CUSTOMER LOGIN ROUTE HIT 🔥🔥🔥");
-  res.send("LOGIN ROUTE WORKS");
+
+// -----------------------
+// CUSTOMER LOGIN (FINAL FIX)
+// -----------------------
+app.post("/customer-login", async (req, res) => {
+  console.log("🔥 CUSTOMER LOGIN ROUTE HIT 🔥");
+
+  const { email, password } = req.body;
+
+  try {
+    const customer = await Customer.findOne({ email });
+    const isMatch = customer
+      ? await bcrypt.compare(password, customer.password)
+      : false;
+
+    // ❌ wrong email OR password
+    if (!customer || !isMatch) {
+      return res.redirect("/customer-login?error=invalid");
+    }
+
+    // ⚠️ email not verified
+    if (!customer.emailVerified) {
+      return res.redirect("/customer-login?error=verify");
+    }
+
+    // ✅ success
+    req.session.customerId = customer._id;
+    res.redirect("/customer-dashboard");
+
+  } catch (err) {
+    console.error("❌ CUSTOMER LOGIN ERROR:", err);
+    res.redirect("/customer-login?error=invalid");
+  }
 });
+
 
 // =======================
 // SMART DASHBOARD REDIRECT
