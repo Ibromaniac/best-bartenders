@@ -209,32 +209,35 @@ app.get("/verify-email/:token", async (req, res) => {
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
 // -----------------------
-app.post("/customer-login", async (req, res) => {
+app.post("/bartenders-login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const customer = await Customer.findOne({ email });
-    if (!customer) {
-      return res.status(401).send("Invalid credentials");
+    const bartender = await Bartender.findOne({ email });
+    const isMatch = bartender
+      ? await bcrypt.compare(password, bartender.password)
+      : false;
+
+    // ❌ wrong email OR password → same response
+    if (!bartender || !isMatch) {
+      return res.redirect("/bartenders-login?error=invalid");
     }
 
-    const isMatch = await bcrypt.compare(password, customer.password);
-    if (!isMatch) {
-      return res.status(401).send("Invalid credentials");
+    // ⏳ account exists but not approved
+    if (!bartender.approved) {
+      return res.redirect("/bartender-under-review");
     }
 
-    if (!customer.emailVerified) {
-      return res.send("Please verify your email before logging in.");
-    }
-
-    req.session.customerId = customer._id;
-    res.redirect("/customer-dashboard");
+    // ✅ approved
+    req.session.bartenderId = bartender._id;
+    res.redirect("/bartender-dashboard");
 
   } catch (err) {
-    console.error("❌ LOGIN ERROR:", err);
-    res.status(500).send("Login failed");
+    console.error("❌ BARTENDER LOGIN ERROR:", err);
+    res.redirect("/bartenders-login?error=invalid");
   }
 });
+
 
 
 // =======================
