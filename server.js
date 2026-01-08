@@ -213,6 +213,8 @@ app.get("/verify-email/:token", async (req, res) => {
 // CUSTOMER LOGIN (FINAL FIX)
 // -----------------------
 app.post("/customer-login", async (req, res) => {
+  console.log("🔥 CUSTOMER LOGIN ROUTE HIT 🔥");
+
   const { email, password } = req.body;
 
   try {
