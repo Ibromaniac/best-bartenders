@@ -25,6 +25,33 @@
     /* ======================
        HEADER (MATCH CUSTOMER)
     ====================== */
+    .error-alert {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(160, 20, 20, 0.15),
+    rgba(90, 0, 0, 0.35)
+  );
+  border: 1px solid rgba(255, 90, 90, 0.35);
+  color: #2a0000;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(120, 0, 0, 0.25);
+}
+
+.error-icon {
+  font-size: 16px;
+}
+
+.error-text {
+  flex: 1;
+}
+
     header {
       background: #000;
       padding: 14px 0;
@@ -378,19 +405,11 @@
   <div class="login-side">
     <section class="login-container">
       <h2>Bartender Login</h2>
-<div id="errorBox" style="
-  display:none;
-  background: rgba(120,0,0,0.45);
-  border: 1px solid rgba(255,80,80,0.6);
-  color: #ffd6d6;
-  padding: 12px 14px;
-  border-radius: 10px;
-  margin-bottom: 18px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-">
+<div id="errorBox" class="error-alert">
+  <span class="error-icon">⚠️</span>
+  <span class="error-text"></span>
 </div>
+
 
       <form
   action="https://best-bartenders-api.onrender.com/bartenders-login"
@@ -475,15 +494,17 @@ function togglePassword() {
 <script>
   const params = new URLSearchParams(window.location.search);
   const errorBox = document.getElementById("errorBox");
+  const errorText = errorBox.querySelector(".error-text");
 
   if (params.get("error") === "invalid") {
-    errorBox.textContent = "Invalid email or password";
-    errorBox.style.display = "block";
+    errorText.textContent = "Invalid email or password";
+    errorBox.style.display = "flex";
   }
 
   if (params.get("error") === "review") {
-    errorBox.textContent = "Your account is under review. We’ll notify you once approved.";
-    errorBox.style.display = "block";
+    errorText.textContent =
+      "Your account is under review. You’ll be notified once approved.";
+    errorBox.style.display = "flex";
   }
 </script>
 
