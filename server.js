@@ -209,9 +209,6 @@ app.get("/verify-email/:token", async (req, res) => {
 // -----------------------
 // CUSTOMER LOGIN (FIXED)
 // -----------------------
-// -----------------------
-// CUSTOMER LOGIN (FIXED)
-// -----------------------
 app.post("/customer-login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -233,11 +230,10 @@ app.post("/customer-login", async (req, res) => {
     res.redirect("/customer-dashboard");
 
   } catch (err) {
-    console.error("❌ CUSTOMER LOGIN ERROR:", err);
+    console.error("❌ LOGIN ERROR:", err);
     res.redirect("/customer-login?error=invalid");
   }
 });
-
 
 
 // =======================
