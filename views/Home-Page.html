@@ -19,8 +19,8 @@
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(26, 26, 26, 0.94); /* MATCH HEADER */
-  backdrop-filter: blur(12px);
+   background: rgba(20, 20, 20, 0.97); /* darker than header */
+  backdrop-filter: blur(4px);         /* 🔥 less blur */
   -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
@@ -35,18 +35,23 @@
 }
 
 .lightbox img {
-  max-width: 95vw;
-  max-height: 90vh;
-  border-radius: 18px;
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 16px;
+
   box-shadow:
-    0 30px 80px rgba(0,0,0,0.85),
-    0 0 0 1px rgba(255,255,255,0.06);
+    0 40px 100px rgba(0,0,0,0.9),
+    0 0 0 1px rgba(255,255,255,0.04); /* colder frame */
+
+  background: #0e0e0e; /* neutral base */
   transform: scale(0.6);
   opacity: 0;
+
   transition:
     transform 0.45s cubic-bezier(.22,1,.36,1),
     opacity 0.35s ease;
 }
+
 
 .lightbox.show img {
   transform: scale(1);
@@ -58,14 +63,23 @@
   top: 20px;
   right: 26px;
   font-size: 34px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.55);
+  font-weight: 300;
   cursor: pointer;
 }
 
 .lightbox-close:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
+.lightbox::after {
+  content: "Tap anywhere to close";
+  position: absolute;
+  bottom: 28px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.4px;
+}
 
 
 
