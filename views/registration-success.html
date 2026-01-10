@@ -7,6 +7,63 @@
     <link rel="icon" type="image/x-icon" href="barimage.ico">
 
     <style>
+
+        header {
+  height: 64px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: #d4af37;
+}
+
+.best-logo {
+  width: 36px;
+  height: 36px;
+  color: #d4af37;
+}
+
+.logo-link span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  transform: translateY(7px);
+}
+
+        .page-center {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -14,14 +71,12 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 1rem;
-        }
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  min-height: 100vh;
+  padding-top: 64px; /* space for header */
+}
+
 
         .success-container {
             background: #fff;
@@ -48,17 +103,13 @@
         .celebration-icon {
             font-size: 5rem;
             margin-bottom: 1.5rem;
-            animation: bounce 1s ease-in-out infinite;
+        animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
 
         .success-icon {
             width: 80px;
@@ -224,15 +275,29 @@
 
 <body>
 
-<div class="success-container">
-    <!-- Logo -->
-    <div class="logo-small">
-        <img src="bar.png" alt="BEST logo">
-        B.E.S.T Bartenders
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <svg class="best-logo" viewBox="0 0 64 64">
+          <path d="M6 14h52L36 34H28L6 14z" fill="currentColor"/>
+          <circle cx="46" cy="10" r="4" fill="currentColor"/>
+          <line x1="46" y1="6" x2="54" y2="0"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"/>
+          <rect x="30" y="34" width="4" height="18" fill="currentColor"/>
+          <path d="M20 56h24l-4 4H24l-4-4z" fill="currentColor"/>
+        </svg>
+        <span>B.E.S.T</span>
+      </a>
     </div>
+  </nav>
+</header>
 
-    <!-- Celebration Icon -->
-    <div class="celebration-icon">🎉</div>
+<div class="page-center">
+  <div class="success-container">
+
 
     <!-- Success Checkmark -->
     <div class="success-icon">✓</div>
