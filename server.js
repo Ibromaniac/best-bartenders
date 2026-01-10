@@ -92,8 +92,17 @@ app.get("/customer-registration", (req, res) => {
 });
 
 app.get("/registration-success", (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "registration-success.html"));
+  res.set({
+    "Cache-Control": "no-store, no-cache, must-revalidate, private",
+    Pragma: "no-cache",
+    Expires: "0"
+  });
+
+  res.sendFile(
+    path.join(__dirname, "views", "registration-success.html")
+  );
 });
+
 
 app.get("/booking-success", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "booking-success.html"));
