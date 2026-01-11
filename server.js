@@ -10,7 +10,6 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-  
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -20,8 +19,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
-
-app.set("trust proxy", 1);
 
 
 
@@ -147,10 +144,9 @@ app.get("/book/:bartenderId", (req, res) => {
   }
 
   res.sendFile(
-    path.join(__dirname, "views", "booking-details.html")
+    path.join(__dirname, "views", "book-bartender.html")
   );
 });
-
 
 // -----------------------
 // CUSTOMER REGISTRATION (FIXED)
