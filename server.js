@@ -141,6 +141,16 @@ app.get("/booking-details", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "booking-details.html"));
 });
 
+app.get("/book/:bartenderId", (req, res) => {
+  if (!req.session.customerId) {
+    return res.redirect("/customer-login");
+  }
+
+  res.sendFile(
+    path.join(__dirname, "views", "booking-details.html")
+  );
+});
+
 
 // -----------------------
 // CUSTOMER REGISTRATION (FIXED)
