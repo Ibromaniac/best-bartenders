@@ -580,13 +580,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = `/booking-details?id=${b._id}`;
 
       card.innerHTML = `
-        <h4>${b.eventType}</h4>
-        <p class="booking-detail">📅 ${b.eventDate}</p>
-        <p class="booking-detail">📍 ${b.location}</p>
-        <span class="status ${statusClass}">
-          ${b.status || "Pending"}
-        </span>
-      `;
+  <h4>${b.eventType}</h4>
+
+  <p class="booking-detail">
+    🍸 ${b.bartenderId?.firstname || ""} ${b.bartenderId?.lastname || ""}
+  </p>
+
+  <p class="booking-detail">📅 ${b.eventDate}</p>
+  <p class="booking-detail">📍 ${b.location}</p>
+
+  <span class="status ${statusClass}">
+    ${b.status || "Pending"}
+  </span>
+`;
+
 
       container.appendChild(card);
     });

@@ -476,17 +476,15 @@ app.get("/api/customer-bookings/:email", async (req, res) => {
 
     const bookings = await Booking.find({
       customerEmail: email
-    }).sort({ createdAt: -1 });
+    })
+      .populate("bartenderId", "firstname lastname")
+      .sort({ createdAt: -1 });
 
     res.json(bookings);
   } catch (err) {
     console.log("❌ Customer bookings fetch error:", err);
     res.status(500).json({ message: "Failed to load customer bookings" });
   }
-});
-
-app.get("/bartender-bookings", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "bartender-bookings.html"));
 });
 
 // =======================
