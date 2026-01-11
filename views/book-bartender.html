@@ -204,10 +204,11 @@
 
 
     <input type="hidden" id="bartenderIdInput" name="bartenderId">
-    <input type="hidden" id="customerEmailInput" name="customerEmail">
+    <input type="email" id="customerEmail" name="customerEmail" readonly>
+
 
     <div class="input-group">
-      <input type="text" name="customerName" placeholder="Your Name" required>
+      <input type="text" id="customerName" name="customerName" placeholder="Your Name" required>
     </div>
 
     <div class="input-group">
@@ -242,18 +243,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("bartenderIdInput").value = bartenderId;
 
   try {
-    // 2️⃣ Get logged-in customer from session
+    // 2️⃣ Get logged-in customer
     const res = await fetch("/api/current-customer");
     if (!res.ok) throw new Error("Not logged in");
 
     const user = await res.json();
 
-    // ✅ THIS IS THE FIX
-    document.getElementById("customerEmailInput").value = user.email;
+    // ✅ Autofill name
+    document.getElementById("customerName").value =
+      `${user.firstname} ${user.lastname}`;
+
+    // ✅ Autofill + lock email
+    const emailInput = document.getElementById("customerEmail");
+    emailInput.value = user.email;
+    emailInput.readOnly = true;
+    emailInput.style.opacity = "0.8";
+    emailInput.style.cursor = "not-allowed";
 
   } catch (err) {
     alert("Session expired. Please log in again.");
     window.location.href = "/customer-login";
+    return;
   }
 
   // 3️⃣ Load bartender name
@@ -266,9 +276,18 @@ document.addEventListener("DOMContentLoaded", async () => {
           `Book ${bartender.firstname} ${bartender.lastname}`;
       }
     });
+
+  // 4️⃣ Prevent double submit
+  const form = document.querySelector("form");
+  const submitBtn = document.querySelector(".book-btn");
+
+  form.addEventListener("submit", () => {
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Sending...";
+    submitBtn.style.opacity = "0.7";
+  });
 });
 </script>
-
 
 </body>
 </html>
