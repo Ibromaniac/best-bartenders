@@ -72,8 +72,6 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Serve static
-app.use(express.static(path.join(__dirname, "public")));
 
 // -----------------------
 // GET ROUTES
@@ -859,7 +857,8 @@ app.get("/bartender-dashboard", (req, res) => {
   );
 });
 
-
+// Serve static
+app.use(express.static(path.join(__dirname, "public")));
 // -----------------------
 const PORT = process.env.PORT || 3000;
 
