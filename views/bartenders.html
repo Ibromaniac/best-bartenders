@@ -451,12 +451,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setupBookingGate() {
-  // Book button logic
   document.querySelectorAll(".book-btn").forEach(btn => {
-    const bartenderId = btn.dataset.bartenderId;
-
     btn.addEventListener("click", (e) => {
       e.preventDefault();
+
+      // ✅ ALWAYS read ID at click time
+      const bartenderId = btn.getAttribute("data-bartender-id");
+
+      console.log("🍸 Booking bartender ID:", bartenderId);
+
+      if (!bartenderId) {
+        alert("Bartender ID missing. Please refresh the page.");
+        return;
+      }
 
       if (!isPremium) {
         openUpgradeModal();
@@ -466,7 +473,6 @@ function setupBookingGate() {
     });
   });
 
-  // MEMBERS ONLY badge logic (AFTER render)
   document.querySelectorAll(".premium-badge").forEach(badge => {
     badge.addEventListener("click", (e) => {
       e.preventDefault();
@@ -475,8 +481,6 @@ function setupBookingGate() {
     });
   });
 }
-
-
 
 </script>
 
