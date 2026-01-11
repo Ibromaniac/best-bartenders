@@ -443,7 +443,8 @@ app.post("/book", async (req, res) => {
 
     await newBooking.save();
 
-    res.redirect("/booking-success");
+    res.redirect(`/booking-details?id=${newBooking._id}`);
+
 
   } catch (err) {
     console.error("❌ BOOKING ERROR:", err);
