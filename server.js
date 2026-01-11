@@ -10,6 +10,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
+  
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -19,6 +20,8 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+app.set("trust proxy", 1);
 
 
 
@@ -168,7 +171,7 @@ const customer = await Customer.create({
 
 
 
-    const verifyUrl = `${process.env.BASE_URL}/verify-email/${verificationToken}`;
+   const verifyUrl = `${req.protocol}://${req.get("host")}/verify-email/${verificationToken}`;
 
     await sendEmail({
       to: customer.email,
@@ -903,7 +906,7 @@ app.post("/resend-verification", async (req, res) => {
   new Date(Date.now() + 24 * 60 * 60 * 1000);
   await customer.save();
 
-  const verifyUrl = `${process.env.BASE_URL}/verify-email/${newToken}`;
+  const verifyUrl = `${req.protocol}://${req.get("host")}/verify-email/${newToken}`;
 
   await sendEmail({
     to: customer.email,
