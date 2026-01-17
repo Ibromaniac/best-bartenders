@@ -7,6 +7,10 @@
     <link rel="icon" type="image/x-icon" href="barimage.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<script>
+  /* 🔒 Prevent unauthorized UI from ever painting */
+  document.documentElement.style.visibility = "hidden";
+</script>
 
     <style>
     
@@ -1697,32 +1701,40 @@ revealOnScroll(); // run on page load
   const joinBtn = document.getElementById("bartenderJoinBtn");
 
   try {
-    // 🍸 Bartender logged in
+    // 🍸 Bartender session
     const bartenderRes = await fetch("/api/current-bartender");
     if (bartenderRes.ok) {
-      if (pickBtn) pickBtn.remove(); // safer than display:none
+      if (pickBtn) pickBtn.remove();
       if (joinBtn) {
         joinBtn.textContent = "Go to Dashboard";
         joinBtn.href = "/bartender-dashboard";
       }
+
+      document.documentElement.style.visibility = "visible";
       return;
     }
 
-    // 👤 Customer logged in
+    // 👤 Customer session
     const customerRes = await fetch("/api/current-customer");
     if (customerRes.ok) {
       if (joinBtn) joinBtn.remove();
+
+      document.documentElement.style.visibility = "visible";
       return;
     }
 
-    // 🚫 Not logged in
+    // 🚫 Guest
     if (pickBtn) pickBtn.href = "/customer-login";
+
+    document.documentElement.style.visibility = "visible";
 
   } catch (err) {
     console.warn("Session detection failed");
+    document.documentElement.style.visibility = "visible";
   }
 })();
 </script>
+
 
 <script>
 (async () => {
