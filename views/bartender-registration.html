@@ -317,14 +317,30 @@
           <input type="number" name="rate" required>
         </div>
 
-        <div class="form-group">
-          <label>Upload Profile Photo</label>
-          <input type="file" name="profile_photo" required>
-        </div>
+       <div class="form-group">
+  <label>Upload Profile Photo</label>
+
+  <input
+    type="file"
+    name="profile_photo"
+    id="profilePhoto"
+    accept="image/*"
+    capture="user"
+    required
+  >
+
+  <small style="color:#666; font-size:13px; display:block; margin-top:6px;">
+    Don’t have a photo? You can take one now using your camera.
+  </small>
+  
+  <img id="photoPreview"
+     style="display:none; margin-top:10px; width:120px; border-radius:12px;">
+</div>
+
 
         <div class="form-group">
           <label>Upload Bartending License</label>
-          <input type="file" name="bartending_license" required>
+          <input type="file" name="bartending_license or cerificate" required>
         </div>
 
         <button class="login-btn" type="submit">Register</button>
@@ -353,6 +369,20 @@ function togglePassword() {
 }
 
 </script>
+
+<script>
+const photoInput = document.getElementById("profilePhoto");
+const preview = document.getElementById("photoPreview");
+
+photoInput.addEventListener("change", () => {
+  const file = photoInput.files[0];
+  if (!file) return;
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+});
+</script>
+
 
 </body>
 </html>
