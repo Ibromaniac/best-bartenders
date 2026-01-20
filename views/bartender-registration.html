@@ -320,27 +320,63 @@
        <div class="form-group">
   <label>Upload Profile Photo</label>
 
-  <input
-    type="file"
-    name="profile_photo"
-    id="profilePhoto"
-    accept="image/*"
-    capture="user"
-    required
-  >
+  <div style="position:relative;">
+    <!-- Main file input (gallery / files) -->
+    <input
+      type="file"
+      name="profile_photo"
+      id="filePicker"
+      accept="image/*"
+      required
+      style="padding-right:46px;"
+    >
+
+    <!-- Hidden camera input -->
+    <input
+      type="file"
+      accept="image/*"
+      capture="user"
+      id="cameraPicker"
+      style="display:none"
+    >
+
+    <!-- Camera icon -->
+    <button
+      type="button"
+      onclick="openCamera()"
+      style="
+        position:absolute;
+        right:10px;
+        top:50%;
+        transform:translateY(-50%);
+        background:none;
+        border:none;
+        cursor:pointer;
+        font-size:18px;
+        color:#f4c542;
+      "
+      aria-label="Take photo"
+    >
+      📷
+    </button>
+  </div>
 
   <small style="color:#666; font-size:13px; display:block; margin-top:6px;">
-    Don’t have a photo? You can take one now using your camera.
+    Choose a photo or tap the camera to take one.
   </small>
-  
-  <img id="photoPreview"
-     style="display:none; margin-top:10px; width:120px; border-radius:12px;">
+
+  <img
+    id="photoPreview"
+    style="display:none; margin-top:10px; width:120px; border-radius:12px;"
+  >
 </div>
 
 
+
         <div class="form-group">
-          <label>Upload Bartending License</label>
-          <input type="file" name="bartending_license or cerificate" required>
+          <label>Upload Bartending License (Certificate)</label>
+<input type="file" name="bartending_license" required>
+
         </div>
 
         <button class="login-btn" type="submit">Register</button>
@@ -371,12 +407,32 @@ function togglePassword() {
 </script>
 
 <script>
-const photoInput = document.getElementById("profilePhoto");
+const filePicker = document.getElementById("filePicker");
+const cameraPicker = document.getElementById("cameraPicker");
 const preview = document.getElementById("photoPreview");
 
-photoInput.addEventListener("change", () => {
-  const file = photoInput.files[0];
+function openCamera() {
+  cameraPicker.click();
+}
+
+// Preview for normal file selection
+filePicker.addEventListener("change", () => {
+  const file = filePicker.files[0];
   if (!file) return;
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+});
+
+// When camera is used
+cameraPicker.addEventListener("change", () => {
+  const file = cameraPicker.files[0];
+  if (!file) return;
+
+  // Copy camera file into main input so backend gets it
+  const dt = new DataTransfer();
+  dt.items.add(file);
+  filePicker.files = dt.files;
 
   preview.src = URL.createObjectURL(file);
   preview.style.display = "block";
