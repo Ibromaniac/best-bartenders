@@ -349,7 +349,7 @@ if (files.profile_photo && files.profile_photo[0]) {
 
         bartending_license: bartendingLicenseFile,
         government_id: governmentIdFile,
-        approved: false
+        approved: true
       });
 
       // redirect to success page WITH name + photo in URL
@@ -381,11 +381,6 @@ app.post("/bartenders-login", async (req, res) => {
     // ❌ invalid email or password
     if (!bartender || !isMatch) {
       return res.redirect("/bartenders-login?error=invalid");
-    }
-
-    // ⚠️ not approved yet
-    if (!bartender.approved) {
-      return res.redirect("/bartenders-login?error=review");
     }
 
     // ✅ success
@@ -927,6 +922,3 @@ app.post("/resend-verification", async (req, res) => {
   res.send("Verification email resent. Check your inbox.");
 });
 
-app.get('/bartender-under-review', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'bartender-under-review.html'));
-});
